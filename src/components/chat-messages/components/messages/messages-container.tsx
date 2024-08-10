@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
+import MessageElement from "./components/message-element";
 
 function MessagesContainer() {
   return (
     <Box>
-      <Box></Box>
+      <MessageElement />
     </Box>
   );
 }
