@@ -1,11 +1,20 @@
+"use client";
+import UserLoginDialog from "@/components/user-login-dialog";
+import userDialogLoginStore from "@/store/user-login-dialog-store";
+import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import { Check } from "@mui/icons-material";
 import { Box, Button, Icon, IconButton, Input } from "@mui/material";
+import { useState } from "react";
 
 function ReplyContainer() {
+  const [replyMessage, setReplyMessage] = useState("");
+  const { setOpen } = userDialogLoginStore();
+
   return (
     <Box className="mb-4 flex h-[20%] w-11/12">
       <Box className="w-full rounded-xl border border-black">
         <Input
+          onChange={(event) => setReplyMessage(event.currentTarget.value)}
           placeholder="Write a reply..."
           disableUnderline
           multiline
@@ -13,7 +22,11 @@ function ReplyContainer() {
         />
       </Box>
       <Box>
-        <IconButton>
+        <IconButton
+          onClick={() =>
+            userDialogLoginHandler({ setOpen: setOpen }).handleOpen()
+          }
+        >
           <Check />
         </IconButton>
       </Box>
