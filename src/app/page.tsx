@@ -1,5 +1,5 @@
 import ChatContainer from "@/components/chat-container";
-import UserLoginDialog from "@/components/user-login-dialog";
+import UserLoginDialog from "@/components/user-login-dialog/user-login-dialog";
 import sendMessageQuery from "@/db/send-message-query";
 
 export default async function Home() {

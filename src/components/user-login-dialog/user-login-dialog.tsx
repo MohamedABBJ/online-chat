@@ -8,6 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import LoginAsGuest from "./components/login-as-guest";
 
 function UserLoginDialog() {
   const { open, setOpen } = userDialogLoginStore();
@@ -19,7 +20,7 @@ function UserLoginDialog() {
     >
       <DialogTitle>Sign Up</DialogTitle>
       <DialogActions>
-        <Button>Continue as Guest</Button>
+        <LoginAsGuest />
       </DialogActions>
     </Dialog>
   );

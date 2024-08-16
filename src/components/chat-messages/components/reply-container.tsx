@@ -1,5 +1,5 @@
 "use client";
-import UserLoginDialog from "@/components/user-login-dialog";
+import UserLoginDialog from "@/components/user-login-dialog/user-login-dialog";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import { Check } from "@mui/icons-material";
