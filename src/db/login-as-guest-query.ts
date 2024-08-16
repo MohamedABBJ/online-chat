@@ -1,18 +1,12 @@
+import encrypter from "@/utils/encrypter";
+import IDGenerator from "@/utils/id-generator";
 import crypto from "crypto";
 
 function loginAsGuestQuery() {
-  const crypto = require("crypto");
-  const algorithm = "aes-256-cbc"; //Using AES encryption
-  const key = crypto.randomBytes(32);
-  const iv = crypto.randomBytes(16);
+  const guestID = `Guest_${IDGenerator()}`;
+  const guestSessionID = encrypter.encrypter(IDGenerator());
+  const guestSessionIDDC = encrypter.decrypt(guestSessionID);
 
-  function encrypt(text: string) {
-    let cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(key), iv);
-    let encrypted = cipher.update(text);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return { iv: iv.toString("hex"), encryptedData: encrypted.toString("hex") };
-  }
-
-  return console.log(encrypt("tessdsadsadt"));
+  return console.log(guestSessionIDDC);
 }
 export default loginAsGuestQuery;
