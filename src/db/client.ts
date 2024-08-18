@@ -8,4 +8,6 @@ const client = new Client({
   database: "postgres",
 });
 
+client.connect();
+
 export default client;

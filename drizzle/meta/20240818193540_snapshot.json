@@ -1,5 +1,5 @@
 {
-  "id": "8ff5a648-40dc-492f-9986-c0974dbe74fd",
+  "id": "3eec04f2-ceda-4c4a-b0da-17849c7adeda",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,8 +14,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
+        "user_name": {
+          "name": "user_name",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -42,12 +42,6 @@
           "primaryKey": true,
           "notNull": true
         },
-        "user-id": {
-          "name": "user-id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "user_name": {
           "name": "user_name",
           "type": "text",
@@ -62,7 +56,9 @@
     }
   },
   "enums": {},
-  "schemas": {},
+  "schemas": {
+    "online-chat": "online-chat"
+  },
   "sequences": {},
   "_meta": {
     "columns": {},
