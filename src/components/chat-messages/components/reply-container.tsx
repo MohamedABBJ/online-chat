@@ -9,15 +9,14 @@ import { JWTPayload } from "jose";
 import { useState } from "react";
 
 function ReplyContainer(props: { userLoggedIn: JWTPayload | null }) {
-  const [replyMessage, setReplyMessage] = useState("");
   const { setOpen } = userDialogLoginStore();
-  console.log(props.userLoggedIn);
+  const [message, setMessage] = useState("");
 
   return (
     <Box className="mb-4 flex h-[20%] w-11/12">
       <Box className="w-full rounded-xl border border-black">
         <Input
-          onChange={(event) => setReplyMessage(event.currentTarget.value)}
+          onChange={(event) => setMessage(event.currentTarget.value)}
           placeholder="Write a reply..."
           disableUnderline
           multiline
@@ -28,7 +27,10 @@ function ReplyContainer(props: { userLoggedIn: JWTPayload | null }) {
         <IconButton
           onClick={() =>
             props.userLoggedIn
-              ? sendMessageQuery()
+              ? sendMessageQuery({
+                  userID: props.userLoggedIn.userID as number,
+                  message: message,
+                })
               : userDialogLoginHandler({ setOpen: setOpen }).handleOpen()
           }
         >

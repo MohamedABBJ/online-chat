@@ -1,18 +1,18 @@
+"use server";
 import { drizzle } from "drizzle-orm/node-postgres";
 import client from "./client";
-import { integer, pgTable, text } from "drizzle-orm/pg-core";
+import { messagesTable } from "../../drizzle/schema";
 
-const sendMessageQuery = async () => {
+const sendMessageQuery = async (props: { userID: number; message: string }) => {
   try {
+    //should check if user is stored in the database or not, it can have an inconsistency
+    //if the user has the session but doesn't have any user on the db
+
     const db = drizzle(client);
 
-    const cars = pgTable("cars", {
-      brand: text("brand"),
-      model: text("model"),
-      year: integer("year"),
-    });
-
-    return await db.select().from(cars);
+    await db
+      .insert(messagesTable)
+      .values({ message: props.message, user_id: props.userID });
   } catch (error) {
     console.log(error);
   }

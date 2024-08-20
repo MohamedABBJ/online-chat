@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgSchema, pgTable, serial, text } from "drizzle-orm/pg-core";
+import { integer, pgSchema, pgTable, serial, text } from "drizzle-orm/pg-core";
 
 export const mySchema = pgSchema("online-chat");
 
@@ -14,13 +14,13 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
 
 export const messagesTable = pgTable("messages", {
   id: serial("id").primaryKey(),
-  user_name: text("user_name"),
+  user_id: integer("user_id"),
   message: text("message"),
 });
 
 export const messagesRelations = relations(messagesTable, ({ one }) => ({
   messageSentByUser: one(usersTable, {
-    fields: [messagesTable.user_name],
-    references: [usersTable.user_name],
+    fields: [messagesTable.user_id],
+    references: [usersTable.id],
   }),
 }));
