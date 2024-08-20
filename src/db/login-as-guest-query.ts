@@ -11,7 +11,6 @@ import { cookies } from "next/headers";
 
 export async function loginAsGuestQuery() {
   const guestID = `Guest_${IDGenerator()}`;
-
   try {
     const db = drizzle(client);
 

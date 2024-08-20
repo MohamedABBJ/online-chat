@@ -3,7 +3,7 @@
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import { Avatar, Box, Button, IconButton } from "@mui/material";
 
-function User() {
+function UserNotLoggedIn() {
   const { setOpen } = userDialogLoginStore();
   return (
     <IconButton onClick={() => setOpen(true)}>
@@ -12,4 +12,4 @@ function User() {
   );
 }
 
-export default User;
+export default UserNotLoggedIn;
