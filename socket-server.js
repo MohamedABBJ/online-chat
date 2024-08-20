@@ -12,9 +12,7 @@ app.prepare().then(() => {
 
   io.on("connection", (socket) => {
     console.log(`Socket ${socket.id} connected.`);
-    socket.on("hello", (arg) => {
-      console.log(arg);
-    });
+    socket.emit("hello", "world");
   });
 
   httpServer.listen(3000, () => {

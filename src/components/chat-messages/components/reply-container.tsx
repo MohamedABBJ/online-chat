@@ -7,11 +7,25 @@ import { Check } from "@mui/icons-material";
 import { Box, Button, Icon, IconButton, Input } from "@mui/material";
 import { JWTPayload } from "jose";
 import { useState } from "react";
+import { io } from "socket.io-client";
+
+const socket = io();
 
 function ReplyContainer(props: { userLoggedIn: JWTPayload | null }) {
   const { setOpen } = userDialogLoginStore();
   const [message, setMessage] = useState("");
 
+  const sendMessageHandler = () => {
+    if (props.userLoggedIn) {
+      sendMessageQuery({
+        userID: props.userLoggedIn.userID as number,
+        message: message,
+      });
+      socket.emit("newMessage", message);
+    } else {
+      userDialogLoginHandler({ setOpen: setOpen }).handleOpen();
+    }
+  };
   return (
     <Box className="mb-4 flex h-[20%] w-11/12">
       <Box className="w-full rounded-xl border border-black">
@@ -24,16 +38,7 @@ function ReplyContainer(props: { userLoggedIn: JWTPayload | null }) {
         />
       </Box>
       <Box>
-        <IconButton
-          onClick={() =>
-            props.userLoggedIn
-              ? sendMessageQuery({
-                  userID: props.userLoggedIn.userID as number,
-                  message: message,
-                })
-              : userDialogLoginHandler({ setOpen: setOpen }).handleOpen()
-          }
-        >
+        <IconButton onClick={sendMessageHandler}>
           <Check />
         </IconButton>
       </Box>

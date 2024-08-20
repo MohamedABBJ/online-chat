@@ -1,9 +1,11 @@
-import { Box, Input, Typography } from "@mui/material";
+"use client";
+import { Box, Typography } from "@mui/material";
+import { io } from "socket.io-client";
 
-function MessageElement() {
+function MessageElement(props: { message: string }) {
   return (
     <Box className="h-full overflow-y-scroll border border-b">
-      <Typography>Chat Test</Typography>
+      <Typography>{props.message}</Typography>
     </Box>
   );
 }
