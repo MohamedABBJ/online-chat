@@ -13,9 +13,15 @@ app.prepare().then(() => {
   io.on("connection", (socket) => {
     console.log(`Socket ${socket.id} connected.`);
     socket.emit("hello", "world");
+    socket.on("newMessage", (message) => {
+      socket.emit("newMessage", message);
+    });
+    socket.on("disconnect", () => {
+      console.log("user disconnected");
+    });
   });
 
-  httpServer.listen(3000, () => {
-    console.log(`server ready on port 3000`);
+  httpServer.listen(4000, () => {
+    console.log(`server ready on port 4000`);
   });
 });

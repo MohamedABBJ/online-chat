@@ -1,4 +1,5 @@
 "use client";
+import { socket } from "@/app/socket";
 import UserLoginDialog from "@/components/user-login-dialog/user-login-dialog";
 import sendMessageQuery from "@/db/send-message-query";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
@@ -9,18 +10,18 @@ import { JWTPayload } from "jose";
 import { useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io();
-
-function ReplyContainer(props: { userLoggedIn: JWTPayload | null }) {
+function ReplyContainer(props: {
+  userLoggedIn: () => Promise<JWTPayload | null>;
+}) {
   const { setOpen } = userDialogLoginStore();
   const [message, setMessage] = useState("");
 
   const sendMessageHandler = () => {
-    if (props.userLoggedIn) {
-      sendMessageQuery({
+    if (props.userLoggedIn as () => Promise<JWTPayload | null>) {
+      /*  sendMessageQuery({
         userID: props.userLoggedIn.userID as number,
         message: message,
-      });
+      }); */
       socket.emit("newMessage", message);
     } else {
       userDialogLoginHandler({ setOpen: setOpen }).handleOpen();

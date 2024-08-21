@@ -1,6 +1,5 @@
 "use client";
 import { Box, Typography } from "@mui/material";
-import { io } from "socket.io-client";
 
 function MessageElement(props: { message: string }) {
   return (

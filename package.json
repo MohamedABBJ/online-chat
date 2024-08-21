@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node socket-server.js",
+    "dev": "node ./src/app/socket-server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
