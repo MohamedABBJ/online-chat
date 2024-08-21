@@ -7,7 +7,8 @@ import NewMessage from "./components/new-messages";
 
 function MessagesContainer() {
   return (
-    <Box>
+    <Box className="h-full overflow-y-auto scroll-smooth">
+      <AllMessages />
       <NewMessage />
     </Box>
   );

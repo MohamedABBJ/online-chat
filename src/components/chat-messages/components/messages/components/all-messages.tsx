@@ -1,16 +1,26 @@
+"use client";
 import getMesagesQuery from "@/db/get-messages-query";
 import MessageElement from "./message-element";
+import { useEffect, useState } from "react";
 
-async function AllMessages() {
-  const getAllMessages = await getMesagesQuery();
+function AllMessages() {
+  const [messages, setMessages] = useState([]);
 
-  return (
-    <>
-      {getAllMessages?.messages.map((element) => (
+  useEffect(() => {
+    const getAllMessages = async () => {
+      const messagesResponse = await getMesagesQuery();
+      const messages = messagesResponse?.messages;
+      setMessages(messages);
+    };
+    getAllMessages();
+  }, []);
+
+  return <></>;
+}
+export default AllMessages;
+
+/*
+ {messages.map((element) => (
         <MessageElement message={element.message as string} key={element.id} />
       ))}
-    </>
-  );
-}
-
-export default AllMessages;
+*/
