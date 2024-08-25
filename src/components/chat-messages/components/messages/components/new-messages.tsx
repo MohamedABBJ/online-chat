@@ -4,10 +4,10 @@ import MessageElement from "./message-element";
 import { useEffect, useState } from "react";
 import { socket } from "@/app/socket";
 
-function NewMessage() {
+function NewMessage({ user }: { user: object }) {
   const [newMessage, setNewMessage] = useState<string[]>([]);
 
-  socket.on("newMessage", (args: string) => {
+  socket.on("newMessage", (args) => {
     setNewMessage([...newMessage, args]);
   });
 
@@ -15,7 +15,11 @@ function NewMessage() {
   return (
     <>
       {newMessage.map((element, index) => (
-        <MessageElement message={element} key={index} />
+        <MessageElement
+          type={element.userID == user.userID ? "message" : "reply"}
+          message={element.message}
+          key={index}
+        />
       ))}
     </>
   );

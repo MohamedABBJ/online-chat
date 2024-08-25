@@ -3,14 +3,17 @@
 import getMesagesQuery from "@/db/get-messages-query";
 import MessageElement from "./message-element";
 
-async function AllMessages() {
+async function AllMessages({ user }: { user: object }) {
   const messagesResponse = await getMesagesQuery();
-
   //TODO: Fix problem with type on element.message
   return (
     <>
       {messagesResponse?.messages.map((element) => (
-        <MessageElement message={element.message} key={element.id} />
+        <MessageElement
+          type={element.user_id == user.userID ? "message" : "reply"}
+          message={element.message}
+          key={element.id}
+        />
       ))}
     </>
   );

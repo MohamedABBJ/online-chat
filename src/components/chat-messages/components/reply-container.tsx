@@ -19,11 +19,12 @@ function ReplyContainer(props: {
   const sendMessageHandler = () => {
     //TODO: Fix problem with type
     if (props.userLoggedIn as () => Promise<JWTPayload | null>) {
-      sendMessageQuery({
+      const messageData = {
         userID: props.userLoggedIn.userID as number,
         message: message,
-      });
-      socket.emit("newMessage", message);
+      };
+      sendMessageQuery(messageData);
+      socket.emit("newMessage", messageData);
     } else {
       userDialogLoginHandler({ setOpen: setOpen }).handleOpen();
     }
