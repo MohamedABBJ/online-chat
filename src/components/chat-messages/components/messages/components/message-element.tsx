@@ -3,18 +3,21 @@ import UserAvatar from "@/components/user-avatar/user-avatar";
 import { Avatar, Box, Typography } from "@mui/material";
 
 function MessageElement(props: { message: string; type: "message" | "reply" }) {
+  const messageStyle = "bg-indigo-600 text-white";
+  const replyStyle = "bg-transparent text-black";
+
   const messageType =
     props.type == "message"
-      ? "text-left"
+      ? messageStyle
       : props.type == "reply"
-        ? "text-right"
-        : "text-left";
+        ? replyStyle
+        : "";
 
   return (
-    <Box className={`${messageType} my-4 ml-2 flex`}>
+    <Box className={`my-4 ml-2 flex`}>
       <UserAvatar />
       <Typography
-        className={"ml-2 flex items-center rounded-xl border border-black p-2"}
+        className={`ml-2 flex items-center rounded-xl border border-black p-2 ${messageType}`}
       >
         {props.message}
       </Typography>
