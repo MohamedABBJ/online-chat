@@ -1,21 +1,19 @@
-"use client";
+"use server";
+
 import getMesagesQuery from "@/db/get-messages-query";
 import MessageElement from "./message-element";
-import { useEffect, useState } from "react";
 
-function AllMessages() {
-  const [messages, setMessages] = useState([]);
+async function AllMessages() {
+  const messagesResponse = await getMesagesQuery();
 
-  useEffect(() => {
-    const getAllMessages = async () => {
-      const messagesResponse = await getMesagesQuery();
-      const messages = messagesResponse?.messages;
-      setMessages(messages);
-    };
-    getAllMessages();
-  }, []);
-
-  return <></>;
+  //TODO: Fix problem with type on element.message
+  return (
+    <>
+      {messagesResponse?.messages.map((element) => (
+        <MessageElement message={element.message} key={element.id} />
+      ))}
+    </>
+  );
 }
 export default AllMessages;
 

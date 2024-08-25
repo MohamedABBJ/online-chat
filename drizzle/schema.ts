@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { integer, pgSchema, pgTable, serial, text } from "drizzle-orm/pg-core";
 
-export const mySchema = pgSchema("online-chat");
+export const mySchema = pgSchema("online_chat");
 
 export const usersTable = pgTable("users", {
   id: serial("id").primaryKey(),

@@ -7,9 +7,6 @@ import NewMessage from "./components/new-messages";
 import { socket } from "@/app/socket";
 
 function MessagesContainer() {
-  socket.on("newMessage", (arg) => {
-    
-  });
   return (
     <Box className="h-full overflow-y-auto scroll-smooth">
       <AllMessages />

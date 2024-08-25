@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS "online-chat";
+CREATE SCHEMA IF NOT EXISTS "online_chat";
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "messages" (
 	"id" serial PRIMARY KEY NOT NULL,

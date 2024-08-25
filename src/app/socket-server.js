@@ -14,7 +14,7 @@ app.prepare().then(() => {
     console.log(`Socket ${socket.id} connected.`);
     socket.emit("hello", "world");
     socket.on("newMessage", (message) => {
-      socket.emit("newMessage", message);
+      io.emit("newMessage", message);
     });
     socket.on("disconnect", () => {
       console.log("user disconnected");

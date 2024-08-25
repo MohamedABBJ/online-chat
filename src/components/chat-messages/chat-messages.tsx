@@ -1,33 +1,20 @@
-"use client";
+"use server";
 
 import { Box } from "@mui/material";
 import ReplyContainer from "./components/reply-container";
 import TopBarContainer from "./components/top-bar/top-bar-container";
 import verifyUserSession from "@/app/lib/dal";
 import MessagesContainer from "./components/messages/messages-container";
-import { useEffect } from "react";
-import { io } from "socket.io-client";
-import { socket } from "@/app/socket";
 
-function ChatMessages() {
-  const userData = async () => {
-    const checkUser = await verifyUserSession();
-    return checkUser;
-  };
+async function ChatMessages() {
+  const checkUser = await verifyUserSession();
 
-  useEffect(() => {
-    socket.connect();
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
+  //TODO: Fix problem with type
   return (
     <Box className="flex h-full flex-col justify-between">
-      <TopBarContainer userLoggedIn={userData} />
+      <TopBarContainer userLoggedIn={checkUser} />
       <MessagesContainer />
-      <ReplyContainer userLoggedIn={userData} />
+      <ReplyContainer userLoggedIn={checkUser} />
     </Box>
   );
 }
