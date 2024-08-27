@@ -2,6 +2,7 @@
 
 import { loginAsGuestQuery } from "@/db/login-as-guest-query";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
+import { Button } from "@mui/material";
 import { useState } from "react";
 
 function LoginAsGuest() {
@@ -18,7 +19,7 @@ function LoginAsGuest() {
         }
       }}
     >
-      <button type="submit">Login as Guest</button>
+      <Button type="submit">Login as Guest</Button>
     </form>
   );
 }
