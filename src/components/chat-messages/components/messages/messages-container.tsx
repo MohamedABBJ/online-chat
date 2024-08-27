@@ -5,7 +5,7 @@ import verifyUserSession from "@/app/lib/dal";
 
 async function MessagesContainer() {
   const user = await verifyUserSession();
-
+  //TODO: fix types on component props
   return (
     <Box className="h-full overflow-y-auto scroll-smooth">
       <AllMessages user={user} />

@@ -1,5 +1,7 @@
+import UserAvatar from "@/components/user-avatar/user-avatar";
+
 function UserLoggedIn() {
-  return <h1>test</h1>;
+  return <UserAvatar />;
 }
 
 export default UserLoggedIn;
