@@ -5,3 +5,5 @@ import encryptDecrypt from "./utils/encrypter";
 function middleware(request: NextRequest) {}
 
 export default middleware;
+
+export { auth as middleware } from "@/auth";

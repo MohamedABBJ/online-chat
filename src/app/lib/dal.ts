@@ -1,17 +1,21 @@
 "use server";
 
+import { auth } from "@/auth";
 import encryptDecrypt from "@/utils/encrypter";
 import { cookies } from "next/headers";
 
 async function verifyUserSession() {
-  const getUserCookie = cookies().get("session")?.value;
-  const session = await encryptDecrypt.decrypt(getUserCookie);
+  const guestSession = cookies().get("session")?.value;
+  const userOAuthSession = await auth();
 
-  if (!session) {
-    return null;
+  if (guestSession) {
+    return await encryptDecrypt.decrypt(guestSession);
   }
 
-  return session;
+  if (userOAuthSession) {
+    return userOAuthSession;
+  }
+  return null;
 }
 
 export default verifyUserSession;

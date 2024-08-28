@@ -2,7 +2,11 @@
 import UserAvatar from "@/components/user-avatar/user-avatar";
 import { Avatar, Box, Typography } from "@mui/material";
 
-function MessageElement(props: { message: string; type: "message" | "reply" }) {
+function MessageElement(props: {
+  message: string;
+  type: "message" | "reply";
+  user: any;
+}) {
   const messageStyle = "bg-indigo-600 text-white";
   const replyStyle = "bg-transparent text-black";
 

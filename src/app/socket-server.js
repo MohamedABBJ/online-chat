@@ -21,7 +21,7 @@ app.prepare().then(() => {
     });
   });
 
-  httpServer.listen(4000, () => {
+  httpServer.listen(3000, () => {
     console.log(`server ready on port 4000`);
   });
 });

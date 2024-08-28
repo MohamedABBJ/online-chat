@@ -5,5 +5,5 @@ import GitLab from "next-auth/providers/gitlab";
 import Google from "next-auth/providers/google";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [GitHub, GitLab, Google, Facebook],
+  providers: [GitHub, Google],
 });
