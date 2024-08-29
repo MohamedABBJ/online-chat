@@ -13,7 +13,7 @@ import LoginAsGuest from "./components/login-as-guest";
 import LoginWithGithub from "./components/login-with-github";
 import LoginWithGoogle from "./components/login-with-google";
 
-function UserLoginDialog() {
+function UserLoginDialog({ user }: { user: object }) {
   const { open, setOpen } = userDialogLoginStore();
 
   return (

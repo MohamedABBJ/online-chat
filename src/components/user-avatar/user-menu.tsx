@@ -1,4 +1,13 @@
-import { Avatar, Badge, Box, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import UserMenuElements from "./user-menu-elements";
 
 function UserMenu(props: {
   anchorEl: HTMLElement | null;
@@ -20,18 +29,7 @@ function UserMenu(props: {
           "aria-labelledby": "basic-button",
         }}
       >
-        <Box className="flex flex-col items-center gap-5 p-12">
-          <Badge
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            overlap="circular"
-            badgeContent=" "
-            variant="dot"
-            className="[&_.MuiBadge-badge]:bg-green-600"
-          >
-            <Avatar />
-          </Badge>
-          <Typography>UserName</Typography>
-        </Box>
+        <UserMenuElements />
       </Menu>
     </>
   );
