@@ -6,14 +6,14 @@ import { cookies } from "next/headers";
 
 async function verifyUserSession() {
   const guestSession = cookies().get("session")?.value;
-  const userOAuthSession = await auth();
+  const userOAuthSession = auth();
 
   if (guestSession) {
     return await encryptDecrypt.decrypt(guestSession);
   }
 
   if (userOAuthSession) {
-    return userOAuthSession;
+    return await userOAuthSession;
   }
   return null;
 }
