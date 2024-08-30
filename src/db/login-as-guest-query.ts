@@ -26,9 +26,11 @@ export async function loginAsGuestQuery() {
     const userID = userIDQuery[0].id;
 
     const jwtSession = await encryptDecrypt.encrypter({
-      userID: userID,
-      userName: guestID,
-      userType: guestIdentifier,
+      user: {
+        id: userID,
+        name: guestID,
+        type: guestIdentifier,
+      },
     });
 
     cookies().set("session", jwtSession, {
