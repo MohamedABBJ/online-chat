@@ -8,7 +8,6 @@ import MessagesContainer from "./components/messages/messages-container";
 
 async function ChatMessages() {
   const checkUser = await verifyUserSession();
-  console.log(checkUser);
   //TODO: Fix problem with type
   return (
     <Box className="flex h-full flex-col justify-between">

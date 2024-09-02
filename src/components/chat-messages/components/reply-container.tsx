@@ -9,18 +9,18 @@ import { Box, Button, Icon, IconButton, Input } from "@mui/material";
 import { JWTPayload } from "jose";
 import { useState } from "react";
 import { io } from "socket.io-client";
+import UserLoggedIn from "./top-bar/components/user-logged";
 
 function ReplyContainer(props: {
   userLoggedIn: () => Promise<JWTPayload | null>;
 }) {
   const { setOpen } = userDialogLoginStore();
   const [message, setMessage] = useState("");
-
   const sendMessageHandler = () => {
     //TODO: Fix problem with type
     if (props.userLoggedIn as () => Promise<JWTPayload | null>) {
       const messageData = {
-        userID: props.userLoggedIn.userID as number,
+        userID: props.userLoggedIn.user.id,
         message: message,
       };
       sendMessageQuery(messageData);

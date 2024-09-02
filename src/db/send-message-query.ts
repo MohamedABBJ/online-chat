@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import client from "./client";
 import { messagesTable } from "../../drizzle/schema";
 
-const sendMessageQuery = async (props: { userID: number; message: string }) => {
+const sendMessageQuery = async (props: { userID: string; message: string }) => {
   try {
     //should check if user is stored in the database or not, it can have an inconsistency
     //if the user has the session but doesn't have any user on the db

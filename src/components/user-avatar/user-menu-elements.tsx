@@ -33,8 +33,11 @@ function UserMenuElements({ viewType }: { viewType: "chat" | "profile" }) {
         <Avatar />
       </Badge>
       <Typography>UserName</Typography>
-      {userData && userData.user?.type == "Guest" ? (
+      {userData && userData.user?.type == "Guest" && viewType == "profile" ? (
         <Button onClick={() => setOpen(true)}>Login with auth</Button>
+      ) : null}
+      {viewType == "chat" ? (
+        <Button onClick={() => setOpen(true)}>Add user</Button>
       ) : null}
     </Box>
   );
