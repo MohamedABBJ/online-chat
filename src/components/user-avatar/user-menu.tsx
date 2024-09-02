@@ -12,6 +12,7 @@ import UserMenuElements from "./user-menu-elements";
 function UserMenu(props: {
   anchorEl: HTMLElement | null;
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+  viewType: "chat" | "profile";
 }) {
   const open = Boolean(props.anchorEl);
 
@@ -29,7 +30,7 @@ function UserMenu(props: {
           "aria-labelledby": "basic-button",
         }}
       >
-        <UserMenuElements />
+        <UserMenuElements viewType={props.viewType} />
       </Menu>
     </>
   );

@@ -19,7 +19,7 @@ function MessageElement(props: {
 
   return (
     <Box className={`my-4 ml-2 flex`}>
-      <UserAvatar />
+      <UserAvatar viewType="chat" />
       <Typography
         className={`ml-2 flex items-center rounded-xl border border-black p-2 ${messageType}`}
       >

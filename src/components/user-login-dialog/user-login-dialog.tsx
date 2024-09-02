@@ -13,7 +13,7 @@ import LoginAsGuest from "./components/login-as-guest";
 import LoginWithGithub from "./components/login-with-github";
 import LoginWithGoogle from "./components/login-with-google";
 
-function UserLoginDialog({ user }: { user: object }) {
+function UserLoginDialog({ userData }: { userData: object }) {
   const { open, setOpen } = userDialogLoginStore();
 
   return (
@@ -26,7 +26,10 @@ function UserLoginDialog({ user }: { user: object }) {
       <DialogActions className="flex flex-col">
         <LoginWithGoogle />
         <LoginWithGithub />
-        <LoginAsGuest />
+        {
+          //TODO: Fix type
+        }
+        {userData && userData.user.type != "Guest" ? <LoginAsGuest /> : null}
       </DialogActions>
     </Dialog>
   );
