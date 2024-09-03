@@ -21,6 +21,7 @@ function UserMenuElements({
     };
     getUserData();
   }, []);
+
   return (
     <Box className="flex w-48 flex-col items-center gap-2">
       {viewType == "profile" ? (
@@ -46,7 +47,9 @@ function UserMenuElements({
           onClick={() =>
             userData?.user?.type == "Guest"
               ? setOpen(true)
-              : alert("Adding user... (implementation W.I.P)")
+              : userData?.user?.type == "oAuthUser"
+                ? alert("Adding user... (implementation W.I.P)")
+                : alert("An error happened, please contact admin")
           }
         >
           Add user
