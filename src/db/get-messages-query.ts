@@ -10,13 +10,17 @@ const getMesagesQuery = async () => {
     const messages = await db.select().from(messagesTable);
     const test2 = await db.select().from(usersTable);
     //try to get the user details from the user ID.
-    const messagesWithRole = await messages.map((element) => ({
-      ...element,
-      user_type: db
-        .select()
-        .from(usersTable)
-        .where(eq(usersTable.id, element.user_id as string)),
-    }));
+    const messagesWithRole = await Promise.all(
+      messages.map(async (element) => ({
+        ...element,
+        user_type: (
+          await db
+            .select({ type: usersTable.type })
+            .from(usersTable)
+            .where(eq(usersTable.id, element.user_id as string))
+        )[0],
+      })),
+    );
 
     return await { messages: messagesWithRole, status: 200 };
   } catch (error) {
