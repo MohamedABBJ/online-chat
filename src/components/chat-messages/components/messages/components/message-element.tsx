@@ -5,7 +5,7 @@ import { Avatar, Box, Typography } from "@mui/material";
 function MessageElement(props: {
   message: string;
   type: "message" | "reply";
-  user: any;
+  role: "oAuthUser" | "Guest";
 }) {
   const messageStyle = "bg-indigo-600 text-white";
   const replyStyle = "bg-transparent text-black";
@@ -19,7 +19,7 @@ function MessageElement(props: {
 
   return (
     <Box className={`my-4 ml-2 flex`}>
-      <UserAvatar viewType="chat" />
+      <UserAvatar viewType="chat" role={props.role} />
       <Typography
         className={`ml-2 flex items-center rounded-xl border border-black p-2 ${messageType}`}
       >

@@ -5,17 +5,22 @@ import { Avatar, Badge, Box, Button, Typography } from "@mui/material";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 
-function UserMenuElements({ viewType }: { viewType: "chat" | "profile" }) {
+function UserMenuElements({
+  viewType,
+  role,
+}: {
+  viewType: "chat" | "profile";
+  role: "oAuthUser" | "Guest";
+}) {
   const { setOpen } = userDialogLoginStore();
   const [userData, setUserData] = useState<Session | null>();
-
+  //TODO: Fix errors here
   useEffect(() => {
     const getUserData = async () => {
       setUserData(await verifyUserSession());
     };
     getUserData();
   }, []);
-
   return (
     <Box className="flex w-48 flex-col items-center gap-2">
       {viewType == "profile" ? (
@@ -36,8 +41,16 @@ function UserMenuElements({ viewType }: { viewType: "chat" | "profile" }) {
       {userData && userData.user?.type == "Guest" && viewType == "profile" ? (
         <Button onClick={() => setOpen(true)}>Login with auth</Button>
       ) : null}
-      {viewType == "chat" ? (
-        <Button onClick={() => setOpen(true)}>Add user</Button>
+      {viewType == "chat" && role == "oAuthUser" ? (
+        <Button
+          onClick={() =>
+            userData?.user?.type == "Guest"
+              ? setOpen(true)
+              : alert("Adding user... (implementation W.I.P)")
+          }
+        >
+          Add user
+        </Button>
       ) : null}
     </Box>
   );

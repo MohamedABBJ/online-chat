@@ -13,6 +13,7 @@ function UserMenu(props: {
   anchorEl: HTMLElement | null;
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
   viewType: "chat" | "profile";
+  role: "oAuthUser" | "Guest";
 }) {
   const open = Boolean(props.anchorEl);
 
@@ -30,7 +31,7 @@ function UserMenu(props: {
           "aria-labelledby": "basic-button",
         }}
       >
-        <UserMenuElements viewType={props.viewType} />
+        <UserMenuElements viewType={props.viewType} role={props.role} />
       </Menu>
     </>
   );

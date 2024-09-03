@@ -5,7 +5,6 @@ import MessageElement from "./message-element";
 
 async function AllMessages({ user }: { user: object }) {
   const messagesResponse = await getMesagesQuery();
-
   //TODO: Fix problem with type on element.message
   return (
     <>
@@ -13,6 +12,7 @@ async function AllMessages({ user }: { user: object }) {
         <MessageElement
           type={element.user_id == user?.userID ? "message" : "reply"}
           message={element.message}
+          role={element.user_type && element.user_type.type}
           key={element.id}
         />
       ))}

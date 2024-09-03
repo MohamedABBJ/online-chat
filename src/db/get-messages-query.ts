@@ -8,8 +8,6 @@ const getMesagesQuery = async () => {
   try {
     const db = drizzle(client);
     const messages = await db.select().from(messagesTable);
-    const test2 = await db.select().from(usersTable);
-    //try to get the user details from the user ID.
     const messagesWithRole = await Promise.all(
       messages.map(async (element) => ({
         ...element,

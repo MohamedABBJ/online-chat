@@ -15,7 +15,7 @@ import LoginWithGoogle from "./components/login-with-google";
 
 function UserLoginDialog({ userData }: { userData: object }) {
   const { open, setOpen } = userDialogLoginStore();
-
+  //TODO fix type
   return (
     <Dialog
       open={open as boolean}
@@ -26,10 +26,9 @@ function UserLoginDialog({ userData }: { userData: object }) {
       <DialogActions className="flex flex-col">
         <LoginWithGoogle />
         <LoginWithGithub />
-        {
-          //TODO: Fix type
-        }
-        {userData && userData.user.type != "Guest" ? <LoginAsGuest /> : null}
+        {(userData && userData.user.type != "Guest") || userData == null ? (
+          <LoginAsGuest />
+        ) : null}
       </DialogActions>
     </Dialog>
   );
