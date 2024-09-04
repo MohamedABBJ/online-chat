@@ -6,6 +6,7 @@ function MessageElement(props: {
   message: string;
   type: "message" | "reply";
   role: "oAuthUser" | "Guest";
+  userMessageID: string;
 }) {
   const messageStyle = "bg-indigo-600 text-white";
   const replyStyle = "bg-transparent text-black";
@@ -19,7 +20,11 @@ function MessageElement(props: {
 
   return (
     <Box className={`my-4 ml-2 flex`}>
-      <UserAvatar viewType="chat" role={props.role} />
+      <UserAvatar
+        viewType="chat"
+        role={props.role}
+        userMessageID={props.userMessageID}
+      />
       <Typography
         className={`ml-2 flex items-center rounded-xl border border-black p-2 ${messageType}`}
       >

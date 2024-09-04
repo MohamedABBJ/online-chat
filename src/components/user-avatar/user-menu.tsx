@@ -12,6 +12,7 @@ import UserMenuElements from "./user-menu-elements";
 function UserMenu(props: {
   anchorEl: HTMLElement | null;
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+  userMessageID: string;
   viewType: "chat" | "profile";
   role: "oAuthUser" | "Guest";
 }) {
@@ -20,6 +21,7 @@ function UserMenu(props: {
   const closeMenuHandler = () => {
     props.setAnchorEl(null);
   };
+
   return (
     <>
       <Menu
@@ -31,7 +33,12 @@ function UserMenu(props: {
           "aria-labelledby": "basic-button",
         }}
       >
-        <UserMenuElements viewType={props.viewType} role={props.role} />
+        <UserMenuElements
+          userMessageID={props.userMessageID}
+          viewType={props.viewType}
+          role={props.role}
+          setAnchorEl={props.setAnchorEl}
+        />
       </Menu>
     </>
   );

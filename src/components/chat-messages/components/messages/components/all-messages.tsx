@@ -13,6 +13,7 @@ async function AllMessages({ user }: { user: object }) {
           type={element.user_id == user?.userID ? "message" : "reply"}
           message={element.message}
           role={element.user_type && element.user_type.type}
+          userMessageID={element.user_id}
           key={element.id}
         />
       ))}

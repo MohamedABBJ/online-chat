@@ -13,9 +13,11 @@ import { JWTPayload } from "jose";
 function UserAvatar({
   viewType,
   role,
+  userMessageID,
 }: {
   viewType: "chat" | "profile";
   role: "oAuthUser" | "Guest";
+  userMessageID: string;
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenuHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,7 +29,7 @@ function UserAvatar({
       <IconButton onClick={openMenuHandler}>
         <Avatar />
       </IconButton>
-      <UserMenu {...{ anchorEl, setAnchorEl, viewType, role }} />
+      <UserMenu {...{ anchorEl, setAnchorEl, viewType, role, userMessageID }} />
     </>
   );
 }
