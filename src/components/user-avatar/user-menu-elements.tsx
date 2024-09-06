@@ -1,5 +1,6 @@
 "use client";
 import verifyUserSession from "@/app/lib/dal";
+import UserMessageProps from "@/interfaces/user-messages-props";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import { Avatar, Badge, Box, Button, Typography } from "@mui/material";
 import { Session } from "next-auth";
@@ -7,10 +8,10 @@ import { useEffect, useState } from "react";
 
 function UserMenuElements({
   viewType,
-  role,
+  messageElement,
 }: {
   viewType: "chat" | "profile";
-  role: "oAuthUser" | "Guest";
+  messageElement: UserMessageProps;
 }) {
   const { setOpen } = userDialogLoginStore();
   const [userData, setUserData] = useState<Session | null>();
@@ -42,7 +43,7 @@ function UserMenuElements({
       {userData && userData.user?.type == "Guest" && viewType == "profile" ? (
         <Button onClick={() => setOpen(true)}>Login with auth</Button>
       ) : null}
-      {viewType == "chat" && role == "oAuthUser" ? (
+      {viewType == "chat" && messageElement.user_type.type == "oAuthUser" ? (
         <Button
           onClick={() =>
             userData?.user?.type == "Guest"

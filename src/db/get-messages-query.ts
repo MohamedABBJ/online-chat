@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import client from "./client";
 import { messagesTable, usersTable } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
+import UserMessageProps from "@/interfaces/user-messages-props";
 
 const getMesagesQuery = async () => {
   try {
@@ -16,7 +17,7 @@ const getMesagesQuery = async () => {
             .select({ type: usersTable.type })
             .from(usersTable)
             .where(eq(usersTable.id, element.user_id as string))
-        )[0],
+        )[0] as { type: "oAuthUser" | "Guest" },
       })),
     );
 

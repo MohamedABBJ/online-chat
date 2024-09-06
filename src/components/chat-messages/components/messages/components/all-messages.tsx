@@ -10,9 +10,10 @@ async function AllMessages({ user }: { user: object }) {
     <>
       {messagesResponse?.messages.map((element) => (
         <MessageElement
-          type={element.user_id == user?.userID ? "message" : "reply"}
-          message={element.message}
-          role={element.user_type && element.user_type.type}
+          messageElement={{
+            ...element,
+            messageType: element.user_id == user?.userID ? "message" : "reply",
+          }}
           key={element.id}
         />
       ))}

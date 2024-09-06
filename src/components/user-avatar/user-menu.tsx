@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import UserMenuElements from "./user-menu-elements";
+import UserMessageProps from "@/interfaces/user-messages-props";
 
 function UserMenu(props: {
   anchorEl: HTMLElement | null;
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
   viewType: "chat" | "profile";
-  role: "oAuthUser" | "Guest";
+  messageElement: UserMessageProps;
 }) {
   const open = Boolean(props.anchorEl);
 
@@ -31,7 +32,10 @@ function UserMenu(props: {
           "aria-labelledby": "basic-button",
         }}
       >
-        <UserMenuElements viewType={props.viewType} role={props.role} />
+        <UserMenuElements
+          viewType={props.viewType}
+          messageElement={props.messageElement}
+        />
       </Menu>
     </>
   );

@@ -9,13 +9,14 @@ import {
 import React, { useState } from "react";
 import UserMenu from "./user-menu";
 import { JWTPayload } from "jose";
+import UserMessageProps from "@/interfaces/user-messages-props";
 
 function UserAvatar({
+  messageElement,
   viewType,
-  role,
 }: {
   viewType: "chat" | "profile";
-  role: "oAuthUser" | "Guest";
+  messageElement: UserMessageProps;
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenuHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,7 +28,7 @@ function UserAvatar({
       <IconButton onClick={openMenuHandler}>
         <Avatar />
       </IconButton>
-      <UserMenu {...{ anchorEl, setAnchorEl, viewType, role }} />
+      <UserMenu {...{ anchorEl, setAnchorEl, viewType, messageElement }} />
     </>
   );
 }
