@@ -2,6 +2,7 @@
 import verifyUserSession from "@/app/lib/dal";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
+import logoutHandler from "@/utils/logout-handler";
 import { Avatar, Badge, Box, Button, Typography } from "@mui/material";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
@@ -9,9 +10,13 @@ import { useEffect, useState } from "react";
 function UserMenuElements({
   viewType,
   messageElement,
+  userMessageID,
+  setAnchorEl,
 }: {
   viewType: "chat" | "profile";
   messageElement: UserMessageProps;
+  userMessageID: string;
+  setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }) {
   const { setOpen } = userDialogLoginStore();
   const [userData, setUserData] = useState<Session | null>();
@@ -22,12 +27,20 @@ function UserMenuElements({
     };
     getUserData();
   }, []);
-
+  console.log(userMessageID);
+  console.log(userData?.user?.id);
   return (
     <Box className="flex w-48 flex-col items-center gap-2">
       {viewType == "profile" ? (
         <Box className="flex w-full justify-end">
-          <Button>Log out</Button>
+          <Button
+            onClick={() => {
+              logoutHandler({ logoutType: role });
+              setAnchorEl(null);
+            }}
+          >
+            Log outt
+          </Button>
         </Box>
       ) : null}
       <Badge
@@ -43,7 +56,9 @@ function UserMenuElements({
       {userData && userData.user?.type == "Guest" && viewType == "profile" ? (
         <Button onClick={() => setOpen(true)}>Login with auth</Button>
       ) : null}
-      {viewType == "chat" && messageElement.user_type.type == "oAuthUser" ? (
+      {viewType == "chat" &&
+      messageElement.user_type.type == "oAuthUser" &&
+      userData?.user?.id != userMessageID ? (
         <Button
           onClick={() =>
             userData?.user?.type == "Guest"

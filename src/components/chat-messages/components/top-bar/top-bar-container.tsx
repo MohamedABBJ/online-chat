@@ -14,7 +14,7 @@ function TopBarContainer({
     <Box className="flex h-16 w-full items-center justify-between rounded-bl-3xl border-b border-l border-black pl-16">
       <SearchBar />
       {(userLoggedIn as () => Promise<JWTPayload | null>) ? (
-        <UserLoggedIn />
+        <UserLoggedIn userLoggedIn={userLoggedIn} />
       ) : (
         <UserNotLoggedIn />
       )}
