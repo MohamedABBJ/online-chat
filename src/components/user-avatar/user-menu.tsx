@@ -9,16 +9,15 @@ import {
 } from "@mui/material";
 import UserMenuElements from "./user-menu-elements";
 import UserMessageProps from "@/interfaces/user-messages-props";
+import MessageElement from "../chat-messages/components/messages/components/message-element";
 
 function UserMenu(props: {
   anchorEl: HTMLElement | null;
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
-  userMessageID: string;
   viewType: "chat" | "profile";
-  messageElement: UserMessageProps;
+  messageElement?: UserMessageProps;
 }) {
   const open = Boolean(props.anchorEl);
-
   const closeMenuHandler = () => {
     props.setAnchorEl(null);
   };
@@ -35,15 +34,9 @@ function UserMenu(props: {
         }}
       >
         <UserMenuElements
-<<<<<<< HEAD
+          setAnchorEl={props.setAnchorEl}
           viewType={props.viewType}
           messageElement={props.messageElement}
-=======
-          userMessageID={props.userMessageID}
-          viewType={props.viewType}
-          role={props.role}
-          setAnchorEl={props.setAnchorEl}
->>>>>>> 256325f2b812ad5479d986f75d8b9e60354c34a8
         />
       </Menu>
     </>

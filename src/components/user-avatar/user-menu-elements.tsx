@@ -10,12 +10,10 @@ import { useEffect, useState } from "react";
 function UserMenuElements({
   viewType,
   messageElement,
-  userMessageID,
   setAnchorEl,
 }: {
   viewType: "chat" | "profile";
-  messageElement: UserMessageProps;
-  userMessageID: string;
+  messageElement?: UserMessageProps;
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }) {
   const { setOpen } = userDialogLoginStore();
@@ -27,15 +25,14 @@ function UserMenuElements({
     };
     getUserData();
   }, []);
-  console.log(userMessageID);
-  console.log(userData?.user?.id);
+
   return (
     <Box className="flex w-48 flex-col items-center gap-2">
       {viewType == "profile" ? (
         <Box className="flex w-full justify-end">
           <Button
             onClick={() => {
-              logoutHandler({ logoutType: role });
+              logoutHandler({ logoutType: userData?.user?.type });
               setAnchorEl(null);
             }}
           >
@@ -52,13 +49,17 @@ function UserMenuElements({
       >
         <Avatar />
       </Badge>
-      <Typography>UserName</Typography>
+      <Typography>
+        {viewType == "profile"
+          ? userData?.user?.name
+          : messageElement?.user_details?.name}
+      </Typography>
       {userData && userData.user?.type == "Guest" && viewType == "profile" ? (
         <Button onClick={() => setOpen(true)}>Login with auth</Button>
       ) : null}
       {viewType == "chat" &&
-      messageElement.user_type.type == "oAuthUser" &&
-      userData?.user?.id != userMessageID ? (
+      messageElement?.user_type?.type == "oAuthUser" &&
+      userData?.user?.id != messageElement.id ? (
         <Button
           onClick={() =>
             userData?.user?.type == "Guest"

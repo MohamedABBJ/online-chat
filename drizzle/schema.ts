@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
+  customType,
   integer,
   pgSchema,
   pgTable,
@@ -8,6 +9,14 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { AdapterAccountType } from "next-auth/adapters";
+
+const customUserType = customType<{
+  data: "oAuthUser" | "Guest";
+}>({
+  dataType() {
+    return "oAuthUser";
+  },
+});
 
 export const mySchema = pgSchema("online_chat");
 
@@ -18,7 +27,7 @@ export const usersTable = pgTable("users", {
   name: text("name"),
   email: text("email").default("undefined"),
   image: text("image").default("undefined"),
-  type: text("type").default("oAuthUser"),
+  type: customUserType("type").default("oAuthUser"),
 });
 
 export const oAuthAccountsTable = pgTable("oAuthAccounts", {
@@ -38,7 +47,7 @@ export const oAuthAccountsTable = pgTable("oAuthAccounts", {
 });
 
 export const messagesTable = pgTable("messages", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   user_id: text("user_id"),
   message: text("message"),
 });

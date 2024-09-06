@@ -12,12 +12,12 @@ const getMesagesQuery = async () => {
     const messagesWithRole = await Promise.all(
       messages.map(async (element) => ({
         ...element,
-        user_type: (
+        user_details: (
           await db
-            .select({ type: usersTable.type })
+            .select()
             .from(usersTable)
             .where(eq(usersTable.id, element.user_id as string))
-        )[0] as { type: "oAuthUser" | "Guest" },
+        )[0],
       })),
     );
 

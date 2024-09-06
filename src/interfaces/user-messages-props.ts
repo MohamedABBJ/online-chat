@@ -1,8 +1,12 @@
 interface UserMessageProps {
-  user_type: {
-    type: "oAuthUser" | "Guest";
+  user_details: {
+    id: string;
+    name: string | null;
+    type: any;
+    email: string | null;
+    image: string | null;
   };
-  id: number;
+  id: string;
   user_id: string | null;
   messageType: "message" | "reply";
   message: string | null;

@@ -6,7 +6,7 @@ function UserLoggedIn({
 }: {
   userLoggedIn: () => Promise<JWTPayload | null>;
 }) {
-  return <UserAvatar viewType="profile" role={userLoggedIn.user?.type} />;
+  return <UserAvatar viewType="profile" />;
 }
 
 export default UserLoggedIn;
