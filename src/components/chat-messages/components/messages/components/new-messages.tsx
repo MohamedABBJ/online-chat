@@ -12,13 +12,16 @@ function NewMessage({ user }: { user: object }) {
   });
 
   //TODO: Fix this, key can't be the index of the map, only used this for testing.
+  //see here:
   return (
     <>
-      {newMessage.map((element, index) => (
+      {newMessage.map((element) => (
         <MessageElement
-          type={element.userID == user.userID ? "message" : "reply"}
-          message={element.message}
-          key={index}
+          messageElement={{
+            ...element,
+            messageType: element.user_id == user?.userID ? "message" : "reply",
+          }}
+          key={element.id}
         />
       ))}
     </>
