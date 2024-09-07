@@ -1,8 +1,10 @@
 "use client";
 import verifyUserSession from "@/app/lib/dal";
+import updateProfileImage from "@/db/update-profile-image";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import logoutHandler from "@/utils/logout-handler";
+import { UploadButton } from "@/utils/uploadthing";
 import { Avatar, Badge, Box, Button, Typography } from "@mui/material";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
@@ -40,15 +42,31 @@ function UserMenuElements({
           </Button>
         </Box>
       ) : null}
-      <Badge
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        overlap="circular"
-        badgeContent=" "
-        variant="dot"
-        className="[&_.MuiBadge-badge]:bg-green-600"
-      >
-        <Avatar />
-      </Badge>
+
+      <Box className="relative flex flex-col items-center">
+        <UploadButton
+          className="ut-allowed-content:hidden ut-button:text-transparent ut-button:bg-transparent ut-button:w-full ut-button:focus:border -800 ut-button:focus-within:hidden absolute z-10"
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => {
+            console.log("Files: ", res);
+          }}
+          onUploadError={(error: Error) => {
+            alert(`ERROR! ${error.message}`);
+          }}
+        />
+        <Box>
+          <Badge
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            overlap="circular"
+            badgeContent=" "
+            variant="dot"
+            className="[&_.MuiBadge-badge]:bg-green-600"
+          >
+            <Avatar />
+          </Badge>
+        </Box>
+      </Box>
+
       <Typography>
         {viewType == "profile"
           ? userData?.user?.name
