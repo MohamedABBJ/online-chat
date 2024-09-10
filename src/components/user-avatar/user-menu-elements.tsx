@@ -39,14 +39,14 @@ function UserMenuElements({
               setAnchorEl(null);
             }}
           >
-            Log outt
+            Log out
           </Button>
         </Box>
       ) : null}
 
       <Box className="relative flex flex-col items-center">
         <UploadButton
-          className="-800 absolute z-10 ut-button:w-full ut-button:bg-transparent ut-button:text-transparent ut-button:focus-within:hidden ut-button:focus:border ut-allowed-content:hidden"
+          className={`-800 absolute z-10 ut-button:w-full ut-button:bg-transparent ut-button:text-transparent ut-button:focus-within:hidden ut-button:focus:border ut-allowed-content:hidden ${viewType == "profile" ? "block" : "hidden"}`}
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
             console.log("Files: ", res);
