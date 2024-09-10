@@ -6,7 +6,7 @@ interface UserMessageProps {
     email: string | null;
     image: string | null;
   };
-  id: string;
+  id: number;
   user_id: string | null;
   messageType: "message" | "reply";
   message: string | null;

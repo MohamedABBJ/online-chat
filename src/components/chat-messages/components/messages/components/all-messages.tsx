@@ -6,6 +6,7 @@ import MessageElement from "./message-element";
 async function AllMessages({ user }: { user: object }) {
   const messagesResponse = await getMesagesQuery();
   //TODO: Fix problem with type on element.message
+  console.log(messagesResponse?.messages);
   return (
     <>
       {messagesResponse?.messages.map((element) => (

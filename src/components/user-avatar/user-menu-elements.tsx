@@ -21,6 +21,7 @@ function UserMenuElements({
   const { setOpen } = userDialogLoginStore();
   const [userData, setUserData] = useState<Session | null>();
   //TODO: Fix errors here
+
   useEffect(() => {
     const getUserData = async () => {
       setUserData(await verifyUserSession());
@@ -45,7 +46,7 @@ function UserMenuElements({
 
       <Box className="relative flex flex-col items-center">
         <UploadButton
-          className="ut-allowed-content:hidden ut-button:text-transparent ut-button:bg-transparent ut-button:w-full ut-button:focus:border -800 ut-button:focus-within:hidden absolute z-10"
+          className="-800 absolute z-10 ut-button:w-full ut-button:bg-transparent ut-button:text-transparent ut-button:focus-within:hidden ut-button:focus:border ut-allowed-content:hidden"
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
             console.log("Files: ", res);
@@ -62,7 +63,7 @@ function UserMenuElements({
             variant="dot"
             className="[&_.MuiBadge-badge]:bg-green-600"
           >
-            <Avatar />
+            <Avatar src="" />
           </Badge>
         </Box>
       </Box>

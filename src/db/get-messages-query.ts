@@ -3,7 +3,6 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import client from "./client";
 import { messagesTable, usersTable } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
-import UserMessageProps from "@/interfaces/user-messages-props";
 
 const getMesagesQuery = async () => {
   try {

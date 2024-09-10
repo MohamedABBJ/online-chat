@@ -47,7 +47,7 @@ export const oAuthAccountsTable = pgTable("oAuthAccounts", {
 });
 
 export const messagesTable = pgTable("messages", {
-  id: text("id").primaryKey(),
+  id: serial("id").primaryKey(),
   user_id: text("user_id"),
   message: text("message"),
 });
