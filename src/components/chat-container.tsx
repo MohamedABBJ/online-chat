@@ -4,15 +4,16 @@ import ChatMessages from "./chat-messages/chat-messages";
 
 function ChatContainer() {
   return (
-    <Box className="flex h-[90%] w-[95%] gap-10 rounded-3xl border border-black">
-      <Box className="h-full w-2/6 rounded-tr-3xl border-r border-black">
+    <Box className="flex h-[90%] w-[95%] gap-10 overflow-clip rounded-3xl border border-black">
+      <Box className="h-full w-2/6 overflow-clip rounded-tr-3xl border-r border-black">
         <ChatList />
-      </Box>
-      <Box className="h-full w-full border-l border-black">
-        <ChatMessages />
       </Box>
     </Box>
   );
 }
-
+/*
+<Box className="h-full w-full border-l border-black">
+        <ChatMessages />
+      </Box>
+*/
 export default ChatContainer;

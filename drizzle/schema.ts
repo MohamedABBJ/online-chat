@@ -59,3 +59,13 @@ export const sessions = pgTable("session", {
     .references(() => usersTable.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
+
+export const userFriendsTable = pgTable("userFriends", {
+  id: serial("id").primaryKey(),
+  user_id: text("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+  friend_id: text("friend_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+});

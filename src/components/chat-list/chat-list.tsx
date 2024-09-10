@@ -1,12 +1,18 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import GroupChatsButton from "./components/group-chats-button";
-import UserChat from "./components/user-chat";
+import getUserFriendsQuery from "@/db/get-user-friends-query";
+import verifyUserSession from "@/app/lib/dal";
+import FriendsList from "./components/user-chat";
+import UserNotifications from "./components/user-notifications";
+import ChatListContent from "./components/chat-list-content";
 
-function ChatList() {
+async function ChatList() {
+  const currentUserData = await verifyUserSession();
+  const userFriends = await getUserFriendsQuery(currentUserData?.user?.id);
+
   return (
-    <Box className="flex flex-col">
-      <GroupChatsButton />
-      <UserChat />
+    <Box className="flex h-full flex-col">
+      <ChatListContent />
     </Box>
   );
 }

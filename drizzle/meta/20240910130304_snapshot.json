@@ -1,5 +1,5 @@
 {
-  "id": "5da07d4d-07c9-4401-8ae6-e229d7e8c9ae",
+  "id": "172a9841-1e91-4e32-a6c3-bceae123b59e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -164,6 +164,61 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+    "public.userFriends": {
+      "name": "userFriends",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "friend_id": {
+          "name": "friend_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "userFriends_user_id_users_user_id_fk": {
+          "name": "userFriends_user_id_users_user_id_fk",
+          "tableFrom": "userFriends",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "user_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "userFriends_friend_id_users_user_id_fk": {
+          "name": "userFriends_friend_id_users_user_id_fk",
+          "tableFrom": "userFriends",
+          "tableTo": "users",
+          "columnsFrom": [
+            "friend_id"
+          ],
+          "columnsTo": [
+            "user_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.users": {
       "name": "users",
       "schema": "",
@@ -196,7 +251,7 @@
         },
         "type": {
           "name": "type",
-          "type": "text",
+          "type": "oAuthUser",
           "primaryKey": false,
           "notNull": false,
           "default": "'oAuthUser'"

@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
 
-function UserChat() {
+function FriendsList() {
   return (
-    <Box className="h-24 overflow-y-scroll">
+    <Box className="flex h-full overflow-y-scroll p-4">
       <Box>UserChat</Box>
     </Box>
   );
 }
 
-export default UserChat;
+export default FriendsList;
