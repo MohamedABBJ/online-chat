@@ -2,7 +2,7 @@
 import { useState } from "react";
 import FriendsList from "./user-chat";
 import UserNotifications from "./user-notifications";
-import { Box, Button } from "@mui/material";
+import { Badge, Box, Button } from "@mui/material";
 
 function ChatListContent() {
   const [chatListSelector, setChatListSelector] = useState<
@@ -18,7 +18,9 @@ function ChatListContent() {
           onClick={() => setChatListSelector("notification")}
           className="w-1/2"
         >
-          Notifications
+          <Badge color="default" badgeContent=" " variant="dot" className="">
+            Notifications
+          </Badge>
         </Button>
       </Box>
       {chatListSelector == "chat" ? (
