@@ -68,4 +68,5 @@ export const userFriendsTable = pgTable("userFriends", {
   friend_id: text("friend_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
+  requestState: text("request_state").notNull(),
 });
