@@ -6,9 +6,9 @@ import Notification from "./notification";
 function UserNotifications() {
   return (
     <>
-      <Box className="flex h-full flex-col gap-4 overflow-y-scroll p-4">
+      <div className="flex h-full flex-col gap-4 overflow-y-scroll p-4">
         <Notification />
-      </Box>
+      </div>
     </>
   );
 }

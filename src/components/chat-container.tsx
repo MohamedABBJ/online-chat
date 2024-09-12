@@ -1,17 +1,16 @@
-import { Box, Button } from "@mui/material";
 import ChatList from "./chat-list/chat-list";
 import ChatMessages from "./chat-messages/chat-messages";
 
 function ChatContainer() {
   return (
-    <Box className="flex h-[90%] w-[95%] gap-10 overflow-clip rounded-3xl border border-black">
-      <Box className="h-full w-2/6 overflow-clip rounded-tr-3xl border-r border-black">
+    <div className="flex h-[90%] w-[95%] gap-10 overflow-clip rounded-3xl border border-black">
+      <div className="h-full w-2/6 overflow-clip rounded-tr-3xl border-r border-black">
         <ChatList />
-      </Box>
-      <Box className="h-full w-full border-l border-black">
+      </div>
+      <div className="h-full w-full border-l border-black">
         <ChatMessages />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
 

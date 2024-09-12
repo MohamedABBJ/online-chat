@@ -1,30 +1,28 @@
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/ui/icons";
 import UserAvatar from "@/components/user-avatar/user-avatar";
-import { Check, Close } from "@mui/icons-material";
-import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
+import { Check, X } from "lucide-react";
 
 function Notification() {
+  const test = Icons.apple;
   return (
-    <Box>
-      <Box className="flex items-center gap-3">
+    <div>
+      <div className="flex items-center gap-3">
         <UserAvatar viewType="chat" />
-        <Box>
-          <Typography>username</Typography>
-          <Typography>sent you a friend request</Typography>
-        </Box>
-        <Box className="flex gap-2">
-          <Button variant="outlined" className="min-w-0 rounded-full p-1">
+        <div>
+          <p>username</p>
+          <p>sent you a friend request</p>
+        </div>
+        <div className="flex gap-2">
+          <Button className="min-w-0 rounded-full p-1">
             <Check />
           </Button>
-          <Button
-            color="error"
-            variant="outlined"
-            className="min-w-0 rounded-full p-1"
-          >
-            <Close />
+          <Button color="error" className="min-w-0 rounded-full p-1">
+            <X />
           </Button>
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }
 

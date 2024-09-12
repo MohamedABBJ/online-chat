@@ -1,12 +1,3 @@
-import {
-  Avatar,
-  Badge,
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
 import UserMenuElements from "./user-menu-elements";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import MessageElement from "../chat-messages/components/messages/components/message-element";

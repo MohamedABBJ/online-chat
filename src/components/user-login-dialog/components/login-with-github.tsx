@@ -1,12 +1,12 @@
-import { GitHub } from "@mui/icons-material";
-import { Box, Button } from "@mui/material";
+import { Button } from "@/components/ui/button";
+import { Github } from "lucide-react";
 
 function LoginWithGithub() {
   return (
-    <Box className="flex">
+    <div className="flex">
       <Button>Login with Github</Button>
-      <GitHub />
-    </Box>
+      <Github />
+    </div>
   );
 }
 

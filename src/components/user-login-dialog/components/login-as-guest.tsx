@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { loginAsGuestQuery } from "@/db/login-as-guest-query";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
-import { Button } from "@mui/material";
 import { useState } from "react";
 
 function LoginAsGuest() {

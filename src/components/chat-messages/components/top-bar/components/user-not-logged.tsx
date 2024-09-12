@@ -1,14 +1,15 @@
 "use client";
 
+import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
-import { Avatar, Box, Button, IconButton } from "@mui/material";
 
 function UserNotLoggedIn() {
   const { setOpen } = userDialogLoginStore();
   return (
-    <IconButton onClick={() => setOpen(true)}>
+    <Button onClick={() => setOpen(true)}>
       <Avatar />
-    </IconButton>
+    </Button>
   );
 }
 

@@ -1,6 +1,5 @@
 "use server";
 
-import { Box } from "@mui/material";
 import ReplyContainer from "./components/reply-container";
 import TopBarContainer from "./components/top-bar/top-bar-container";
 import verifyUserSession from "@/app/lib/dal";
@@ -10,11 +9,11 @@ async function ChatMessages() {
   const checkUser = await verifyUserSession();
   //TODO: Fix problem with type
   return (
-    <Box className="flex h-full flex-col justify-between">
+    <div className="flex h-full flex-col justify-between">
       <TopBarContainer userLoggedIn={checkUser} />
       <MessagesContainer />
       <ReplyContainer userLoggedIn={checkUser} />
-    </Box>
+    </div>
   );
 }
 
