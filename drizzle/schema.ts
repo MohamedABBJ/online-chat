@@ -18,6 +18,14 @@ const customUserType = customType<{
   },
 });
 
+const requestStateType = customType<{
+  data: "pending" | "accepted";
+}>({
+  dataType() {
+    return "pending";
+  },
+});
+
 export const mySchema = pgSchema("online_chat");
 
 export const usersTable = pgTable("users", {
@@ -68,5 +76,5 @@ export const userFriendsTable = pgTable("userFriends", {
   friend_id: text("friend_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
-  requestState: text("request_state").notNull(),
+  requestState: requestStateType("request_state").notNull().default("pending"),
 });

@@ -77,8 +77,8 @@ function UserMenuElements({
         <Button onClick={() => setOpen(true)}>Login with auth</Button>
       ) : null}
       {viewType == "chat" &&
-      messageElement?.user_type?.type == "oAuthUser" &&
-      userData?.user?.id != messageElement.id ? (
+      messageElement?.user_details?.type == "oAuthUser" &&
+      userData?.user?.id != messageElement.user_details.id ? (
         <Button
           onClick={() =>
             userData?.user?.type == "Guest"

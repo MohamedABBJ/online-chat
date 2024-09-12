@@ -8,12 +8,11 @@ function ChatContainer() {
       <Box className="h-full w-2/6 overflow-clip rounded-tr-3xl border-r border-black">
         <ChatList />
       </Box>
+      <Box className="h-full w-full border-l border-black">
+        <ChatMessages />
+      </Box>
     </Box>
   );
 }
-/*
-<Box className="h-full w-full border-l border-black">
-        <ChatMessages />
-      </Box>
-*/
+
 export default ChatContainer;
