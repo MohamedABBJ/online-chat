@@ -4,11 +4,10 @@ import UserAvatar from "@/components/user-avatar/user-avatar";
 import { Check, X } from "lucide-react";
 
 function Notification() {
-  const test = Icons.apple;
   return (
     <div>
       <div className="flex items-center gap-3">
-        <UserAvatar viewType="chat" />
+        <UserAvatar />
         <div>
           <p>username</p>
           <p>sent you a friend request</p>

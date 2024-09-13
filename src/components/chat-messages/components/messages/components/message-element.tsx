@@ -1,5 +1,6 @@
 "use client";
 import UserAvatar from "@/components/user-avatar/user-avatar";
+import UserMenu from "@/components/user-avatar/user-menu";
 import UserMessageProps from "@/interfaces/user-messages-props";
 
 function MessageElement({
@@ -19,7 +20,7 @@ function MessageElement({
 
   return (
     <div className={`my-4 ml-2 flex`}>
-      <UserAvatar viewType="chat" messageElement={messageElement} />
+      <UserMenu viewType="chat" messageElement={messageElement} />
       <p
         className={`ml-2 flex items-center rounded-xl border border-black p-2 ${messageType}`}
       >

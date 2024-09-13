@@ -15,7 +15,6 @@ import { Button } from "../ui/button";
 import UserAvatar from "../user-avatar/user-avatar";
 
 function UserLoginDialog({ userData }: { userData: object }) {
-  const { open, setOpen } = userDialogLoginStore();
   //TODO fix type
   return (
     <Dialog

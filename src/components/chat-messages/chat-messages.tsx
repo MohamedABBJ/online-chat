@@ -1,5 +1,3 @@
-"use server";
-
 import ReplyContainer from "./components/reply-container";
 import TopBarContainer from "./components/top-bar/top-bar-container";
 import verifyUserSession from "@/app/lib/dal";

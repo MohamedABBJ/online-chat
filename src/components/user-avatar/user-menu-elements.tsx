@@ -9,17 +9,15 @@ import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Avatar } from "../ui/avatar";
+import UserAvatar from "./user-avatar";
 
 function UserMenuElements({
   viewType,
   messageElement,
-  setAnchorEl,
 }: {
   viewType: "chat" | "profile";
   messageElement?: UserMessageProps;
-  setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }) {
-  const { setOpen } = userDialogLoginStore();
   const [userData, setUserData] = useState<Session | null>();
   //TODO: Fix errors here
 
@@ -37,7 +35,6 @@ function UserMenuElements({
           <Button
             onClick={() => {
               logoutHandler({ logoutType: userData?.user?.type });
-              setAnchorEl(null);
             }}
           >
             Log out
@@ -47,7 +44,7 @@ function UserMenuElements({
 
       <div className="relative flex flex-col items-center">
         <UploadButton
-          className={`-800 ut-button:w-full ut-button:bg-transparent ut-button:text-transparent ut-button:focus-within:hidden ut-button:focus:border ut-allowed-content:hidden absolute z-10 ${viewType == "profile" ? "block" : "hidden"}`}
+          className={`-800 absolute z-10 ut-button:w-full ut-button:bg-transparent ut-button:text-transparent ut-button:focus-within:hidden ut-button:focus:border ut-allowed-content:hidden ${viewType == "profile" ? "block" : "hidden"}`}
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
             console.log("Files: ", res);
@@ -57,7 +54,7 @@ function UserMenuElements({
           }}
         />
         <div>
-          <Avatar />
+          <UserAvatar />
         </div>
       </div>
 
