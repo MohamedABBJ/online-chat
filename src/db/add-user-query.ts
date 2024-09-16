@@ -1,26 +1,27 @@
 "use server";
 import { drizzle } from "drizzle-orm/node-postgres";
 import client from "./client";
-import { messagesTable, usersTable } from "../../drizzle/schema";
+import {
+  messagesTable,
+  userFriendsTable,
+  usersTable,
+} from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
 
-const addUserQuery = async () => {
+const addUserQuery = async ({
+  requiredData,
+}: {
+  requiredData: { user_id: string; friend_id: string };
+}) => {
   try {
     const db = drizzle(client);
-    const messages = await db.select().from(messagesTable);
-    const messagesWithRole = await Promise.all(
-      messages.map(async (element) => ({
-        ...element,
-        user_details: (
-          await db
-            .select()
-            .from(usersTable)
-            .where(eq(usersTable.id, element.user_id as string))
-        )[0],
-      })),
-    );
+    await db.insert(userFriendsTable).values({
+      user_id: requiredData.user_id,
+      friend_id: requiredData.friend_id,
+      requestState: "pending",
+    });
 
-    return await { messages: messagesWithRole, status: 200 };
+    return await { response: "The user has beed added correctly", status: 200 };
   } catch (error) {
     console.log(error);
   }

@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS "online_chat";
+CREATE SCHEMA "online_chat";
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "messages" (
 	"id" serial PRIMARY KEY NOT NULL,
@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS "session" (
 CREATE TABLE IF NOT EXISTS "userFriends" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
-	"friend_id" text NOT NULL
+	"friend_id" text NOT NULL,
+	"request_state" text DEFAULT 'pending' NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (

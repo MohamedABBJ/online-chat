@@ -15,7 +15,7 @@ const getUserFriendsQuery = async ({ user_id }: { user_id: string }) => {
       .select()
       .from(userFriendsTable)
       .where(eq(userFriendsTable.user_id, user_id));
-
+    console.log(user_id);
     return await {
       friends: getFriendsQuery.length > 0 ? getFriendsQuery : null,
       status: 200,

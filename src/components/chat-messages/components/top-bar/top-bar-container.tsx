@@ -14,7 +14,7 @@ function TopBarContainer({
       {(userLoggedIn as () => Promise<JWTPayload | null>) ? (
         <UserMenu viewType="profile" />
       ) : (
-        <UserLoginDialog userData={userLoggedIn} />
+        <UserLoginDialog loginMode="complete" />
       )}
     </div>
   );

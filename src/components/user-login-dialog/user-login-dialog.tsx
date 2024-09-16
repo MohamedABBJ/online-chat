@@ -14,7 +14,11 @@ import {
 import { Button } from "../ui/button";
 import UserAvatar from "../user-avatar/user-avatar";
 
-function UserLoginDialog({ userData }: { userData: object }) {
+function UserLoginDialog({
+  loginMode,
+}: {
+  loginMode: "complete" | "oAuth" | "addUser";
+}) {
   //TODO fix type
   return (
     <Dialog
@@ -22,16 +26,20 @@ function UserLoginDialog({ userData }: { userData: object }) {
     >
       <DialogTrigger asChild>
         <Button className="p-0" variant={"ghost"}>
-          <UserAvatar />
+          {loginMode == "complete" ? (
+            <UserAvatar />
+          ) : loginMode == "oAuth" ? (
+            "Login with auth"
+          ) : loginMode == "addUser" ? (
+            "Add user"
+          ) : null}
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col items-center">
         <DialogTitle>Sign In</DialogTitle>
         <LoginWithGoogle />
         <LoginWithGithub />
-        {(userData && userData.user.type != "Guest") || userData == null ? (
-          <LoginAsGuest />
-        ) : null}
+        {loginMode == "complete" ? <LoginAsGuest /> : null}
       </DialogContent>
     </Dialog>
   );

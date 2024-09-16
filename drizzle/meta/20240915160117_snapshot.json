@@ -1,5 +1,5 @@
 {
-  "id": "172a9841-1e91-4e32-a6c3-bceae123b59e",
+  "id": "3542bc5e-c9a0-45c6-9c54-50fcd678687c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -185,6 +185,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "request_state": {
+          "name": "request_state",
+          "type": "pending",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
         }
       },
       "indexes": {},

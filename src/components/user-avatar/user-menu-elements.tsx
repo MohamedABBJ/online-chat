@@ -10,6 +10,9 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Avatar } from "../ui/avatar";
 import UserAvatar from "./user-avatar";
+import UserLoginDialog from "../user-login-dialog/user-login-dialog";
+import addUserQuery from "@/db/add-user-query";
+import { socket } from "@/app/socket";
 
 function UserMenuElements({
   viewType,
@@ -64,22 +67,28 @@ function UserMenuElements({
           : messageElement?.user_details?.name}
       </p>
       {userData && userData.user?.type == "Guest" && viewType == "profile" ? (
-        <Button onClick={() => setOpen(true)}>Login with auth</Button>
+        <UserLoginDialog loginMode="oAuth" />
       ) : null}
       {viewType == "chat" &&
       messageElement?.user_details?.type == "oAuthUser" &&
       userData?.user?.id != messageElement.user_details.id ? (
-        <Button
-          onClick={() =>
-            userData?.user?.type == "Guest"
-              ? setOpen(true)
-              : userData?.user?.type == "oAuthUser"
-                ? alert("Adding user... (implementation W.I.P)")
-                : alert("An error happened, please contact admin")
-          }
-        >
-          Add user
-        </Button>
+        userData?.user?.type == "Guest" ? (
+          <UserLoginDialog loginMode="addUser" />
+        ) : userData?.user?.type == "oAuthUser" ? (
+          <Button
+            onClick={async () => {
+              await addUserQuery({
+                requiredData: {
+                  user_id: userData?.user?.id as string,
+                  friend_id: messageElement.user_id as string,
+                },
+              });
+              socket.emit("addUser");
+            }}
+          >
+            Add user
+          </Button>
+        ) : null
       ) : null}
     </div>
   );
