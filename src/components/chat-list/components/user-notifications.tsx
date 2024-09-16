@@ -6,16 +6,16 @@ import { socket } from "@/app/socket";
 import { useEffect, useState } from "react";
 import verifyUserSession from "@/app/lib/dal";
 import getUserFriendsQuery from "@/db/get-user-friends-query";
+import getUserNotifications from "@/utils/get-notifications";
 
-async function UserNotifications() {
-  const [userNotifications, setUserNotifications] = useState();
-
-  const getUserNotifications = async () => {
-    const userFriends = await getUserFriendsQuery(currentUserData?.user?.id);
-  };
+function UserNotifications() {
+  const [userNotifications, setUserNotifications] = useState<UserFriends>();
 
   useEffect(() => {
-    getUserNotifications();
+    const getNotificationsFun = async () => {
+      setUserNotifications(await getUserNotifications());
+    };
+    getNotificationsFun();
   }, []);
 
   socket.on("AddUser", getUserNotifications);
@@ -23,7 +23,9 @@ async function UserNotifications() {
   return (
     <>
       <div className="flex h-full flex-col gap-4 overflow-y-scroll p-4">
-        <Notification />
+        {userNotifications?.friends && userNotifications?.friends?.length > 0
+          ? userNotifications?.friends?.map((element) => <Notification />)
+          : null}
       </div>
     </>
   );
