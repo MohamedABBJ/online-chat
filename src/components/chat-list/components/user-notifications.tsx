@@ -7,12 +7,11 @@ import { useEffect, useState } from "react";
 import verifyUserSession from "@/app/lib/dal";
 import getUserFriendsQuery from "@/db/get-user-friends-query";
 
-function UserNotifications() {
+async function UserNotifications() {
   const [userNotifications, setUserNotifications] = useState();
 
   const getUserNotifications = async () => {
-    const currentUserData = await verifyUserSession();
-    const userFriends = await getUserFriendsQuery(currentUserData);
+    const userFriends = await getUserFriendsQuery(currentUserData?.user?.id);
   };
 
   useEffect(() => {
