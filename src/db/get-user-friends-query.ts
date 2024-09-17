@@ -18,25 +18,44 @@ const getUserFriendsQuery = async ({
 }) => {
   try {
     const db = drizzle(client);
-    const getFriendsQuery = await db
+
+    const getFriendsSentQuery = await db
       .select()
       .from(userFriendsTable)
       .where(
         sql`${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState}`,
       );
 
-    const friendDataQuery = Promise.all(
-      await getFriendsQuery.map(async (element) => ({
-        ...element,
-        friendData: await getUserDataQuery({
-          user_id: element.friend_id,
-        }),
-      })),
-    );
+    const getFriendsReceiverQuery = await db
+      .select()
+      .from(userFriendsTable)
+      .where(
+        sql`${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState}`,
+      );
 
-    return await {
-      friends: getFriendsQuery.length > 0 ? await friendDataQuery : null,
-    };
+    if (getFriendsSentQuery.length > 0) {
+      const friendDataQuery = Promise.all(
+        await getFriendsSentQuery.map(async (element) => ({
+          ...element,
+          friendData: await getUserDataQuery({
+            user_id: element.friend_id,
+          }),
+        })),
+      );
+      return { friends: await friendDataQuery };
+    }
+    if (getFriendsReceiverQuery.length > 0) {
+      const friendDataQuery = Promise.all(
+        await getFriendsReceiverQuery.map(async (element) => ({
+          ...element,
+          friendData: await getUserDataQuery({
+            user_id: element.user_id,
+          }),
+        })),
+      );
+      return { friends: await friendDataQuery };
+    }
+    return null;
   } catch (error) {
     console.log(error);
   }

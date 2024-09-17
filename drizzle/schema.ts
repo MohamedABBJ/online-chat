@@ -19,7 +19,7 @@ const customUserType = customType<{
 });
 
 const requestStateType = customType<{
-  data: "pending" | "accepted";
+  data: "pending" | "accepted" | "denied";
 }>({
   dataType() {
     return "pending";
