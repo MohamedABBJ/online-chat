@@ -1,5 +1,5 @@
 {
-  "id": "3542bc5e-c9a0-45c6-9c54-50fcd678687c",
+  "id": "600923fe-8f75-449b-8a73-0e6cc4ed37eb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -185,6 +185,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "request_state": {
           "name": "request_state",

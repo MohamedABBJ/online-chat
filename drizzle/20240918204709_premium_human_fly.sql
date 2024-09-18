@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS "userFriends" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"friend_id" text NOT NULL,
+	"chat_id" text,
 	"request_state" text DEFAULT 'pending' NOT NULL
 );
 --> statement-breakpoint

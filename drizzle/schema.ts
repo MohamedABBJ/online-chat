@@ -76,5 +76,6 @@ export const userFriendsTable = pgTable("userFriends", {
   friend_id: text("friend_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
+  chat_id: text("chat_id"),
   requestState: requestStateType("request_state").notNull().default("pending"),
 });
