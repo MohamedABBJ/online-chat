@@ -1,11 +1,5 @@
 CREATE SCHEMA "online_chat";
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "messages" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" text,
-	"message" text
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "oAuthAccounts" (
 	"userId" text NOT NULL,
 	"type" text NOT NULL,
@@ -18,6 +12,21 @@ CREATE TABLE IF NOT EXISTS "oAuthAccounts" (
 	"scope" text,
 	"id_token" text,
 	"session_state" text
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "private_chat" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"user_id" text,
+	"message" text,
+	"chat_id" text,
+	"status" text DEFAULT 'sent' NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "public_chat" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"user_id" text,
+	"message" text,
+	"status" text DEFAULT 'sent' NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (

@@ -9,7 +9,7 @@ function NewMessage({ user }: { user: object }) {
   const [newMessage, setNewMessage] = useState<UserMessageProps[]>([]);
 
   socket.on("newMessage", (args) => {
-    setNewMessage([...newMessage, args.messages]);
+    console.log(args);
   });
 
   //TODO: Fix this, key can't be the index of the map, only used this for testing.
