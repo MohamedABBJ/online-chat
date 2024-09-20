@@ -1,4 +1,3 @@
-import getUserFriendsQuery from "@/db/get-user-friends-query";
 import verifyUserSession from "@/app/lib/dal";
 import ChatListContent from "./components/chat-list-content";
 

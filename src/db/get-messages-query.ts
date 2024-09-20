@@ -1,13 +1,13 @@
 "use server";
 import { drizzle } from "drizzle-orm/node-postgres";
 import client from "./client";
-import { messagesTable, usersTable } from "../../drizzle/schema";
+import { publicChatTable, usersTable } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
 
 const getMesagesQuery = async () => {
   try {
     const db = drizzle(client);
-    const messages = await db.select().from(messagesTable);
+    const messages = await db.select().from(publicChatTable);
     const messagesWithRole = await Promise.all(
       messages.map(async (element) => ({
         ...element,

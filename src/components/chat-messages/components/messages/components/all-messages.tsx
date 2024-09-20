@@ -1,10 +1,21 @@
-"use server";
+"use client";
 
 import getMesagesQuery from "@/db/get-messages-query";
 import MessageElement from "./message-element";
+import { useEffect, useState } from "react";
+import UserMessageProps from "@/interfaces/user-messages-props";
 
-async function AllMessages({ user }: { user: object }) {
-  const messagesResponse = await getMesagesQuery();
+function AllMessages({ user }: { user: object }) {
+  const [messages, setMessages] = useState<UserMessageProps>();
+
+  const getMessages = async () => {
+    setMessages(await getMesagesQuery());
+  };
+
+  useEffect(() => {
+    getMessages();
+  }, []);
+
   //TODO: Fix problem with type on element.message
 
   return (
