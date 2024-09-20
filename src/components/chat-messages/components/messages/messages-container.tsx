@@ -1,4 +1,5 @@
 import AllMessages from "./components/all-messages";
+import ChatMessages from "./components/chat-messages";
 import NewMessage from "./components/new-messages";
 import verifyUserSession from "@/app/lib/dal";
 
@@ -7,8 +8,7 @@ async function MessagesContainer() {
   //TODO: fix types on component props
   return (
     <div className="h-full overflow-y-auto scroll-smooth">
-      <AllMessages user={user} />
-      <NewMessage user={user} />
+      <ChatMessages user={user} />
     </div>
   );
 }

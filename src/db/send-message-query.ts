@@ -13,18 +13,18 @@ import { pgTable, serial, text } from "drizzle-orm/pg-core";
 const sendMessageQuery = async ({
   userID,
   message,
-  chatType,
+  chat_id,
   friend_id,
 }: {
   userID: string;
   message: string;
   friend_id?: string;
-  chatType: "privateChat" | "publicChat";
+  chat_id: string;
 }) => {
   try {
     const db = drizzle(client);
 
-    if (chatType == "publicChat") {
+    if (chat_id == "") {
       const insertMessage = (
         await db
           .insert(publicChatTable)
@@ -46,20 +46,11 @@ const sendMessageQuery = async ({
       return await { messages: getUserData, status: 200 };
     }
 
-    if (chatType == "privateChat") {
-      const chatID = (
-        await db
-          .select({ chat_id: userFriendsTable.chat_id })
-          .from(userFriendsTable)
-          .where(
-            sql`${userFriendsTable.user_id} = ${userID} and ${userFriendsTable.friend_id} = ${friend_id}`,
-          )
-      )[0].chat_id;
-
+    if (chat_id != "") {
       const insertMessage = (
         await db
           .insert(privateChatTable)
-          .values({ message: message, user_id: userID, chat_id: chatID })
+          .values({ message: message, user_id: userID, chat_id: chat_id })
           .returning({
             insertedId: privateChatTable.id,
           })

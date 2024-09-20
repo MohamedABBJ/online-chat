@@ -3,7 +3,7 @@ import TopBarContainer from "./components/top-bar/top-bar-container";
 import verifyUserSession from "@/app/lib/dal";
 import MessagesContainer from "./components/messages/messages-container";
 
-async function ChatMessages() {
+async function Chat() {
   const checkUser = await verifyUserSession();
   //TODO: Fix problem with type
   return (
@@ -15,4 +15,4 @@ async function ChatMessages() {
   );
 }
 
-export default ChatMessages;
+export default Chat;

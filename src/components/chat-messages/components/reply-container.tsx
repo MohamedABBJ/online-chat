@@ -10,11 +10,13 @@ import { io } from "socket.io-client";
 import UserLoggedIn from "./top-bar/components/user-logged";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import currentChatIdStore from "@/store/current-chat-id-store";
 
 function ReplyContainer(props: {
   userLoggedIn: () => Promise<JWTPayload | null>;
 }) {
   const { setOpen } = userDialogLoginStore();
+  const { chatID } = currentChatIdStore();
   const [message, setMessage] = useState("");
   const sendMessageHandler = async () => {
     //TODO: Fix problem with type
@@ -22,7 +24,7 @@ function ReplyContainer(props: {
       socket.emit(
         "newMessage",
         await sendMessageQuery({
-          chatType: "publicChat",
+          chat_id: chatID,
           userID: props.userLoggedIn.user.id,
           message: message,
         }),

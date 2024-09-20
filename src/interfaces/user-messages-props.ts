@@ -11,5 +11,6 @@ interface UserMessageProps {
   messageType: "message" | "reply";
   message: string | null;
 }
+[];
 
 export default UserMessageProps;

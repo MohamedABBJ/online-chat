@@ -1,5 +1,5 @@
 import ChatList from "./chat-list/chat-list";
-import ChatMessages from "./chat-messages/chat-messages";
+import Chat from "./chat-messages/chat-messages";
 
 function ChatContainer() {
   return (
@@ -8,7 +8,7 @@ function ChatContainer() {
         <ChatList />
       </div>
       <div className="h-full w-full border-l border-black">
-        <ChatMessages />
+        <Chat />
       </div>
     </div>
   );
