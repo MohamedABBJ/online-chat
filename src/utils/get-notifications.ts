@@ -9,11 +9,14 @@ const getUserNotifications = async ({
   friendState: "accepted" | "pending";
 }) => {
   const currentUserData = await verifyUserSession();
-  const userFriends = await getUserFriendsQuery({
-    user_id: currentUserData?.user?.id,
-    friendState: friendState,
-  });
-  return userFriends;
+  if (currentUserData) {
+    const userFriends = await getUserFriendsQuery({
+      user_id: currentUserData.id as string,
+      friendState: friendState,
+    });
+    return userFriends;
+  }
+  return;
 };
 
 export default getUserNotifications;

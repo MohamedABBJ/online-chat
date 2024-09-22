@@ -3,6 +3,7 @@
 import getMesagesQuery from "@/db/get-messages-query";
 import MessageElement from "./message-element";
 import { useEffect, useState } from "react";
+import { User } from "next-auth";
 
 interface Test {
   messages: {
@@ -20,13 +21,16 @@ interface Test {
   }[];
 }
 
-function AllMessages({ user, chatID }: { user: object; chatID: string }) {
+function AllMessages({ user, chatID }: { user: User; chatID: string }) {
   const [messages, setMessages] = useState<Test>();
 
   useEffect(() => {
     const getChatMessages = async () => {
       setMessages(
-        await getMesagesQuery({ chat_id: chatID, user_id: user.userId }),
+        await getMesagesQuery({
+          chat_id: chatID,
+          user_id: user.id as string,
+        }),
       );
     };
     getChatMessages();
