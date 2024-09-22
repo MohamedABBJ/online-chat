@@ -17,7 +17,7 @@ function FriendRequestNotification({
           <p>{notificationDetails.friendData?.name}</p>
           <p>sent you a friend request</p>
         </div>
-        <div className="flex gap-2">
+        {/*  <div className="flex gap-2">
           <Button
             onClick={async () =>
               await friendRequestHandlerQuery({
@@ -43,7 +43,7 @@ function FriendRequestNotification({
           >
             <X />
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
