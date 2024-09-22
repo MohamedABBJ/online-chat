@@ -16,6 +16,9 @@ app.prepare().then(() => {
     socket.on("newMessage", (message) => {
       io.emit("newMessage", message);
     });
+    socket.on("addUser", () => {
+      io.emit("addUser");
+    });
     socket.on("disconnect", () => {
       console.log("user disconnected");
     });

@@ -1,44 +1,37 @@
-import {
-  Avatar,
-  Badge,
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+"use client";
 import UserMenuElements from "./user-menu-elements";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import MessageElement from "../chat-messages/components/messages/components/message-element";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import UserAvatar from "./user-avatar";
+import { Button } from "../ui/button";
 
-function UserMenu(props: {
-  anchorEl: HTMLElement | null;
-  setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+function UserMenu({
+  viewType,
+  messageElement,
+}: {
   viewType: "chat" | "profile";
   messageElement?: UserMessageProps;
 }) {
-  const open = Boolean(props.anchorEl);
-  const closeMenuHandler = () => {
-    props.setAnchorEl(null);
-  };
-
   return (
     <>
-      <Menu
-        anchorEl={props.anchorEl}
-        onClose={closeMenuHandler}
-        id="basic-menu"
-        open={open}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <UserMenuElements
-          setAnchorEl={props.setAnchorEl}
-          viewType={props.viewType}
-          messageElement={props.messageElement}
-        />
-      </Menu>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button className="p-0" variant={"ghost"}>
+            <UserAvatar />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <UserMenuElements
+            viewType={viewType}
+            messageElement={messageElement}
+          />
+        </DropdownMenuContent>
+      </DropdownMenu>
     </>
   );
 }

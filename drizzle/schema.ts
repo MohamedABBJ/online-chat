@@ -18,8 +18,16 @@ const customUserType = customType<{
   },
 });
 
+const customMessageStatusType = customType<{
+  data: "sent" | "deleted";
+}>({
+  dataType() {
+    return "sent";
+  },
+});
+
 const requestStateType = customType<{
-  data: "pending" | "accepted";
+  data: "pending" | "accepted" | "denied";
 }>({
   dataType() {
     return "pending";
@@ -54,10 +62,19 @@ export const oAuthAccountsTable = pgTable("oAuthAccounts", {
   session_state: text("session_state"),
 });
 
-export const messagesTable = pgTable("messages", {
+export const publicChatTable = pgTable("public_chat", {
   id: serial("id").primaryKey(),
   user_id: text("user_id"),
   message: text("message"),
+  status: customMessageStatusType("status").notNull().default("sent"),
+});
+
+export const privateChatTable = pgTable("private_chat", {
+  id: serial("id").primaryKey(),
+  user_id: text("user_id"),
+  message: text("message"),
+  chat_id: text("chat_id"),
+  status: customMessageStatusType("status").notNull().default("sent"),
 });
 
 export const sessions = pgTable("session", {
@@ -76,5 +93,6 @@ export const userFriendsTable = pgTable("userFriends", {
   friend_id: text("friend_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
+  chat_id: text("chat_id"),
   requestState: requestStateType("request_state").notNull().default("pending"),
 });

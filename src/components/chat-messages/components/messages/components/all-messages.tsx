@@ -1,15 +1,42 @@
-"use server";
+"use client";
 
 import getMesagesQuery from "@/db/get-messages-query";
 import MessageElement from "./message-element";
+import { useEffect, useState } from "react";
 
-async function AllMessages({ user }: { user: object }) {
-  const messagesResponse = await getMesagesQuery();
+interface Test {
+  messages: {
+    user_details: {
+      id: string;
+      name: string | null;
+      type: "oAuthUser" | "Guest" | null;
+      email: string | null;
+      image: string | null;
+    };
+    id: number;
+    user_id: string | null;
+    message: string | null;
+    status: "sent" | "deleted";
+  }[];
+}
+
+function AllMessages({ user, chatID }: { user: object; chatID: string }) {
+  const [messages, setMessages] = useState<Test>();
+
+  useEffect(() => {
+    const getChatMessages = async () => {
+      setMessages(
+        await getMesagesQuery({ chat_id: chatID, user_id: user.userId }),
+      );
+    };
+    getChatMessages();
+  }, [chatID]);
+
   //TODO: Fix problem with type on element.message
 
   return (
     <>
-      {messagesResponse?.messages.map((element) => (
+      {messages?.messages.map((element) => (
         <MessageElement
           messageElement={{
             ...element,

@@ -1,7 +1,7 @@
 "use client";
 import UserAvatar from "@/components/user-avatar/user-avatar";
+import UserMenu from "@/components/user-avatar/user-menu";
 import UserMessageProps from "@/interfaces/user-messages-props";
-import { Box, Typography } from "@mui/material";
 
 function MessageElement({
   messageElement,
@@ -19,14 +19,14 @@ function MessageElement({
         : "";
 
   return (
-    <Box className={`my-4 ml-2 flex`}>
-      <UserAvatar viewType="chat" messageElement={messageElement} />
-      <Typography
+    <div className={`my-4 ml-2 flex`}>
+      <UserMenu viewType="chat" messageElement={messageElement} />
+      <p
         className={`ml-2 flex items-center rounded-xl border border-black p-2 ${messageType}`}
       >
         {messageElement.message}
-      </Typography>
-    </Box>
+      </p>
+    </div>
   );
 }
 

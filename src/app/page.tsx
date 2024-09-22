@@ -1,15 +1,18 @@
 import ChatContainer from "@/components/chat-container";
 import UserLoginDialog from "@/components/user-login-dialog/user-login-dialog";
 import verifyUserSession from "./lib/dal";
-import { Box } from "@mui/material";
+import ChatIDStore from "@/components/chat-id-store";
+import { createDropdownMenuScope } from "@radix-ui/react-dropdown-menu";
 
-export default async function Home() {
+export default async function Home({ chat_id }: { chat_id: string }) {
   const user = await verifyUserSession();
-
   return (
-    <Box className="flex h-svh w-full items-center justify-center border-2 border-red-700">
+    <div className="flex h-svh w-full items-center justify-center border-2 border-red-700">
       <ChatContainer />
-      <UserLoginDialog userData={user} />
-    </Box>
+      <ChatIDStore chat_id={chat_id} />
+    </div>
   );
 }
+
+/*
+ */

@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
 import AllMessages from "./components/all-messages";
+import ChatMessages from "./components/chat-messages";
 import NewMessage from "./components/new-messages";
 import verifyUserSession from "@/app/lib/dal";
 
@@ -7,10 +7,9 @@ async function MessagesContainer() {
   const user = await verifyUserSession();
   //TODO: fix types on component props
   return (
-    <Box className="h-full overflow-y-auto scroll-smooth">
-      <AllMessages user={user} />
-      <NewMessage user={user} />
-    </Box>
+    <div className="h-full overflow-y-auto scroll-smooth">
+      <ChatMessages user={user} />
+    </div>
   );
 }
 
