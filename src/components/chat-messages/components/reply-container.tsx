@@ -11,21 +11,20 @@ import UserLoggedIn from "./top-bar/components/user-logged";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import currentChatIdStore from "@/store/current-chat-id-store";
+import UserSessionProps from "@/interfaces/user-session-props";
 
-function ReplyContainer(props: {
-  userLoggedIn: () => Promise<JWTPayload | null>;
-}) {
+function ReplyContainer({ user }: { user: UserSessionProps }) {
   const { setOpen } = userDialogLoginStore();
   const { chatID } = currentChatIdStore();
   const [message, setMessage] = useState("");
+
   const sendMessageHandler = async () => {
-    //TODO: Fix problem with type
-    if (props.userLoggedIn as () => Promise<JWTPayload | null>) {
+    if (user) {
       socket.emit(
         "newMessage",
         await sendMessageQuery({
           chat_id: chatID,
-          userID: props.userLoggedIn.user.id,
+          userID: user.data?.id as string,
           message: message,
         }),
       );

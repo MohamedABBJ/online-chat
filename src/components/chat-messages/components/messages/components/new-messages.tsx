@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { socket } from "@/app/socket";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import { User } from "next-auth";
+import UserSessionProps from "@/interfaces/user-session-props";
 
-function NewMessage({ user }: { user: User }) {
+function NewMessage({ user }: { user: UserSessionProps }) {
   const [newMessage, setNewMessage] = useState<UserMessageProps[]>([]);
 
   socket.on("newMessage", (args) => {
@@ -21,7 +22,7 @@ function NewMessage({ user }: { user: User }) {
         <MessageElement
           messageElement={{
             ...element,
-            messageType: element.user_id == user.id ? "message" : "reply",
+            messageType: element.user_id == user.data?.id ? "message" : "reply",
           }}
           key={element.id}
         />

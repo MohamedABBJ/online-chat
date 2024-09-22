@@ -1,11 +1,7 @@
 "use server";
 import { drizzle } from "drizzle-orm/node-postgres";
 import client from "./client";
-import {
-  messagesTable,
-  userFriendsTable,
-  usersTable,
-} from "../../drizzle/schema";
+import { userFriendsTable } from "../../drizzle/schema";
 import { eq, sql } from "drizzle-orm";
 import getUserDataQuery from "./get-user-data-query";
 
