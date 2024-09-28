@@ -10,6 +10,7 @@ interface UserMessageProps {
   user_id: string | null;
   messageType: "message" | "reply";
   message: string | null;
+  chat_id: string;
 }
 [];
 

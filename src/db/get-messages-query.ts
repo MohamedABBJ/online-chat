@@ -1,12 +1,12 @@
 "use server";
+import { eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
-import client from "./client";
 import {
   privateChatTable,
   publicChatTable,
   usersTable,
 } from "../../drizzle/schema";
-import { eq, sql } from "drizzle-orm";
+import client from "./client";
 
 const getMesagesQuery = async ({
   chat_id,
@@ -21,9 +21,7 @@ const getMesagesQuery = async ({
       const getPrivateChatMessages = await db
         .select()
         .from(privateChatTable)
-        .where(
-          sql`${privateChatTable.user_id} = ${user_id} and ${privateChatTable.chat_id} = ${chat_id}`,
-        );
+        .where(sql`${privateChatTable.chat_id} = ${chat_id}`);
       const messagesWithRole = await Promise.all(
         getPrivateChatMessages.map(async (element) => ({
           ...element,

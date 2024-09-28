@@ -1,10 +1,9 @@
 "use client";
 
 import getMesagesQuery from "@/db/get-messages-query";
-import MessageElement from "./message-element";
-import { useEffect, useState } from "react";
-import { User } from "next-auth";
 import UserSessionProps from "@/interfaces/user-session-props";
+import { useEffect, useState } from "react";
+import MessageElement from "./message-element";
 
 interface Test {
   messages: {
@@ -23,10 +22,10 @@ interface Test {
 }
 
 function AllMessages({
-  user,
+  session,
   chatID,
 }: {
-  user: UserSessionProps;
+  session: UserSessionProps;
   chatID: string;
 }) {
   const [messages, setMessages] = useState<Test>();
@@ -36,14 +35,14 @@ function AllMessages({
       setMessages(
         await getMesagesQuery({
           chat_id: chatID,
-          user_id: user.data?.id as string,
+          user_id: session.user?.id as string,
         }),
       );
     };
-    if (user) {
+    if (session) {
       getChatMessages();
     }
-  }, [chatID, user]);
+  }, [chatID, session]);
 
   //TODO: Fix problem with type on element.message
 
@@ -53,7 +52,8 @@ function AllMessages({
         <MessageElement
           messageElement={{
             ...element,
-            messageType: element.user_id == user.data?.id ? "message" : "reply",
+            messageType:
+              element.user_id == session?.user?.id ? "message" : "reply",
           }}
           key={element.id}
         />

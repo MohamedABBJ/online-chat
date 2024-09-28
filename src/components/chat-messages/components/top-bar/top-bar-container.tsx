@@ -1,14 +1,13 @@
-import UserLoginDialog from "@/components/user-login-dialog/user-login-dialog";
-import SearchBar from "./components/search-bar";
-import { JWTPayload } from "jose";
 import UserMenu from "@/components/user-avatar/user-menu";
+import UserLoginDialog from "@/components/user-login-dialog/user-login-dialog";
 import UserSessionProps from "@/interfaces/user-session-props";
+import SearchBar from "./components/search-bar";
 
-function TopBarContainer({ user }: { user: UserSessionProps }) {
+function TopBarContainer({ session }: { session: UserSessionProps }) {
   return (
     <div className="flex h-16 w-full items-center justify-between rounded-bl-3xl border-b border-l border-black pl-16">
       <SearchBar />
-      {user ? (
+      {session ? (
         <UserMenu viewType="profile" />
       ) : (
         <UserLoginDialog loginMode="complete" />

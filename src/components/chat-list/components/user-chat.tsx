@@ -1,17 +1,22 @@
+import UserSessionProps from "@/interfaces/user-session-props";
+import getUserNotifications from "@/utils/get-notifications";
 import { useEffect, useState } from "react";
 import FriendProfile from "./friend-profile";
-import getUserNotifications from "@/utils/get-notifications";
 
-function FriendsList() {
+function FriendsList({ session }: { session: UserSessionProps }) {
   const [userFriends, setUserFriends] =
     useState<UserFriendsArrayProps | null>();
 
   const getUserFriendsFun = async () => {
-    setUserFriends(await getUserNotifications({ friendState: "accepted" }));
+    setUserFriends(
+      await getUserNotifications({ friendState: "accepted", session: session }),
+    );
   };
   useEffect(() => {
-    getUserFriendsFun();
-  }, []);
+    if (session) {
+      getUserFriendsFun();
+    }
+  }, [session]);
 
   return (
     <div className="flex h-full items-start overflow-y-scroll p-4">

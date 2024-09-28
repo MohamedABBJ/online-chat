@@ -1,18 +1,17 @@
 "use client";
 
+import UserSessionProps from "@/interfaces/user-session-props";
 import currentChatIdStore from "@/store/current-chat-id-store";
 import AllMessages from "./all-messages";
 import NewMessage from "./new-messages";
-import { User } from "next-auth";
-import UserSessionProps from "@/interfaces/user-session-props";
 
-function ChatMessages({ user }: { user: UserSessionProps }) {
+function ChatMessages({ session }: { session: UserSessionProps }) {
   const { chatID } = currentChatIdStore();
 
   return (
     <>
-      <AllMessages user={user} chatID={chatID} />
-      <NewMessage user={user} />
+      <AllMessages session={session} chatID={chatID} />
+      <NewMessage session={session} chatID={chatID} />
     </>
   );
 }

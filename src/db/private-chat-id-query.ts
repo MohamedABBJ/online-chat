@@ -1,7 +1,7 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import client from "./client";
-import { userFriendsTable } from "../../drizzle/schema";
 import { sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { userFriendsTable } from "../../drizzle/schema";
+import client from "./client";
 
 const privateChatIDQuery = async ({
   chat_id,
@@ -17,7 +17,7 @@ const privateChatIDQuery = async ({
       .select()
       .from(userFriendsTable)
       .where(
-        sql`${userFriendsTable.chat_id} = ${chat_id} and ${userFriendsTable.user_id} = ${user_id}`,
+        sql`${userFriendsTable.chat_id} = ${chat_id} and ${userFriendsTable.user_id} = ${user_id} or ${userFriendsTable.friend_id} = ${user_id}`,
       );
     if (getPrivateChat.length > 0) {
       return true;

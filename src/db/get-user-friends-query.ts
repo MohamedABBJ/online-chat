@@ -1,8 +1,8 @@
 "use server";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
-import client from "./client";
 import { userFriendsTable } from "../../drizzle/schema";
-import { eq, sql } from "drizzle-orm";
+import client from "./client";
 import getUserDataQuery from "./get-user-data-query";
 
 const getUserFriendsQuery = async ({

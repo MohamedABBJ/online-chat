@@ -1,10 +1,11 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import UserSessionProps from "@/interfaces/user-session-props";
 import { useState } from "react";
 import FriendsList from "./user-chat";
 import UserNotifications from "./user-notifications";
-import { Button } from "@/components/ui/button";
 
-function ChatListContent() {
+function ChatListContent({ session }: { session: UserSessionProps }) {
   const [chatListSelector, setChatListSelector] = useState<
     "chat" | "notification"
   >("chat");
@@ -22,9 +23,9 @@ function ChatListContent() {
         </Button>
       </div>
       {chatListSelector == "chat" ? (
-        <FriendsList />
+        <FriendsList session={session} />
       ) : chatListSelector == "notification" ? (
-        <UserNotifications />
+        <UserNotifications session={session} />
       ) : null}
     </>
   );

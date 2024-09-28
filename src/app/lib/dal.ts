@@ -1,14 +1,14 @@
 "use server";
 
 import { auth } from "@/auth";
+import UserSessionProps from "@/interfaces/user-session-props";
 import encryptDecrypt from "@/utils/encrypter";
-import { Session, User } from "next-auth";
 
 import { cookies } from "next/headers";
 
 async function verifyUserSession() {
   const guestSession = cookies().get("session")?.value;
-  const userOAuthSession: User = (await auth()) as User;
+  const userOAuthSession: UserSessionProps = (await auth()) as UserSessionProps;
 
   if (guestSession) {
     return await encryptDecrypt.decrypt(guestSession);

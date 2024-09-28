@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 function FriendProfile({ friendDetails }: { friendDetails: UserFriends }) {
   const router = useRouter();
-  console.log(friendDetails.chat_id);
   return (
     <Button
       onClick={() => router.push(friendDetails.chat_id)}

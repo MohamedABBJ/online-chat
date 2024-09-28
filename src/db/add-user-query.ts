@@ -1,12 +1,7 @@
 "use server";
 import { drizzle } from "drizzle-orm/node-postgres";
+import { userFriendsTable } from "../../drizzle/schema";
 import client from "./client";
-import {
-  messagesTable,
-  userFriendsTable,
-  usersTable,
-} from "../../drizzle/schema";
-import { eq } from "drizzle-orm";
 
 const addUserQuery = async ({
   requiredData,

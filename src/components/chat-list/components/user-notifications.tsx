@@ -1,25 +1,24 @@
-import UserAvatar from "@/components/user-avatar/user-avatar";
-import { Check, Close } from "@mui/icons-material";
-import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
-import Notification from "./friend-request-notification";
 import { socket } from "@/app/socket";
 import { useEffect, useState } from "react";
 
+import UserSessionProps from "@/interfaces/user-session-props";
 import getUserNotifications from "@/utils/get-notifications";
 import FriendRequestNotification from "./friend-request-notification";
 
-function UserNotifications() {
+function UserNotifications({ session }: { session: UserSessionProps }) {
   const [userNotifications, setUserNotifications] =
     useState<UserFriendsArrayProps | null>();
 
   useEffect(() => {
     const getNotificationsFun = async () => {
       setUserNotifications(
-        await getUserNotifications({ friendState: "pending" }),
+        await getUserNotifications({ friendState: "pending", user: session }),
       );
     };
-    getNotificationsFun();
-  }, []);
+    if (session) {
+      getNotificationsFun();
+    }
+  }, [session]);
 
   socket.on("AddUser", getUserNotifications);
 

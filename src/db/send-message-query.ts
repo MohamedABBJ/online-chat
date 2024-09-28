@@ -1,14 +1,12 @@
 "use server";
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
-import client from "./client";
 import {
   privateChatTable,
   publicChatTable,
-  userFriendsTable,
   usersTable,
 } from "../../drizzle/schema";
-import { eq, sql } from "drizzle-orm";
-import { pgTable, serial, text } from "drizzle-orm/pg-core";
+import client from "./client";
 
 const sendMessageQuery = async ({
   userID,
@@ -41,9 +39,10 @@ const sendMessageQuery = async ({
         id: insertMessage.insertedId,
         user_id: userID,
         message: message,
+        chat_id: chat_id,
       };
 
-      return await { messages: getUserData, status: 200 };
+      return await getUserData;
     }
 
     if (chat_id != "") {
@@ -63,9 +62,10 @@ const sendMessageQuery = async ({
         id: insertMessage.insertedId,
         user_id: userID,
         message: message,
+        chat_id: chat_id,
       };
 
-      return await { messages: getUserData, status: 200 };
+      return await getUserData;
     }
   } catch (error) {
     console.log(error);

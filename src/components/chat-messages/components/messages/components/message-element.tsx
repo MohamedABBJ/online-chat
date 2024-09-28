@@ -1,5 +1,4 @@
 "use client";
-import UserAvatar from "@/components/user-avatar/user-avatar";
 import UserMenu from "@/components/user-avatar/user-menu";
 import UserMessageProps from "@/interfaces/user-messages-props";
 

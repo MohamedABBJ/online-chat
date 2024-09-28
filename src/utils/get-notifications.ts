@@ -1,17 +1,18 @@
 "use server";
 
-import verifyUserSession from "@/app/lib/dal";
 import getUserFriendsQuery from "@/db/get-user-friends-query";
+import UserSessionProps from "@/interfaces/user-session-props";
 
 const getUserNotifications = async ({
+  session,
   friendState,
 }: {
+  session: UserSessionProps;
   friendState: "accepted" | "pending";
 }) => {
-  const currentUserData = await verifyUserSession();
-  if (currentUserData) {
+  if (session) {
     const userFriends = await getUserFriendsQuery({
-      user_id: currentUserData.id as string,
+      user_id: session.user?.id as string,
       friendState: friendState,
     });
     return userFriends;

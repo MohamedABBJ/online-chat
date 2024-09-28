@@ -1,15 +1,9 @@
 "use server";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
-import client from "./client";
-import {
-  messagesTable,
-  userFriendsTable,
-  usersTable,
-} from "../../drizzle/schema";
-import { eq, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import { customType, pgTable, serial, text } from "drizzle-orm/pg-core";
-import { chatTable } from "../../drizzle/dinamic-chat-table";
+import { userFriendsTable } from "../../drizzle/schema";
+import client from "./client";
 
 const friendRequestHandlerQuery = async ({
   user_id,

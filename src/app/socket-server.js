@@ -12,7 +12,13 @@ app.prepare().then(() => {
 
   io.on("connection", (socket) => {
     console.log(`Socket ${socket.id} connected.`);
-    socket.emit("hello", "world");
+    socket.on("joinPrivateChat", (roomID) => {
+      console.log(`the user joined the private chat ${roomID}`);
+      socket.join(roomID);
+    });
+    socket.on("newPrivateMessage", (message) => {
+      io.to(message.chat_id).emit("newMessage", message);
+    });
     socket.on("newMessage", (message) => {
       io.emit("newMessage", message);
     });
