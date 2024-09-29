@@ -19,7 +19,7 @@ function FriendsList({ session }: { session: UserSessionProps }) {
   }, [session]);
 
   return (
-    <div className="flex h-full items-start overflow-y-scroll p-4">
+    <div>
       {userFriends?.friends &&
         userFriends.friends.map((element) => (
           <FriendProfile friendDetails={element} key={element.id} />

@@ -1,21 +1,23 @@
 "use client";
-import UserMenuElements from "./user-menu-elements";
 import UserMessageProps from "@/interfaces/user-messages-props";
-import MessageElement from "../chat-messages/components/messages/components/message-element";
+import UserSessionProps from "@/interfaces/user-session-props";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import UserAvatar from "./user-avatar";
-import { Button } from "../ui/button";
+import UserMenuElements from "./user-menu-elements";
 
 function UserMenu({
   viewType,
   messageElement,
+  session,
 }: {
   viewType: "chat" | "profile";
   messageElement?: UserMessageProps;
+  session?: UserSessionProps;
 }) {
   return (
     <>
@@ -29,6 +31,7 @@ function UserMenu({
           <UserMenuElements
             viewType={viewType}
             messageElement={messageElement}
+            session={session}
           />
         </DropdownMenuContent>
       </DropdownMenu>

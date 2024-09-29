@@ -8,7 +8,7 @@ function TopBarContainer({ session }: { session: UserSessionProps }) {
     <div className="flex h-16 w-full items-center justify-between rounded-bl-3xl border-b border-l border-black pl-16">
       <SearchBar />
       {session ? (
-        <UserMenu viewType="profile" />
+        <UserMenu session={session} viewType="profile" />
       ) : (
         <UserLoginDialog loginMode="complete" />
       )}

@@ -5,6 +5,7 @@ import UserSessionProps from "@/interfaces/user-session-props";
 import { useEffect, useState } from "react";
 import MessageElement from "./message-element";
 
+//TODO: fix this type, shouldn't be here.
 interface Test {
   messages: {
     user_details: {

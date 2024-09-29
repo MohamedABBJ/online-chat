@@ -1,12 +1,11 @@
 "use client";
-
 import UserSessionProps from "@/interfaces/user-session-props";
-import currentChatIdStore from "@/store/current-chat-id-store";
+import { usePathname } from "next/navigation";
 import AllMessages from "./all-messages";
 import NewMessage from "./new-messages";
 
 function ChatMessages({ session }: { session: UserSessionProps }) {
-  const { chatID } = currentChatIdStore();
+  const chatID = usePathname().substring(1);
 
   return (
     <>

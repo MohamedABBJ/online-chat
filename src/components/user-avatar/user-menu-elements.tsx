@@ -1,27 +1,25 @@
 "use client";
 import verifyUserSession from "@/app/lib/dal";
-import updateProfileImage from "@/db/update-profile-image";
+import { socket } from "@/app/socket";
+import addUserQuery from "@/db/add-user-query";
 import UserMessageProps from "@/interfaces/user-messages-props";
-import userDialogLoginStore from "@/store/user-login-dialog-store";
+import UserSessionProps from "@/interfaces/user-session-props";
 import logoutHandler from "@/utils/logout-handler";
-import { UploadButton } from "@/utils/uploadthing";
-import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { Avatar } from "../ui/avatar";
-import UserAvatar from "./user-avatar";
 import UserLoginDialog from "../user-login-dialog/user-login-dialog";
-import addUserQuery from "@/db/add-user-query";
-import { socket } from "@/app/socket";
+import UserAvatar from "./user-avatar";
 
 function UserMenuElements({
   viewType,
   messageElement,
+  session,
 }: {
   viewType: "chat" | "profile";
   messageElement?: UserMessageProps;
+  session?: UserSessionProps;
 }) {
-  const [userData, setUserData] = useState<Session | null>();
+  const [userData, setUserData] = useState();
   //TODO: Fix errors here
 
   useEffect(() => {
@@ -37,7 +35,7 @@ function UserMenuElements({
         <div className="flex w-full justify-end">
           <Button
             onClick={() => {
-              logoutHandler({ logoutType: userData?.user?.type });
+              logoutHandler({ logoutType: session?.user?.type });
             }}
           >
             Log out
@@ -46,16 +44,6 @@ function UserMenuElements({
       ) : null}
 
       <div className="relative flex flex-col items-center">
-        <UploadButton
-          className={`-800 absolute z-10 ut-button:w-full ut-button:bg-transparent ut-button:text-transparent ut-button:focus-within:hidden ut-button:focus:border ut-allowed-content:hidden ${viewType == "profile" ? "block" : "hidden"}`}
-          endpoint="imageUploader"
-          onClientUploadComplete={(res) => {
-            console.log("Files: ", res);
-          }}
-          onUploadError={(error: Error) => {
-            alert(`ERROR! ${error.message}`);
-          }}
-        />
         <div>
           <UserAvatar />
         </div>
@@ -63,23 +51,23 @@ function UserMenuElements({
 
       <p>
         {viewType == "profile"
-          ? userData?.user?.name
+          ? (session?.user?.name as string)
           : messageElement?.user_details?.name}
       </p>
-      {userData && userData.user?.type == "Guest" && viewType == "profile" ? (
+      {session?.user?.type == "Guest" && viewType == "profile" ? (
         <UserLoginDialog loginMode="oAuth" />
       ) : null}
       {viewType == "chat" &&
       messageElement?.user_details?.type == "oAuthUser" &&
-      userData?.user?.id != messageElement.user_details.id ? (
-        userData?.user?.type == "Guest" ? (
+      session?.user?.id != messageElement.user_details.id ? (
+        session?.user?.type == "Guest" ? (
           <UserLoginDialog loginMode="addUser" />
-        ) : userData?.user?.type == "oAuthUser" ? (
+        ) : session?.user?.type == "oAuthUser" ? (
           <Button
             onClick={async () => {
               await addUserQuery({
                 requiredData: {
-                  user_id: userData?.user?.id as string,
+                  user_id: session?.user?.id as string,
                   friend_id: messageElement.user_id as string,
                 },
               });
