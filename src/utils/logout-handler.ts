@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 const logoutHandler = async ({
   logoutType,
 }: {
-  logoutType: "oAuthUser" | "Guest";
+  logoutType: "oAuthUser" | "Guest" | undefined;
 }) => {
   if (logoutType == "Guest") {
     cookies().delete("session");

@@ -1,11 +1,9 @@
 "use client";
-import verifyUserSession from "@/app/lib/dal";
 import { socket } from "@/app/socket";
 import addUserQuery from "@/db/add-user-query";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import UserSessionProps from "@/interfaces/user-session-props";
 import logoutHandler from "@/utils/logout-handler";
-import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import UserLoginDialog from "../user-login-dialog/user-login-dialog";
 import UserAvatar from "./user-avatar";
@@ -19,23 +17,13 @@ function UserMenuElements({
   messageElement?: UserMessageProps;
   session?: UserSessionProps;
 }) {
-  const [userData, setUserData] = useState();
-  //TODO: Fix errors here
-
-  useEffect(() => {
-    const getUserData = async () => {
-      setUserData(await verifyUserSession());
-    };
-    getUserData();
-  }, []);
-
   return (
     <div className="flex w-48 flex-col items-center gap-2">
       {viewType == "profile" ? (
         <div className="flex w-full justify-end">
           <Button
             onClick={() => {
-              logoutHandler({ logoutType: session?.user?.type });
+              logoutHandler({ logoutType: session?.user.type });
             }}
           >
             Log out
@@ -51,7 +39,7 @@ function UserMenuElements({
 
       <p>
         {viewType == "profile"
-          ? (session?.user?.name as string)
+          ? session?.user.name
           : messageElement?.user_details?.name}
       </p>
       {session?.user?.type == "Guest" && viewType == "profile" ? (

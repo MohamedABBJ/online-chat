@@ -1,8 +1,6 @@
 "use client";
 
-import getMesagesQuery from "@/db/get-messages-query";
 import UserSessionProps from "@/interfaces/user-session-props";
-import { useEffect, useState } from "react";
 import MessageElement from "./message-element";
 
 //TODO: fix this type, shouldn't be here.
@@ -24,27 +22,11 @@ interface Test {
 
 function AllMessages({
   session,
-  chatID,
+  messages,
 }: {
   session: UserSessionProps;
-  chatID: string;
+  messages: Test;
 }) {
-  const [messages, setMessages] = useState<Test>();
-
-  useEffect(() => {
-    const getChatMessages = async () => {
-      setMessages(
-        await getMesagesQuery({
-          chat_id: chatID,
-          user_id: session.user?.id as string,
-        }),
-      );
-    };
-    if (session) {
-      getChatMessages();
-    }
-  }, [chatID, session]);
-
   //TODO: Fix problem with type on element.message
 
   return (

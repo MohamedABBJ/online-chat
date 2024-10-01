@@ -8,13 +8,7 @@ import {
 } from "../../drizzle/schema";
 import client from "./client";
 
-const getMesagesQuery = async ({
-  chat_id,
-  user_id,
-}: {
-  chat_id: string;
-  user_id: string;
-}) => {
+const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
   try {
     const db = drizzle(client);
     if (chat_id != "") {

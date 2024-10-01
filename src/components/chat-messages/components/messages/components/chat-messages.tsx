@@ -1,12 +1,33 @@
 "use client";
 import UserSessionProps from "@/interfaces/user-session-props";
-import { usePathname } from "next/navigation";
 import AllMessages from "./all-messages";
 import NewMessage from "./new-messages";
 
-function ChatMessages({ session }: { session: UserSessionProps }) {
-  const chatID = usePathname().substring(1);
+interface Test {
+  messages: {
+    user_details: {
+      id: string;
+      name: string | null;
+      type: "oAuthUser" | "Guest" | null;
+      email: string | null;
+      image: string | null;
+    };
+    id: number;
+    user_id: string | null;
+    message: string | null;
+    status: "sent" | "deleted";
+  }[];
+}
 
+function ChatMessages({
+  session,
+  chatID,
+  messages,
+}: {
+  session: UserSessionProps;
+  chatID: string;
+  messages: Test;
+}) {
   return (
     <>
       <AllMessages session={session} chatID={chatID} />

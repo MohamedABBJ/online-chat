@@ -1,13 +1,9 @@
-import { JWTPayload } from "jose";
 import { User } from "next-auth";
 
-interface UserProps {
-  user: JWTPayload | User | null | undefined;
-}
-
-interface UserSessionProps extends UserProps {
+interface UserSessionProps {
   sessionToken: string;
   expires: string;
+  user: User & { type: "oAuthUser" | "Guest" };
 }
 
 export default UserSessionProps;
