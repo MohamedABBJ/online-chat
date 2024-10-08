@@ -23,9 +23,11 @@ interface Test {
 function AllMessages({
   session,
   messages,
+  chatID,
 }: {
   session: UserSessionProps;
   messages: Test;
+  chatID: string;
 }) {
   //TODO: Fix problem with type on element.message
 
@@ -37,6 +39,7 @@ function AllMessages({
             ...element,
             messageType:
               element.user_id == session?.user?.id ? "message" : "reply",
+            chat_id: chatID,
           }}
           key={element.id}
         />

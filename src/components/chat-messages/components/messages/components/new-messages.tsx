@@ -26,7 +26,7 @@ function NewMessage({
           messageElement={{
             ...element,
             messageType:
-              element.user_id == session.user?.id ? "message" : "reply",
+              element.user_id == session?.user?.id ? "message" : "reply",
           }}
           key={element.id}
         />

@@ -22,6 +22,9 @@ app.prepare().then(() => {
     socket.on("newMessage", (message) => {
       io.emit("newMessage", message);
     });
+    socket.on("newMessageScroller", (user_id) => {
+      io.emit("newMessageScroller", user_id);
+    });
     socket.on("addUser", () => {
       io.emit("addUser");
     });

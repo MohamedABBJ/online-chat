@@ -1,17 +1,17 @@
 "use client";
-import React, { useState } from "react";
-import UserMenu from "./user-menu";
-import UserMessageProps from "@/interfaces/user-messages-props";
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback } from "../ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import Image from "next/image";
+import DefaultUserAvatar from "../../../public/default-user-avatar.svg";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 function UserAvatar() {
   return (
     <>
       <Avatar>
         <AvatarImage />
-        <AvatarFallback>PF</AvatarFallback>
+        <AvatarFallback>
+          <Image src={DefaultUserAvatar} alt="default-user-avatar" />
+        </AvatarFallback>
       </Avatar>
     </>
   );

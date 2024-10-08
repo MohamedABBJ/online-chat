@@ -1,8 +1,9 @@
 "use client";
+import { socket } from "@/app/socket";
 import getMesagesQuery from "@/db/get-messages-query";
 import UserSessionProps from "@/interfaces/user-session-props";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatMessages from "./components/chat-messages";
 interface Test {
   messages: {
@@ -22,6 +23,7 @@ interface Test {
 
 function MessagesContainer({ session }: { session: UserSessionProps }) {
   const chatID = usePathname().substring(1);
+  const chatMessagesRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Test>();
 
   useEffect(() => {
@@ -35,8 +37,22 @@ function MessagesContainer({ session }: { session: UserSessionProps }) {
     getChatMessages();
   }, [chatID, session]);
 
+  useEffect(() => {
+    scrollContentToBottom();
+  }, [messages]);
+
+  const scrollContentToBottom = () => {
+    chatMessagesRef.current?.scrollTo(0, chatMessagesRef.current?.scrollHeight);
+  };
+  socket.on(`newMessageScroller`, (user_id) => {
+    session && session.user.id == user_id ? scrollContentToBottom() : null;
+  });
+
   return (
-    <div className="h-full overflow-y-auto border border-s">
+    <div
+      className="h-full overflow-y-auto border border-s"
+      ref={chatMessagesRef}
+    >
       <ChatMessages chatID={chatID} session={session} messages={messages} />
     </div>
   );

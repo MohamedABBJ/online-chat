@@ -30,7 +30,7 @@ function ChatMessages({
 }) {
   return (
     <>
-      <AllMessages session={session} chatID={chatID} />
+      <AllMessages messages={messages} session={session} chatID={chatID} />
       <NewMessage session={session} chatID={chatID} />
     </>
   );

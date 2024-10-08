@@ -34,6 +34,7 @@ function ReplyContainer({ session }: { session: UserSessionProps }) {
             message: message,
           }),
         );
+        socket.emit("newMessageScroller", session.user?.id);
       }
     } else {
       userDialogLoginHandler({ setOpen: setOpen }).handleOpen();
