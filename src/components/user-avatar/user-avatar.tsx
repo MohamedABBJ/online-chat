@@ -10,7 +10,11 @@ function UserAvatar() {
       <Avatar>
         <AvatarImage />
         <AvatarFallback>
-          <Image src={DefaultUserAvatar} alt="default-user-avatar" />
+          <Image
+            className="group-hover:bg-gray-400"
+            src={DefaultUserAvatar}
+            alt="default-user-avatar"
+          />
         </AvatarFallback>
       </Avatar>
     </>

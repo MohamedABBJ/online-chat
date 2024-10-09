@@ -32,9 +32,10 @@ function UserMenuElements({
       ) : null}
 
       <div className="relative flex flex-col items-center">
-        <div>
+        <label className="group cursor-pointer rounded-full">
+          <input type="file" className="hidden" />
           <UserAvatar />
-        </div>
+        </label>
       </div>
 
       <p>
