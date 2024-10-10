@@ -3,6 +3,7 @@ import { socket } from "@/app/socket";
 import addUserQuery from "@/db/add-user-query";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import UserSessionProps from "@/interfaces/user-session-props";
+import updateProfilePicture from "@/utils/aws/update-profile-picture";
 import logoutHandler from "@/utils/logout-handler";
 import { Button } from "../ui/button";
 import UserLoginDialog from "../user-login-dialog/user-login-dialog";
@@ -33,7 +34,11 @@ function UserMenuElements({
 
       <div className="relative flex flex-col items-center">
         <label className="group cursor-pointer rounded-full">
-          <input type="file" className="hidden" />
+          <input
+            onChange={updateProfilePicture}
+            type="file"
+            className="hidden"
+          />
           <UserAvatar />
         </label>
       </div>
