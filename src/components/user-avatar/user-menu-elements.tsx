@@ -35,7 +35,7 @@ function UserMenuElements({
       <div className="relative flex flex-col items-center">
         <label className="group cursor-pointer rounded-full">
           <input
-            onChange={updateProfilePicture}
+            onChange={async (event) => await updateProfilePicture(event)}
             type="file"
             className="hidden"
           />
