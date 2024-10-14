@@ -1,14 +1,13 @@
-"use client";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import Image from "next/image";
 import DefaultUserAvatar from "../../../public/default-user-avatar.svg";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
-function UserAvatar() {
+function UserAvatar({ userImage }: { userImage: string }) {
   return (
     <>
       <Avatar>
-        <AvatarImage />
+        <AvatarImage src={process.env.NEXT_PUBLIC_AWS_IMAGE + userImage} />
         <AvatarFallback>
           <Image
             className="group-hover:bg-gray-400"

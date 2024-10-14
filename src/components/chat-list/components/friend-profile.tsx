@@ -10,7 +10,7 @@ function FriendProfile({ friendDetails }: { friendDetails: UserFriends }) {
       onClick={() => router.push(friendDetails.chat_id)}
       className="flex gap-3 text-start"
     >
-      <UserAvatar />
+      <UserAvatar userImage={friendDetails.friendData?.image as string} />
       <div>
         <p>{friendDetails.friendData?.name}</p>
       </div>

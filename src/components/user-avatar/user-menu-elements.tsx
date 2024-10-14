@@ -33,14 +33,22 @@ function UserMenuElements({
       ) : null}
 
       <div className="relative flex flex-col items-center">
-        <label className="group cursor-pointer rounded-full">
-          <input
-            onChange={async (event) => await updateProfilePicture(event)}
-            type="file"
-            className="hidden"
+        {viewType == "profile" ? (
+          <label className="group cursor-pointer rounded-full">
+            <input
+              onChange={async (event) =>
+                await updateProfilePicture(event, session?.user.id as string)
+              }
+              type="file"
+              className="hidden"
+            />
+            <UserAvatar userImage={session?.user?.image as string} />
+          </label>
+        ) : (
+          <UserAvatar
+            userImage={messageElement?.user_details?.image as string}
           />
-          <UserAvatar />
-        </label>
+        )}
       </div>
 
       <p>

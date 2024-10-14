@@ -1,8 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/ui/icons";
 import UserAvatar from "@/components/user-avatar/user-avatar";
-import friendRequestHandlerQuery from "@/db/friend-request-handler-query";
-import { Check, X } from "lucide-react";
 
 function FriendRequestNotification({
   notificationDetails,
@@ -12,7 +8,9 @@ function FriendRequestNotification({
   return (
     <div>
       <div className="flex items-center gap-3">
-        <UserAvatar />
+        <UserAvatar
+          userImage={notificationDetails.friendData?.image as string}
+        />
         <div>
           <p>{notificationDetails.friendData?.name}</p>
           <p>sent you a friend request</p>

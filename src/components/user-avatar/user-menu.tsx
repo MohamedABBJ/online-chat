@@ -24,7 +24,13 @@ function UserMenu({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="p-0" variant={"ghost"}>
-            <UserAvatar />
+            {viewType == "chat" ? (
+              <UserAvatar
+                userImage={messageElement?.user_details?.image as string}
+              />
+            ) : (
+              <UserAvatar userImage={session?.user?.image as string} />
+            )}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
