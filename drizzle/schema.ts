@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   customType,
   integer,
@@ -67,6 +66,7 @@ export const publicChatTable = pgTable("public_chat", {
   user_id: text("user_id"),
   message: text("message"),
   status: customMessageStatusType("status").notNull().default("sent"),
+  reply: text("reply").default("none"),
 });
 
 export const privateChatTable = pgTable("private_chat", {
@@ -75,6 +75,7 @@ export const privateChatTable = pgTable("private_chat", {
   message: text("message"),
   chat_id: text("chat_id"),
   status: customMessageStatusType("status").notNull().default("sent"),
+  reply: text("reply").default("none"),
 });
 
 export const sessions = pgTable("session", {
