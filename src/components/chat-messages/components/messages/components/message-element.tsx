@@ -21,7 +21,7 @@ function MessageElement({
         : "";
 
   return (
-    <div className={`my-4 ml-2 flex`}>
+    <div className={`my-4 ml-2 flex `}>
       <UserMenu
         viewType="chat"
         session={session}
