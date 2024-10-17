@@ -1,5 +1,5 @@
 {
-  "id": "ea362581-51e3-462c-a3f4-08ad9c2f26f6",
+  "id": "bc93ab2f-5b13-4bc0-b945-bd1916b4d4d3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -128,6 +128,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'sent'"
+        },
+        "reply": {
+          "name": "reply",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'none'"
         }
       },
       "indexes": {},
@@ -163,6 +170,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'sent'"
+        },
+        "reply": {
+          "name": "reply",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'none'"
         }
       },
       "indexes": {},
@@ -212,8 +226,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.userFriends": {
-      "name": "userFriends",
+    "public.user_friends": {
+      "name": "user_friends",
       "schema": "",
       "columns": {
         "id": {
@@ -250,9 +264,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "userFriends_user_id_users_user_id_fk": {
-          "name": "userFriends_user_id_users_user_id_fk",
-          "tableFrom": "userFriends",
+        "user_friends_user_id_users_user_id_fk": {
+          "name": "user_friends_user_id_users_user_id_fk",
+          "tableFrom": "user_friends",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
@@ -263,9 +277,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "userFriends_friend_id_users_user_id_fk": {
-          "name": "userFriends_friend_id_users_user_id_fk",
-          "tableFrom": "userFriends",
+        "user_friends_friend_id_users_user_id_fk": {
+          "name": "user_friends_friend_id_users_user_id_fk",
+          "tableFrom": "user_friends",
           "tableTo": "users",
           "columnsFrom": [
             "friend_id"

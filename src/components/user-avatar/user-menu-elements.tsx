@@ -18,6 +18,7 @@ function UserMenuElements({
   messageElement?: UserMessageProps;
   session?: UserSessionProps;
 }) {
+  console.log(session);
   return (
     <div className="flex w-48 flex-col items-center gap-2">
       {viewType == "profile" ? (

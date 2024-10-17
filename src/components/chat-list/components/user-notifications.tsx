@@ -9,10 +9,15 @@ function UserNotifications({ session }: { session: UserSessionProps }) {
   const [userNotifications, setUserNotifications] =
     useState<UserFriendsArrayProps | null>();
 
+  console.log(userNotifications);
+
   useEffect(() => {
     const getNotificationsFun = async () => {
       setUserNotifications(
-        await getUserNotifications({ friendState: "pending", user: session }),
+        await getUserNotifications({
+          friendState: "pending",
+          session: session,
+        }),
       );
     };
     if (session) {

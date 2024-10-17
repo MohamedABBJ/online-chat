@@ -86,7 +86,7 @@ export const sessions = pgTable("session", {
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export const userFriendsTable = pgTable("userFriends", {
+export const userFriendsTable = pgTable("user_friends", {
   id: serial("id").primaryKey(),
   user_id: text("user_id")
     .notNull()

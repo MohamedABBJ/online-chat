@@ -42,6 +42,7 @@ function AllMessages({
             chat_id: chatID,
           }}
           key={element.id}
+          session={session}
         />
       ))}
     </>

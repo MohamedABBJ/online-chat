@@ -1,4 +1,7 @@
+import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-avatar/user-avatar";
+import friendRequestHandlerQuery from "@/db/friend-request-handler-query";
+import { Check, X } from "lucide-react";
 
 function FriendRequestNotification({
   notificationDetails,
@@ -15,7 +18,7 @@ function FriendRequestNotification({
           <p>{notificationDetails.friendData?.name}</p>
           <p>sent you a friend request</p>
         </div>
-        {/*  <div className="flex gap-2">
+        <div className="flex gap-2">
           <Button
             onClick={async () =>
               await friendRequestHandlerQuery({
@@ -41,7 +44,7 @@ function FriendRequestNotification({
           >
             <X />
           </Button>
-        </div> */}
+        </div>
       </div>
     </div>
   );
