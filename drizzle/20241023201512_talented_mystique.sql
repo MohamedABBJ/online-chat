@@ -19,16 +19,16 @@ CREATE TABLE IF NOT EXISTS "private_chat" (
 	"user_id" text,
 	"message" text,
 	"chat_id" text,
-	"status" text DEFAULT 'sent' NOT NULL,
-	"reply" text DEFAULT 'none'
+	"status" text DEFAULT 'sent',
+	"reply" text DEFAULT "undefined"
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "public_chat" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text,
 	"message" text,
-	"status" text DEFAULT 'sent' NOT NULL,
-	"reply" text DEFAULT 'none'
+	"status" "sent" DEFAULT 'sent' NOT NULL,
+	"reply" "undefined"
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS "user_friends" (
 	"user_id" text NOT NULL,
 	"friend_id" text NOT NULL,
 	"chat_id" text,
-	"request_state" text DEFAULT 'pending' NOT NULL
+	"request_state" "pending" DEFAULT 'pending' NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"name" text,
 	"email" text DEFAULT 'undefined',
 	"image" text DEFAULT 'undefined',
-	"type" text DEFAULT 'oAuthUser'
+	"type" "oAuthUser" DEFAULT 'oAuthUser'
 );
 --> statement-breakpoint
 DO $$ BEGIN

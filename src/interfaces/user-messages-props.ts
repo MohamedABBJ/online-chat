@@ -11,6 +11,7 @@ interface UserMessageProps {
   messageType: "message" | "reply";
   message: string | null;
   chat_id: string;
+  reply: number | "none";
 }
 [];
 

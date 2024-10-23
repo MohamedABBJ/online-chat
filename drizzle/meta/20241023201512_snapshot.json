@@ -1,5 +1,5 @@
 {
-  "id": "bc93ab2f-5b13-4bc0-b945-bd1916b4d4d3",
+  "id": "584e53ee-2ce3-470f-8fbb-7361f42d685f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -131,10 +131,9 @@
         },
         "reply": {
           "name": "reply",
-          "type": "text",
+          "type": "undefined",
           "primaryKey": false,
-          "notNull": false,
-          "default": "'none'"
+          "notNull": false
         }
       },
       "indexes": {},
@@ -173,10 +172,9 @@
         },
         "reply": {
           "name": "reply",
-          "type": "text",
+          "type": "undefined",
           "primaryKey": false,
-          "notNull": false,
-          "default": "'none'"
+          "notNull": false
         }
       },
       "indexes": {},

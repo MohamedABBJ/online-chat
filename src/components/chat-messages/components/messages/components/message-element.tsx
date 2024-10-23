@@ -28,11 +28,18 @@ function MessageElement({
         session={session}
         messageElement={messageElement}
       />
-      <div
-        className={`group relative ml-2 flex items-center rounded-xl border border-black px-8 py-6 ${messageType}`}
-      >
-        <p>{messageElement.message}</p>
-        <MoreOptions messageElement={messageElement} />
+      <div className="relative ml-2 flex h-full flex-col items-center">
+        {messageElement.reply != "none" ? (
+          <p className="h-full w-full border-l border-r border-t border-green-950 pb-2">
+            test
+          </p>
+        ) : null}
+        <div
+          className={`group relative -mt-2 flex w-full items-center rounded-xl border border-black px-8 py-6 ${messageType}`}
+        >
+          <p>{messageElement.message}</p>
+          <MoreOptions messageElement={messageElement} />
+        </div>
       </div>
     </div>
   );
