@@ -2,6 +2,7 @@
 import UserMenu from "@/components/user-avatar/user-menu";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import UserSessionProps from "@/interfaces/user-session-props";
+import MoreOptions from "./more-options";
 
 function MessageElement({
   messageElement,
@@ -21,17 +22,17 @@ function MessageElement({
         : "";
 
   return (
-    <div className={`my-4 ml-2 flex `}>
+    <div className={`my-4 ml-2 flex items-center`}>
       <UserMenu
         viewType="chat"
         session={session}
         messageElement={messageElement}
       />
       <div
-        className={`ml-2 flex items-center rounded-xl border border-black p-4 ${messageType}`}
+        className={`group relative ml-2 flex items-center rounded-xl border border-black px-8 py-6 ${messageType}`}
       >
         <p>{messageElement.message}</p>
-        <button>{`↓`}</button>
+        <MoreOptions messageElement={messageElement} />
       </div>
     </div>
   );

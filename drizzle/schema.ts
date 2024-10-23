@@ -33,6 +33,14 @@ const requestStateType = customType<{
   },
 });
 
+const publicChatReplyIDType = customType<{
+  data: number | undefined;
+}>({
+  dataType() {
+    return "undefined";
+  },
+});
+
 export const mySchema = pgSchema("online_chat");
 
 export const usersTable = pgTable("users", {
@@ -66,7 +74,7 @@ export const publicChatTable = pgTable("public_chat", {
   user_id: text("user_id"),
   message: text("message"),
   status: customMessageStatusType("status").notNull().default("sent"),
-  reply: text("reply").default("none"),
+  reply: publicChatReplyIDType("reply").default(undefined),
 });
 
 export const privateChatTable = pgTable("private_chat", {
