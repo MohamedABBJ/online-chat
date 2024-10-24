@@ -34,7 +34,7 @@ const requestStateType = customType<{
 });
 
 const chatReplyIDType = customType<{
-  data: number | undefined;
+  data: string | null;
 }>({
   dataType() {
     return "undefined";
@@ -74,7 +74,7 @@ export const publicChatTable = pgTable("public_chat", {
   user_id: text("user_id"),
   message: text("message"),
   status: customMessageStatusType("status").notNull().default("sent"),
-  reply: chatReplyIDType("reply").default(undefined),
+  reply: chatReplyIDType("reply").default(null),
 });
 
 export const privateChatTable = pgTable("private_chat", {
@@ -83,7 +83,7 @@ export const privateChatTable = pgTable("private_chat", {
   message: text("message"),
   chat_id: text("chat_id"),
   status: customMessageStatusType("status").notNull().default("sent"),
-  reply: chatReplyIDType("reply").default(undefined),
+  reply: chatReplyIDType("reply").default(null),
 });
 
 export const sessions = pgTable("session", {

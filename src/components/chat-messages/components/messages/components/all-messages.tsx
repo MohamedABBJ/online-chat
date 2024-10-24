@@ -13,10 +13,18 @@ interface Test {
       email: string | null;
       image: string | null;
     };
+    messageReplyData: {
+      id: number;
+      user_id: string | null;
+      message: string | null;
+      status: "sent" | "deleted";
+      reply: string | null;
+    } | null;
     id: number;
     user_id: string | null;
     message: string | null;
     status: "sent" | "deleted";
+    reply: string | null;
   }[];
 }
 

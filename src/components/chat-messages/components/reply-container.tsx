@@ -49,10 +49,12 @@ function ReplyContainer({ session }: { session: UserSessionProps }) {
     <div className="mb-4 flex h-[20%] w-11/12">
       <div className="relative w-full rounded-xl border border-black">
         {replyData.replyState && (
-          <div className="absolute bottom-20 flex w-full justify-between px-6 outline outline-1 outline-black">
+          <div className="flex w-full justify-between px-6 outline outline-1 outline-black">
             <p>replying</p>
             <button
-              onClick={() => setReplyData({ replyState: false, messageID: 0 })}
+              onClick={() =>
+                setReplyData({ replyState: false, messageID: null })
+              }
             >
               x
             </button>

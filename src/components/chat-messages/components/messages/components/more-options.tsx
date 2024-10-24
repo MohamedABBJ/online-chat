@@ -18,7 +18,10 @@ function MoreOptions({ messageElement }: { messageElement: UserMessageProps }) {
         <div>
           <button
             onClick={() =>
-              setReplyData({ replyState: true, messageID: messageElement.id })
+              setReplyData({
+                replyState: true,
+                messageID: messageElement.id.toString(),
+              })
             }
           >
             Reply

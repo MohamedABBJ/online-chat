@@ -6,12 +6,19 @@ interface UserMessageProps {
     email: string | null;
     image: string | null;
   };
+  messageReplyData: {
+    id: number;
+    user_id: string | null;
+    message: string | null;
+    status: "sent" | "deleted";
+    reply: string | null;
+  } | null;
   id: number;
   user_id: string | null;
   messageType: "message" | "reply";
   message: string | null;
   chat_id: string;
-  reply: number | "none";
+  reply: string | null;
 }
 [];
 

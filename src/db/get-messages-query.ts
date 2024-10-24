@@ -25,6 +25,14 @@ const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
               .from(usersTable)
               .where(eq(usersTable.id, element.user_id as string))
           )[0],
+          messageReplyData: element.reply
+            ? (
+                await db
+                  .select()
+                  .from(privateChatTable)
+                  .where(eq(privateChatTable.id, Number(element.reply)))
+              )[0]
+            : null,
         })),
       );
       return await { messages: messagesWithRole, status: 200 };
@@ -41,12 +49,14 @@ const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
               .from(usersTable)
               .where(eq(usersTable.id, element.user_id as string))
           )[0],
-          messageReplyData:
-            element.reply &&
-            (await db
-              .select()
-              .from(publicChatTable)
-              .where(eq(publicChatTable.id, element.reply))),
+          messageReplyData: element.reply
+            ? (
+                await db
+                  .select()
+                  .from(publicChatTable)
+                  .where(eq(publicChatTable.id, Number(element.reply)))
+              )[0]
+            : null,
         })),
       );
 

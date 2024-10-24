@@ -19,7 +19,7 @@ const sendMessageQuery = async ({
   message: string;
   friend_id?: string;
   chat_id: string;
-  message_id: number | undefined;
+  message_id: string | null;
 }) => {
   try {
     const db = drizzle(client);
@@ -42,6 +42,15 @@ const sendMessageQuery = async ({
         user_id: userID,
         message: message,
         chat_id: chat_id,
+        reply: message_id,
+        messageReplyData: message_id
+          ? (
+              await db
+                .select()
+                .from(publicChatTable)
+                .where(eq(publicChatTable.id, Number(message_id)))
+            )[0]
+          : null,
       };
 
       return await getUserData;
@@ -65,6 +74,7 @@ const sendMessageQuery = async ({
         user_id: userID,
         message: message,
         chat_id: chat_id,
+        reply: message_id,
       };
 
       return await getUserData;

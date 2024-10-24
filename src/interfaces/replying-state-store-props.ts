@@ -1,8 +1,11 @@
 interface ReplyingStateStoreProps {
   replyData: {
     replyState: boolean;
-    messageID: number;
+    messageID: string | null;
   };
-  setReplyData: (value: { replyState: boolean; messageID: number }) => void;
+  setReplyData: (value: {
+    replyState: boolean;
+    messageID: string | null;
+  }) => void;
 }
 export default ReplyingStateStoreProps;
