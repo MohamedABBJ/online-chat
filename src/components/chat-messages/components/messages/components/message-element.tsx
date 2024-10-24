@@ -20,7 +20,7 @@ function MessageElement({
       : messageElement.messageType == "reply"
         ? replyStyle
         : "";
-  console.log(messageElement);
+
   return (
     <div className={`my-4 ml-2 flex items-center`}>
       <UserMenu
