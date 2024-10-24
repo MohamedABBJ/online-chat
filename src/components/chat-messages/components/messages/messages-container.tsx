@@ -33,7 +33,7 @@ function MessagesContainer({ session }: { session: UserSessionProps }) {
   const chatID = usePathname().substring(1);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Test>();
-
+  console.log(chatID);
   useEffect(() => {
     const getChatMessages = async () => {
       setMessages(

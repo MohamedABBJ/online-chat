@@ -60,7 +60,12 @@ const sendMessageQuery = async ({
       const insertMessage = (
         await db
           .insert(privateChatTable)
-          .values({ message: message, user_id: userID, chat_id: chat_id })
+          .values({
+            message: message,
+            user_id: userID,
+            chat_id: chat_id,
+            reply: message_id,
+          })
           .returning({
             insertedId: privateChatTable.id,
           })
@@ -75,6 +80,14 @@ const sendMessageQuery = async ({
         message: message,
         chat_id: chat_id,
         reply: message_id,
+        messageReplyData: message_id
+          ? (
+              await db
+                .select()
+                .from(privateChatTable)
+                .where(eq(privateChatTable.id, Number(message_id)))
+            )[0]
+          : null,
       };
 
       return await getUserData;
