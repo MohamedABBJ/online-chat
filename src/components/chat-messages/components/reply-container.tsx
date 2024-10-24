@@ -60,6 +60,9 @@ function ReplyContainer({ session }: { session: UserSessionProps }) {
             </button>
           </div>
         )}
+
+        <input disabled type="file" />
+
         <input
           onChange={(event) => setMessage(event.currentTarget.value)}
           placeholder="Write a reply..."
