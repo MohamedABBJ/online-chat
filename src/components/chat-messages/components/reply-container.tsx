@@ -5,16 +5,27 @@ import sendMessageQuery from "@/db/send-message-query";
 import UserSessionProps from "@/interfaces/user-session-props";
 import currentChatIdStore from "@/store/current-chat-id-store";
 import replyingStateStore from "@/store/replying-state-store";
+import uploadImageDialogStore from "@/store/upload-image-dialog-store";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
-import { Check } from "lucide-react";
+import { Check, FileImage } from "lucide-react";
 import { useState } from "react";
 
-function ReplyContainer({ session }: { session: UserSessionProps }) {
+function ReplyContainer({
+  session,
+  imageMessage,
+}: {
+  session: UserSessionProps;
+  imageMessage: {
+    view: boolean;
+    message?: string;
+  };
+}) {
   const { setOpen } = userDialogLoginStore();
   const { chatID } = currentChatIdStore();
   const [message, setMessage] = useState("");
   const { replyData, setReplyData } = replyingStateStore();
+  const { setOpenImageDialog } = uploadImageDialogStore();
 
   const sendMessageHandler = async () => {
     if (session) {
@@ -44,6 +55,7 @@ function ReplyContainer({ session }: { session: UserSessionProps }) {
     } else {
       userDialogLoginHandler({ setOpen: setOpen }).handleOpen();
     }
+    setOpenImageDialog(false);
   };
   return (
     <div className="mb-4 flex h-[20%] w-11/12">
@@ -61,18 +73,29 @@ function ReplyContainer({ session }: { session: UserSessionProps }) {
           </div>
         )}
 
-        <input disabled type="file" />
-
         <input
           onChange={(event) => setMessage(event.currentTarget.value)}
           placeholder="Write a reply..."
-          className="flex h-full w-full items-start"
+          className="flex h-full w-full items-start bg-transparent"
         />
       </div>
-      <div>
+      <div className="flex flex-col">
         <Button onClick={() => sendMessageHandler()}>
           <Check />
         </Button>
+        {!imageMessage.view && (
+          <Button className="relative">
+            <label className="absolute flex h-full w-full items-center justify-center">
+              <FileImage />
+              <input
+                onChange={() => setOpenImageDialog(true)}
+                accept=".jpg, .png"
+                hidden
+                type="file"
+              />
+            </label>
+          </Button>
+        )}
       </div>
     </div>
   );
