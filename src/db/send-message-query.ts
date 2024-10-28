@@ -14,12 +14,14 @@ const sendMessageQuery = async ({
   chat_id,
   friend_id,
   message_id,
+  image,
 }: {
   userID: string;
   message: string;
   friend_id?: string;
   chat_id: string;
   message_id: string | null;
+  image?: string;
 }) => {
   try {
     const db = drizzle(client);
@@ -28,7 +30,12 @@ const sendMessageQuery = async ({
       const insertMessage = (
         await db
           .insert(publicChatTable)
-          .values({ message: message, user_id: userID, reply: message_id })
+          .values({
+            message: message,
+            user_id: userID,
+            reply: message_id,
+            image: image,
+          })
           .returning({
             insertedId: publicChatTable.id,
           })

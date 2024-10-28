@@ -8,6 +8,7 @@ import replyingStateStore from "@/store/replying-state-store";
 import replyContainerStore from "@/store/upload-image-dialog-store";
 
 import userDialogLoginStore from "@/store/user-login-dialog-store";
+import uploadImageMessage from "@/utils/aws/upload-image.message";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import { Check, FileImage } from "lucide-react";
 
@@ -24,10 +25,14 @@ function ReplyContainer({
   const { setOpen } = userDialogLoginStore();
   const { chatID } = currentChatIdStore();
   const { replyData, setReplyData } = replyingStateStore();
-  const { setOpenImageDialog, setMessage, message, setImage } =
+  const { setOpenImageDialog, setMessage, message, setImage, image } =
     replyContainerStore();
 
-  const sendMessageHandler = async () => {
+  const sendMessageHandler = async ({
+    image,
+  }: {
+    image: string | undefined;
+  }) => {
     if (session) {
       if (chatID != "") {
         socket.emit(
@@ -47,6 +52,7 @@ function ReplyContainer({
             userID: session.user?.id as string,
             message: message,
             message_id: replyData.messageID,
+            image: image,
           }),
         );
 
@@ -81,7 +87,15 @@ function ReplyContainer({
         />
       </div>
       <div className="flex flex-col">
-        <Button onClick={() => sendMessageHandler()}>
+        <Button
+          onClick={async () => {
+            if (image) {
+              const imageName = await uploadImageMessage(image);
+              await sendMessageHandler({ image: imageName });
+            }
+            sendMessageHandler({ image: undefined });
+          }}
+        >
           <Check />
         </Button>
         {!imageMessage.view && (
