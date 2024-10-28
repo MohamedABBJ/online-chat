@@ -2,29 +2,48 @@
 
 import UserSessionProps from "@/interfaces/user-session-props";
 import uploadImageDialogStore from "@/store/upload-image-dialog-store";
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import ReplyContainer from "../chat-messages/components/reply-container";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+
 function UploadImageDialog({ session }: { session: UserSessionProps }) {
-  const [open, setOpen] = useState(true);
-  const { openImageDialog, setOpenImageDialog } = uploadImageDialogStore();
+  const { openImageDialog, setOpenImageDialog, image, setImage } =
+    uploadImageDialogStore();
+
+  const [imagePreview, setImagePreview] = useState("#");
+
+  useEffect(() => {
+    const imageURL =
+      image?.target.files &&
+      setImagePreview(URL.createObjectURL(image?.target?.files[0]));
+    return () => {
+      URL.revokeObjectURL(imageURL!);
+    };
+  }, [image]);
+
   return (
     <Dialog open={openImageDialog} onOpenChange={setOpenImageDialog}>
       <DialogTrigger asChild>
         <Button className="p-0" variant={"ghost"}></Button>
       </DialogTrigger>
-      <DialogContent
-        onClick={() => console.log("test")}
-        className="flex flex-col items-center"
-      >
-        <img
-          src={
-            "https://images.pexels.com/photos/346529/pexels-photo-346529.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          }
+      <DialogContent className="flex flex-col items-center">
+        <DialogTitle />
+        <Image
+          width={250}
+          height={200}
+          src={imagePreview}
           alt="image-message"
         />
         <ReplyContainer imageMessage={{ view: true }} session={session} />
+        <DialogDescription />
       </DialogContent>
     </Dialog>
   );

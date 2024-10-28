@@ -1,10 +1,15 @@
-import UploadImageDialogStoreProps from "@/interfaces/upload-image-dialog-store-props";
-
+import ReplyContainerStoreProps from "@/interfaces/reply-container-store-props";
+import { ChangeEvent } from "react";
 import { create } from "zustand";
 
-const uploadImageDialogStore = create<UploadImageDialogStoreProps>((set) => ({
+const replyContainerStore = create<ReplyContainerStoreProps>((set) => ({
+  image: undefined,
+  setImage: (image: undefined | ChangeEvent<HTMLInputElement>) =>
+    set({ image }),
+  message: "",
+  setMessage: (message: string) => set({ message }),
   openImageDialog: false,
   setOpenImageDialog: (openImageDialog: boolean) => set({ openImageDialog }),
 }));
 
-export default uploadImageDialogStore;
+export default replyContainerStore;

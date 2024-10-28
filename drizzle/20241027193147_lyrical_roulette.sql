@@ -18,17 +18,19 @@ CREATE TABLE IF NOT EXISTS "private_chat" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text,
 	"message" text,
+	"image" text DEFAULT null,
 	"chat_id" text,
-	"status" text DEFAULT 'sent',
-	"reply" text DEFAULT 'null'
+	"status" text DEFAULT 'sent' NOT NULL,
+	"reply" text DEFAULT null
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "public_chat" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text,
 	"message" text,
-	"status"  text DEFAULT 'sent' NOT NULL,
-	"reply" text DEFAULT 'null'
+	"image" text DEFAULT 'undefined' null,
+	"status" text DEFAULT 'sent' NOT NULL,
+	"reply" text DEFAULT 'undefined' null
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (

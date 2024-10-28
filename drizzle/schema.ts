@@ -41,6 +41,14 @@ const chatReplyIDType = customType<{
   },
 });
 
+const imageType = customType<{
+  data: string | null;
+}>({
+  dataType() {
+    return "undefined";
+  },
+});
+
 export const mySchema = pgSchema("online_chat");
 
 export const usersTable = pgTable("users", {
@@ -73,6 +81,7 @@ export const publicChatTable = pgTable("public_chat", {
   id: serial("id").primaryKey(),
   user_id: text("user_id"),
   message: text("message"),
+  image: imageType("image").default(null),
   status: customMessageStatusType("status").notNull().default("sent"),
   reply: chatReplyIDType("reply").default(null),
 });
@@ -81,6 +90,7 @@ export const privateChatTable = pgTable("private_chat", {
   id: serial("id").primaryKey(),
   user_id: text("user_id"),
   message: text("message"),
+  image: imageType("image").default(null),
   chat_id: text("chat_id"),
   status: customMessageStatusType("status").notNull().default("sent"),
   reply: chatReplyIDType("reply").default(null),

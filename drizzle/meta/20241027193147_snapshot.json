@@ -1,5 +1,5 @@
 {
-  "id": "584e53ee-2ce3-470f-8fbb-7361f42d685f",
+  "id": "28e169ad-dff3-4a22-90cf-a442c3872355",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -116,6 +116,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "image": {
+          "name": "image",
+          "type": "undefined",
+          "primaryKey": false,
+          "notNull": false,
+          "default": null
+        },
         "chat_id": {
           "name": "chat_id",
           "type": "text",
@@ -133,7 +140,8 @@
           "name": "reply",
           "type": "undefined",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": null
         }
       },
       "indexes": {},
@@ -163,6 +171,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "image": {
+          "name": "image",
+          "type": "undefined",
+          "primaryKey": false,
+          "notNull": false,
+          "default": null
+        },
         "status": {
           "name": "status",
           "type": "sent",
@@ -174,7 +189,8 @@
           "name": "reply",
           "type": "undefined",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": null
         }
       },
       "indexes": {},

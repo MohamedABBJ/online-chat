@@ -5,11 +5,11 @@ import sendMessageQuery from "@/db/send-message-query";
 import UserSessionProps from "@/interfaces/user-session-props";
 import currentChatIdStore from "@/store/current-chat-id-store";
 import replyingStateStore from "@/store/replying-state-store";
-import uploadImageDialogStore from "@/store/upload-image-dialog-store";
+import replyContainerStore from "@/store/upload-image-dialog-store";
+
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import { Check, FileImage } from "lucide-react";
-import { useState } from "react";
 
 function ReplyContainer({
   session,
@@ -23,9 +23,9 @@ function ReplyContainer({
 }) {
   const { setOpen } = userDialogLoginStore();
   const { chatID } = currentChatIdStore();
-  const [message, setMessage] = useState("");
   const { replyData, setReplyData } = replyingStateStore();
-  const { setOpenImageDialog } = uploadImageDialogStore();
+  const { setOpenImageDialog, setMessage, message, setImage } =
+    replyContainerStore();
 
   const sendMessageHandler = async () => {
     if (session) {
@@ -74,6 +74,7 @@ function ReplyContainer({
         )}
 
         <input
+          value={message}
           onChange={(event) => setMessage(event.currentTarget.value)}
           placeholder="Write a reply..."
           className="flex h-full w-full items-start bg-transparent"
@@ -88,8 +89,13 @@ function ReplyContainer({
             <label className="absolute flex h-full w-full items-center justify-center">
               <FileImage />
               <input
-                onChange={() => setOpenImageDialog(true)}
-                accept=".jpg, .png"
+                onClick={(event) => (event.currentTarget.value = "")}
+                onChange={(event) =>
+                  event.target.files
+                    ? (setOpenImageDialog(true), setImage(event))
+                    : null
+                }
+                accept=".jpg, .png, .jpeg"
                 hidden
                 type="file"
               />
