@@ -12,7 +12,7 @@ async function Chat() {
     <div className="flex h-full flex-col justify-between">
       <TopBarContainer session={session} />
       <MessagesContainer session={session} />
-      <ReplyContainer imageMessage={false} session={session} />
+      <ReplyContainer imageMessage={{ view: false }} session={session} />
     </div>
   );
 }

@@ -45,7 +45,7 @@ const imageType = customType<{
   data: string | null;
 }>({
   dataType() {
-    return "undefined";
+    return "null";
   },
 });
 

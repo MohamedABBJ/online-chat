@@ -19,6 +19,7 @@ interface UserMessageProps {
   message: string | null;
   chat_id: string;
   reply: string | null;
+  image: string | null;
 }
 [];
 

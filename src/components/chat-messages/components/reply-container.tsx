@@ -28,11 +28,7 @@ function ReplyContainer({
   const { setOpenImageDialog, setMessage, message, setImage, image } =
     replyContainerStore();
 
-  const sendMessageHandler = async ({
-    image,
-  }: {
-    image: string | undefined;
-  }) => {
+  const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
       if (chatID != "") {
         socket.emit(
@@ -91,9 +87,10 @@ function ReplyContainer({
           onClick={async () => {
             if (image) {
               const imageName = await uploadImageMessage(image);
-              await sendMessageHandler({ image: imageName });
+              imageName && (await sendMessageHandler({ image: imageName }));
+              return;
             }
-            sendMessageHandler({ image: undefined });
+            sendMessageHandler({ image: null });
           }}
         >
           <Check />

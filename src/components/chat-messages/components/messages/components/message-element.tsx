@@ -2,6 +2,7 @@
 import UserMenu from "@/components/user-avatar/user-menu";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import UserSessionProps from "@/interfaces/user-session-props";
+import Image from "next/image";
 import MoreOptions from "./more-options";
 
 function MessageElement({
@@ -35,10 +36,20 @@ function MessageElement({
           </p>
         )}
         <div
-          className={`group relative -mt-2 flex w-full items-center rounded-xl border border-black px-8 py-6 ${messageType}`}
+          className={`group relative -mt-2 flex w-full flex-col items-center gap-4 rounded-xl border border-black px-8 py-6 ${messageType}`}
         >
           <p>{messageElement.message}</p>
           <MoreOptions messageElement={messageElement} />
+          {messageElement.image && (
+            <button>
+              <Image
+                width={400}
+                height={400}
+                src={process.env.NEXT_PUBLIC_AWS_IMAGE + messageElement.image}
+                alt="message-image"
+              />
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS "public_chat" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text,
 	"message" text,
-	"image" text DEFAULT 'undefined' null,
+	"image" text DEFAULT NULL,
 	"status" text DEFAULT 'sent' NOT NULL,
-	"reply" text DEFAULT 'undefined' null
+	"reply" text DEFAULT 'null' null
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
