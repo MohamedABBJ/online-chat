@@ -3,9 +3,8 @@ import { ChangeEvent } from "react";
 import { create } from "zustand";
 
 const replyContainerStore = create<ReplyContainerStoreProps>((set) => ({
-  image: undefined,
-  setImage: (image: undefined | ChangeEvent<HTMLInputElement>) =>
-    set({ image }),
+  image: null,
+  setImage: (image: null | ChangeEvent<HTMLInputElement>) => set({ image }),
   message: "",
   setMessage: (message: string) => set({ message }),
   openImageDialog: false,

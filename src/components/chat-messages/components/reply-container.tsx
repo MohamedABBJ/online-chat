@@ -11,6 +11,7 @@ import userDialogLoginStore from "@/store/user-login-dialog-store";
 import uploadImageMessage from "@/utils/aws/upload-image.message";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import { Check, FileImage } from "lucide-react";
+import { useState } from "react";
 
 function ReplyContainer({
   session,
@@ -27,6 +28,7 @@ function ReplyContainer({
   const { replyData, setReplyData } = replyingStateStore();
   const { setOpenImageDialog, setMessage, message, setImage, image } =
     replyContainerStore();
+  const [btnAIState, setBtnAIState] = useState<boolean>(false);
 
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
@@ -41,7 +43,7 @@ function ReplyContainer({
           }),
         );
       } else {
-        socket.emit(
+        const messageQueryData = socket.emit(
           `newMessage`,
           await sendMessageQuery({
             chat_id: chatID,
@@ -51,6 +53,7 @@ function ReplyContainer({
             image: image,
           }),
         );
+        console.log(messageQueryData);
 
         socket.emit("newMessageScroller", session.user?.id);
       }
@@ -58,6 +61,8 @@ function ReplyContainer({
       userDialogLoginHandler({ setOpen: setOpen }).handleOpen();
     }
     setOpenImageDialog(false);
+    setImage(null);
+    setMessage("");
   };
   return (
     <div className="mb-4 flex h-[20%] w-11/12">
@@ -82,37 +87,50 @@ function ReplyContainer({
           className="flex h-full w-full items-start bg-transparent"
         />
       </div>
-      <div className="flex flex-col">
-        <Button
-          onClick={async () => {
-            if (image) {
-              const imageName = await uploadImageMessage(image);
-              imageName && (await sendMessageHandler({ image: imageName }));
-              return;
-            }
-            sendMessageHandler({ image: null });
-          }}
-        >
-          <Check />
-        </Button>
-        {!imageMessage.view && (
-          <Button className="relative">
-            <label className="absolute flex h-full w-full items-center justify-center">
-              <FileImage />
-              <input
-                onClick={(event) => (event.currentTarget.value = "")}
-                onChange={(event) =>
-                  event.target.files
-                    ? (setOpenImageDialog(true), setImage(event))
-                    : null
-                }
-                accept=".jpg, .png, .jpeg"
-                hidden
-                type="file"
-              />
-            </label>
+      <div className="flex gap-2">
+        <div className="flex flex-col">
+          <Button
+            className="h-full"
+            onClick={async () => {
+              if (btnAIState) {
+                await sendMessageHandler({ image: null });
+              }
+              if (image) {
+                const imageName = await uploadImageMessage(image);
+                imageName && (await sendMessageHandler({ image: imageName }));
+                return;
+              }
+              sendMessageHandler({ image: null });
+            }}
+          >
+            <Check />
           </Button>
-        )}
+          {!imageMessage.view && (
+            <Button className="relative h-full">
+              <label className="absolute flex h-full w-full items-center justify-center">
+                <FileImage />
+                <input
+                  onClick={(event) => (event.currentTarget.value = "")}
+                  onChange={(event) =>
+                    event.target.files
+                      ? (setOpenImageDialog(true), setImage(event))
+                      : null
+                  }
+                  accept=".jpg, .png, .jpeg"
+                  hidden
+                  type="file"
+                />
+              </label>
+            </Button>
+          )}
+        </div>
+        <Button
+          onClick={() => setBtnAIState(!btnAIState)}
+          variant={`${btnAIState ? "destructive" : "default"}`}
+          className={`h-full w-full`}
+        >
+          AI
+        </Button>
       </div>
     </div>
   );

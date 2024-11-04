@@ -18,7 +18,7 @@ function NewMessage({
   socket.on(`newMessage`, (args) => {
     setNewMessage([...newMessage, args]);
   });
-  console.log(newMessage);
+
   return (
     <>
       {newMessage.map((element) => (

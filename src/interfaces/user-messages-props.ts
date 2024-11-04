@@ -12,6 +12,7 @@ interface UserMessageProps {
     message: string | null;
     status: "sent" | "deleted";
     reply: string | null;
+    image: string | null;
   } | null;
   id: number;
   user_id: string | null;
