@@ -1,5 +1,5 @@
 "use server";
-import { eq, sql } from "drizzle-orm";
+import { eq, max, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import {
   privateChatTable,
@@ -8,7 +8,13 @@ import {
 } from "../../drizzle/schema";
 import client from "./client";
 
-const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
+const getMesagesQuery = async ({
+  chat_id,
+  quantity,
+}: {
+  chat_id: string;
+  quantity: number;
+}) => {
   try {
     const db = drizzle(client);
     if (chat_id != "") {
@@ -39,7 +45,16 @@ const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
     }
 
     if (chat_id == "") {
-      const getPublicChatMessages = await db.select().from(publicChatTable);
+      const getMaxIDMessages = (
+        await db
+          .select({ maxID: max(publicChatTable.id) })
+          .from(publicChatTable)
+      )[0].maxID;
+
+      const getPublicChatMessages = await db
+        .select()
+        .from(publicChatTable)
+        .where(sql`${publicChatTable.id} > ${getMaxIDMessages! - quantity}`);
       const messagesWithRole = await Promise.all(
         getPublicChatMessages.map(async (element) => ({
           ...element,
@@ -60,7 +75,11 @@ const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
         })),
       );
 
-      return await { messages: messagesWithRole, status: 200 };
+      return await {
+        messages: messagesWithRole,
+        status: 200,
+        maxIDMessages: getMaxIDMessages,
+      };
     }
   } catch (error) {
     console.log(error);

@@ -60,36 +60,31 @@ function ReplyContainer({
           });
         };
 
-        socket.emit(
-          "newMessage",
-          await messageQuery({
-            messageData: message,
-            replyID: replyData.messageID,
-          }),
-        );
+        const messageQueryResult = await messageQuery({
+          messageData: message,
+          replyID: replyData.messageID,
+        });
+
+        socket.emit("newMessage", messageQueryResult);
+        socket.emit("newMessageScroller", session.user?.id);
+        setBtnAIState(false);
 
         btnAIState &&
           socket.emit(
             "newMessage",
             await messageQuery({
               messageData: (await openAIQuery({ message: message })) as string,
-              replyID: (
-                await messageQuery({
-                  messageData: message,
-                  replyID: replyData.messageID,
-                })
-              )?.id.toString() as string,
+              replyID: messageQueryResult?.id.toString() as string,
             }),
           );
-
         socket.emit("newMessageScroller", session.user?.id);
       }
     } else {
       userDialogLoginHandler({ setOpen: setOpen }).handleOpen();
     }
+    setMessage("");
     setOpenImageDialog(false);
     setImage(null);
-    setMessage("");
   };
   return (
     <div className="mb-4 flex h-[20%] w-11/12">
@@ -148,13 +143,15 @@ function ReplyContainer({
             </Button>
           )}
         </div>
-        <Button
-          onClick={() => setBtnAIState(!btnAIState)}
-          variant={`${btnAIState ? "destructive" : "default"}`}
-          className={`h-full w-full`}
-        >
-          AI
-        </Button>
+        {!imageMessage.view && (
+          <Button
+            onClick={() => setBtnAIState(!btnAIState)}
+            variant={`${btnAIState ? "destructive" : "default"}`}
+            className={`h-full w-full`}
+          >
+            AI
+          </Button>
+        )}
       </div>
     </div>
   );
