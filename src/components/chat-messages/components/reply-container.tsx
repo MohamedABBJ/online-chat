@@ -8,6 +8,7 @@ import replyingStateStore from "@/store/replying-state-store";
 import replyContainerStore from "@/store/upload-image-dialog-store";
 
 import userDialogLoginStore from "@/store/user-login-dialog-store";
+import openAIQuery from "@/utils/ai/openai-query";
 import uploadImageMessage from "@/utils/aws/upload-image.message";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import { Check, FileImage } from "lucide-react";
@@ -43,17 +44,43 @@ function ReplyContainer({
           }),
         );
       } else {
-        const messageQueryData = socket.emit(
-          `newMessage`,
-          await sendMessageQuery({
+        const messageQuery = async ({
+          messageData,
+          replyID,
+        }: {
+          messageData: string;
+          replyID: string | null;
+        }) => {
+          return await sendMessageQuery({
             chat_id: chatID,
             userID: session.user?.id as string,
-            message: message,
-            message_id: replyData.messageID,
+            message: messageData,
+            message_id: replyID,
             image: image,
+          });
+        };
+
+        socket.emit(
+          "newMessage",
+          await messageQuery({
+            messageData: message,
+            replyID: replyData.messageID,
           }),
         );
-        console.log(messageQueryData);
+
+        btnAIState &&
+          socket.emit(
+            "newMessage",
+            await messageQuery({
+              messageData: (await openAIQuery({ message: message })) as string,
+              replyID: (
+                await messageQuery({
+                  messageData: message,
+                  replyID: replyData.messageID,
+                })
+              )?.id.toString() as string,
+            }),
+          );
 
         socket.emit("newMessageScroller", session.user?.id);
       }
@@ -92,9 +119,6 @@ function ReplyContainer({
           <Button
             className="h-full"
             onClick={async () => {
-              if (btnAIState) {
-                await sendMessageHandler({ image: null });
-              }
               if (image) {
                 const imageName = await uploadImageMessage(image);
                 imageName && (await sendMessageHandler({ image: imageName }));

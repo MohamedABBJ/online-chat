@@ -18,7 +18,7 @@ const openAIQuery = async ({ message }: { message: string }) => {
     ],
   });
 
-  console.log(completion.choices[0].message.content);
+  return completion.choices[0].message.content;
 };
 
 export default openAIQuery;
