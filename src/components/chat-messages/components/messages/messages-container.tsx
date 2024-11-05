@@ -33,10 +33,8 @@ interface Test {
 function MessagesContainer({ session }: { session: UserSessionProps }) {
   const chatID = usePathname().substring(1);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
-  const [quantityOfMessagesState, setQuantityOfMessagesState] = useState({
-    quantityVisible: 50,
-    quantityOfMessages: 0,
-  });
+  const [quantityOfMessagesView, setQuantityOfMessagesView] = useState(50);
+  const [quantityOfMessages, setQuantityOfMessages] = useState(0);
   const [loadMoreMessages, setLoadMoreMessages] = useState(false);
   const [messages, setMessages] = useState<Test>();
 
@@ -44,24 +42,19 @@ function MessagesContainer({ session }: { session: UserSessionProps }) {
     const getChatMessages = async () => {
       const messagesQuery = await getMesagesQuery({
         chat_id: chatID,
-        quantity: quantityOfMessagesState.quantityVisible,
+        quantity: quantityOfMessagesView,
       });
-
-      setQuantityOfMessagesState({
-        ...quantityOfMessagesState,
-        quantityOfMessages: messagesQuery?.maxIDMessages as number,
-      });
-
+      quantityOfMessagesView <= 50 &&
+        setQuantityOfMessages(messagesQuery?.maxIDMessages as number);
       setMessages(messagesQuery);
-
       setLoadMoreMessages(false);
     };
     getChatMessages();
-  }, [chatID, session]);
+  }, [chatID, session, quantityOfMessagesView]);
 
   useEffect(() => {
-    quantityOfMessagesState.quantityVisible == 50 && scrollContentToBottom();
-  }, [messages, quantityOfMessagesState]);
+    quantityOfMessagesView == 50 && scrollContentToBottom();
+  }, [messages]);
 
   const scrollContentToBottom = () => {
     chatMessagesRef.current?.scrollTo(0, chatMessagesRef.current?.scrollHeight);
@@ -73,17 +66,13 @@ function MessagesContainer({ session }: { session: UserSessionProps }) {
   //fix this here, the scroll doesn't load the messages correctly
   return (
     <div
-      onScroll={(event) =>
-        !loadMoreMessages &&
-        quantityOfMessagesState.quantityVisible <
-          quantityOfMessagesState.quantityOfMessages &&
-        event.currentTarget.scrollTop <= 500 &&
-        (setQuantityOfMessagesState({
-          ...quantityOfMessagesState,
-          quantityVisible: quantityOfMessagesState.quantityVisible + 50,
-        }),
-        setLoadMoreMessages(true))
-      }
+      onScroll={(event) => {
+        event.preventDefault();
+        event.currentTarget.scrollTop <= 200 &&
+          quantityOfMessages > quantityOfMessagesView &&
+          (setQuantityOfMessagesView(quantityOfMessagesView + 50),
+          setLoadMoreMessages(true));
+      }}
       className="h-full overflow-y-auto border border-s"
       ref={chatMessagesRef}
     >
