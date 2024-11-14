@@ -33,7 +33,7 @@ function ReplyContainer({
 
   useEffect(() => {
     const typingTimeout = setTimeout(() => {
-      console.log("si");
+      socket.emit("userStopTyping", session.user.id);
     }, 3000);
 
     return () => {

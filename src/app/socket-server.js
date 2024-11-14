@@ -28,6 +28,9 @@ app.prepare().then(() => {
     socket.on("addUser", () => {
       io.emit("addUser");
     });
+    socket.on("userTyping", () => {
+      io.emit("userTyping");
+    });
     socket.on("disconnect", () => {
       console.log("user disconnected");
     });
