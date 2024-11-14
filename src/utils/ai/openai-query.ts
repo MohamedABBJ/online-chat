@@ -13,11 +13,9 @@ const openAIQuery = async ({ message }: { message: string }) => {
       {
         role: "user",
         content: message,
-        name: "pedro",
       },
     ],
   });
-
   return completion.choices[0].message.content;
 };
 

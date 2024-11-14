@@ -10,7 +10,7 @@ import {
 import { AdapterAccountType } from "next-auth/adapters";
 
 const customUserType = customType<{
-  data: "oAuthUser" | "Guest";
+  data: "oAuthUser" | "Guest" | "AI";
 }>({
   dataType() {
     return "oAuthUser";

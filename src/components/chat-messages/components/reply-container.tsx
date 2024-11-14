@@ -12,7 +12,7 @@ import openAIQuery from "@/utils/ai/openai-query";
 import uploadImageMessage from "@/utils/aws/upload-image.message";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import { Check, FileImage } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function ReplyContainer({
   session,
@@ -31,6 +31,16 @@ function ReplyContainer({
     replyContainerStore();
   const [btnAIState, setBtnAIState] = useState<boolean>(false);
 
+  useEffect(() => {
+    const typingTimeout = setTimeout(() => {
+      console.log("si");
+    }, 3000);
+
+    return () => {
+      clearTimeout(typingTimeout);
+    };
+  }, [message]);
+
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
       if (chatID != "") {
@@ -47,13 +57,15 @@ function ReplyContainer({
         const messageQuery = async ({
           messageData,
           replyID,
+          userID,
         }: {
           messageData: string;
           replyID: string | null;
+          userID: string;
         }) => {
           return await sendMessageQuery({
             chat_id: chatID,
-            userID: session.user?.id as string,
+            userID: userID,
             message: messageData,
             message_id: replyID,
             image: image,
@@ -63,6 +75,7 @@ function ReplyContainer({
         const messageQueryResult = await messageQuery({
           messageData: message,
           replyID: replyData.messageID,
+          userID: session.user.id as string,
         });
 
         socket.emit("newMessage", messageQueryResult);
@@ -75,6 +88,7 @@ function ReplyContainer({
             await messageQuery({
               messageData: (await openAIQuery({ message: message })) as string,
               replyID: messageQueryResult?.id.toString() as string,
+              userID: "1",
             }),
           );
         socket.emit("newMessageScroller", session.user?.id);
@@ -87,7 +101,12 @@ function ReplyContainer({
     setImage(null);
   };
   return (
-    <div className="mb-4 flex h-[20%] w-11/12">
+    <div className="relative mb-4 flex h-[20%] w-11/12">
+      <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
+        <p>{`USERNAMES ARE typing...`}</p>
+        <p>{`USERNAME is typing...`}</p>
+        <p>{`Many users are typing...`}</p>
+      </div>
       <div className="relative w-full rounded-xl border border-black">
         {replyData.replyState && (
           <div className="flex w-full justify-between px-6 outline outline-1 outline-black">
@@ -104,7 +123,10 @@ function ReplyContainer({
 
         <input
           value={message}
-          onChange={(event) => setMessage(event.currentTarget.value)}
+          onChange={(event) => {
+            setMessage(event.currentTarget.value);
+            socket.emit("userTyping", session.user.id);
+          }}
           placeholder="Write a reply..."
           className="flex h-full w-full items-start bg-transparent"
         />

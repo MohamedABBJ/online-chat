@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node ./src/app/socket-server.js",
+    "drizzle:seed": "npx tsx ./src/db/seed/db-seeder.tsx",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -46,7 +47,7 @@
     "@types/pg": "^8.11.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "drizzle-kit": "^0.24.0",
+    "drizzle-kit": "^0.24.2",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.5",
     "postcss": "^8.4.41",
