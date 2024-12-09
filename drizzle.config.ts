@@ -2,7 +2,7 @@ import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
   dbCredentials: {
-    url: "postgres://postgres:123@localhost:5432/postgres?sslmode=disable",
+    url: "db://db:123456@localhost:5432/db?sslmode=enable",
   },
   schema: "./drizzle/schema.ts",
   dialect: "postgresql",

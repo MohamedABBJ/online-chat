@@ -2,6 +2,7 @@
 import { socket } from "@/app/socket";
 import { Button } from "@/components/ui/button";
 import sendMessageQuery from "@/db/send-message-query";
+import useUsersTyping from "@/hooks/use-users-typing";
 import UserSessionProps from "@/interfaces/user-session-props";
 import currentChatIdStore from "@/store/current-chat-id-store";
 import replyingStateStore from "@/store/replying-state-store";
@@ -11,8 +12,9 @@ import userDialogLoginStore from "@/store/user-login-dialog-store";
 import openAIQuery from "@/utils/ai/openai-query";
 import uploadImageMessage from "@/utils/aws/upload-image.message";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
+import userTypingHandler from "@/utils/user-typing-handler";
 import { Check, FileImage } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function ReplyContainer({
   session,
@@ -30,16 +32,7 @@ function ReplyContainer({
   const { setOpenImageDialog, setMessage, message, setImage, image } =
     replyContainerStore();
   const [btnAIState, setBtnAIState] = useState<boolean>(false);
-
-  useEffect(() => {
-    const typingTimeout = setTimeout(() => {
-      socket.emit("userStopTyping", session.user.id);
-    }, 3000);
-
-    return () => {
-      clearTimeout(typingTimeout);
-    };
-  }, [message]);
+  const currentUsersTyping = useUsersTyping({ session: session });
 
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
@@ -100,13 +93,15 @@ function ReplyContainer({
     setOpenImageDialog(false);
     setImage(null);
   };
+
   return (
     <div className="relative mb-4 flex h-[20%] w-11/12">
-      <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
-        <p>{`USERNAMES ARE typing...`}</p>
-        <p>{`USERNAME is typing...`}</p>
-        <p>{`Many users are typing...`}</p>
-      </div>
+      {currentUsersTyping.length > 0 && (
+        <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
+          <p>{`${currentUsersTyping.map((element) => element.name)} is typing...`}</p>
+          {/*    <p>{`Many users are typing...`}</p>  */}
+        </div>
+      )}
       <div className="relative w-full rounded-xl border border-black">
         {replyData.replyState && (
           <div className="flex w-full justify-between px-6 outline outline-1 outline-black">
@@ -125,7 +120,10 @@ function ReplyContainer({
           value={message}
           onChange={(event) => {
             setMessage(event.currentTarget.value);
-            socket.emit("userTyping", session.user.id);
+            userTypingHandler({
+              currentUsersTyping: currentUsersTyping,
+              session: session,
+            });
           }}
           placeholder="Write a reply..."
           className="flex h-full w-full items-start bg-transparent"

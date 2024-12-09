@@ -70,6 +70,7 @@ function MessagesContainer({ session }: { session: UserSessionProps }) {
         event.preventDefault();
         event.currentTarget.scrollTop <= 200 &&
           quantityOfMessages > quantityOfMessagesView &&
+          !loadMoreMessages &&
           (setQuantityOfMessagesView(quantityOfMessagesView + 50),
           setLoadMoreMessages(true));
       }}
