@@ -9,8 +9,6 @@ function UserNotifications({ session }: { session: UserSessionProps }) {
   const [userNotifications, setUserNotifications] =
     useState<UserFriendsArrayProps | null>();
 
-  console.log(userNotifications);
-
   useEffect(() => {
     const getNotificationsFun = async () => {
       setUserNotifications(
@@ -20,12 +18,21 @@ function UserNotifications({ session }: { session: UserSessionProps }) {
         }),
       );
     };
+    socket.on(
+      "AddUser",
+      async () =>
+        await getUserNotifications({
+          friendState: "pending",
+          session: session,
+        }),
+    );
     if (session) {
       getNotificationsFun();
     }
+    return () => {
+      socket.off("AddUser");
+    };
   }, [session]);
-
-  socket.on("AddUser", getUserNotifications);
 
   return (
     <>

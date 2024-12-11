@@ -5,7 +5,7 @@ interface UserFriends {
         name: string | null;
         email: string | null;
         image: string | null;
-        type: "oAuthUser" | "Guest" | null;
+        type: "oAuthUser" | "Guest" | "AI" | null;
       }
     | undefined;
   user_id: string;

@@ -1,12 +1,11 @@
 "use client";
-import { socket } from "@/app/socket";
-import addUserQuery from "@/db/add-user-query";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import UserSessionProps from "@/interfaces/user-session-props";
 import updateProfilePicture from "@/utils/aws/update-profile-picture";
 import logoutHandler from "@/utils/logout-handler";
 import { Button } from "../ui/button";
 import UserLoginDialog from "../user-login-dialog/user-login-dialog";
+import AddUserBtn from "./components/add-user-btn";
 import UserAvatar from "./user-avatar";
 
 function UserMenuElements({
@@ -56,30 +55,14 @@ function UserMenuElements({
           ? session?.user.name
           : messageElement?.user_details?.name}
       </p>
+
       {session?.user?.type == "Guest" && viewType == "profile" ? (
         <UserLoginDialog loginMode="oAuth" />
       ) : null}
-      {viewType == "chat" &&
-      messageElement?.user_details?.type == "oAuthUser" &&
-      session?.user?.id != messageElement.user_details.id ? (
-        session?.user?.type == "Guest" ? (
-          <UserLoginDialog loginMode="addUser" />
-        ) : session?.user?.type == "oAuthUser" ? (
-          <Button
-            onClick={async () => {
-              await addUserQuery({
-                requiredData: {
-                  user_id: session?.user?.id as string,
-                  friend_id: messageElement.user_id as string,
-                },
-              });
-              socket.emit("addUser");
-            }}
-          >
-            Add user
-          </Button>
-        ) : null
-      ) : null}
+
+      {viewType == "chat" && (
+        <AddUserBtn messageElement={messageElement} session={session} />
+      )}
     </div>
   );
 }

@@ -98,8 +98,11 @@ function ReplyContainer({
     <div className="relative mb-4 flex h-[20%] w-11/12">
       {currentUsersTyping.length > 0 && (
         <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
-          <p>{`${currentUsersTyping.map((element) => element.name)} is typing...`}</p>
-          {/*    <p>{`Many users are typing...`}</p>  */}
+          {currentUsersTyping.length > 10 ? (
+            <p>{`Many users are typing...`}</p>
+          ) : (
+            <p>{`${currentUsersTyping.map((element) => element.name)}  ${currentUsersTyping.length == 1 ? "is typing..." : "are typing"}`}</p>
+          )}
         </div>
       )}
       <div className="relative w-full rounded-xl border border-black">
@@ -137,9 +140,11 @@ function ReplyContainer({
               if (image) {
                 const imageName = await uploadImageMessage(image);
                 imageName && (await sendMessageHandler({ image: imageName }));
+                setReplyData({ replyState: false, messageID: null });
                 return;
               }
               sendMessageHandler({ image: null });
+              setReplyData({ replyState: false, messageID: null });
             }}
           >
             <Check />

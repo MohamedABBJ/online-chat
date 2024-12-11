@@ -28,13 +28,13 @@ function useUsersTyping({ session }: { session: UserSessionProps }) {
 
     const typingTimeout = setTimeout(() => {
       socket.emit("userStopTyping", session.user.name);
-    }, 3000);
+    }, 1500);
     return () => {
       clearTimeout(typingTimeout);
       socket.off("userStopTyping");
     };
   }, [message, session, currentUsersTyping]);
-  console.log(currentUsersTyping);
+
   return currentUsersTyping;
 
   /* useEffect(() => {

@@ -29,6 +29,7 @@ function NewMessage({
               element.user_id == session?.user?.id ? "message" : "reply",
           }}
           key={element.id}
+          session={session}
         />
       ))}
     </>
