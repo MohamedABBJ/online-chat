@@ -1,15 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import UserSessionProps from "@/interfaces/user-session-props";
-import { useState } from "react";
+import chatListSelectorStore from "@/store/chat-list-selector-store";
 import PublicChatButton from "./public-chat-button";
 import FriendsList from "./user-chat";
 import UserNotifications from "./user-notifications";
 
 function ChatListContent({ session }: { session: UserSessionProps }) {
-  const [chatListSelector, setChatListSelector] = useState<
-    "chat" | "notification"
-  >("chat");
+  const { chatListSelector, setChatListSelector } = chatListSelectorStore();
+
   return (
     <>
       <div className="flex w-full justify-between border border-red-800">

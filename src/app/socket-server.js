@@ -34,6 +34,9 @@ app.prepare().then(() => {
     socket.on("userStopTyping", (user) => {
       io.emit("userStopTyping", user);
     });
+    socket.on("updateFriendList", () => {
+      io.emit("updateFriendList");
+    });
     socket.on("disconnect", () => {
       console.log("user disconnected");
     });
