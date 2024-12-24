@@ -1,3 +1,3 @@
 interface UserFriendsArrayProps {
-  friends: UserFriends[] | null;
+  friends: UserFriends[];
 }

@@ -51,9 +51,10 @@ const getUserFriendsQuery = async ({
       );
       return { friends: await friendDataQuery };
     }
-    return null;
+    return null!;
   } catch (error) {
     console.log(error);
+    return null!;
   }
 };
 

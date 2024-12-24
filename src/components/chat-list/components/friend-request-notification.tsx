@@ -13,7 +13,7 @@ function FriendRequestNotification({
   notificationDetails: UserFriends;
 }) {
   const { setChatListSelector } = chatListSelectorStore();
-  setChatListSelector("chat");
+
   return (
     <div>
       <div className="flex items-center gap-3">
@@ -33,10 +33,6 @@ function FriendRequestNotification({
                 requestState: "accepted",
               });
               socket.emit("updateFriendList");
-              if (userNotifications.friends?.length == 1) {
-                setChatListSelector("chat");
-                return;
-              }
               return;
             }}
             className="min-w-0 rounded-full p-1"
@@ -51,10 +47,6 @@ function FriendRequestNotification({
                 requestState: "denied",
               });
               socket.emit("updateFriendList");
-              if (userNotifications.friends?.length == 1) {
-                console.log("test");
-                return;
-              }
               return;
             }}
             color="error"

@@ -17,7 +17,7 @@ const getUserNotifications = async ({
     });
     return userFriends;
   }
-  return;
+  return null!;
 };
 
 export default getUserNotifications;
