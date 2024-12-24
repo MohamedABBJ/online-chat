@@ -1,6 +1,7 @@
 "use client";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import UserSessionProps from "@/interfaces/user-session-props";
+import userFriendsStore from "@/store/user-friends-store";
 import updateProfilePicture from "@/utils/aws/update-profile-picture";
 import logoutHandler from "@/utils/logout-handler";
 import { Button } from "../ui/button";
@@ -17,6 +18,7 @@ function UserMenuElements({
   messageElement?: UserMessageProps;
   session?: UserSessionProps;
 }) {
+  const { friends } = userFriendsStore();
   return (
     <div className="flex w-48 flex-col items-center gap-2">
       {viewType == "profile" ? (
@@ -60,8 +62,17 @@ function UserMenuElements({
         <UserLoginDialog loginMode="oAuth" />
       ) : null}
 
-      {viewType == "chat" && (
-        <AddUserBtn messageElement={messageElement} session={session} />
+      {friends.friends.map(
+        (element) =>
+          element.friend_id.includes(messageElement?.user_id as string) ||
+          (element.user_id.includes(session?.user.id as string) &&
+            viewType == "chat" && (
+              <AddUserBtn
+                messageElement={messageElement}
+                session={session}
+                key={element.id}
+              />
+            )),
       )}
     </div>
   );
