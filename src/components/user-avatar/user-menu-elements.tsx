@@ -62,17 +62,16 @@ function UserMenuElements({
         <UserLoginDialog loginMode="oAuth" />
       ) : null}
 
-      {friends.friends.map(
-        (element) =>
-          element.friend_id.includes(messageElement?.user_id as string) ||
-          (element.user_id.includes(session?.user.id as string) &&
-            viewType == "chat" && (
-              <AddUserBtn
-                messageElement={messageElement}
-                session={session}
-                key={element.id}
-              />
+      {viewType == "chat" && friends?.friends.length > 0 ? (
+        friends?.friends.map(
+          (element) =>
+            element.friend_id.includes(messageElement?.user_id as string) ||
+            (element.user_id.includes(session?.user.id as string) && (
+              <AddUserBtn messageElement={messageElement} session={session} />
             )),
+        )
+      ) : (
+        <AddUserBtn messageElement={messageElement} session={session} />
       )}
     </div>
   );

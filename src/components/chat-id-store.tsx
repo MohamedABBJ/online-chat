@@ -5,11 +5,12 @@ import { useEffect } from "react";
 
 function ChatIDStore({ chat_id }: { chat_id: string }) {
   const { setChatID } = currentChatIdStore();
+  const public_chat_id = "public_chat";
 
   useEffect(() => {
-    setChatID(typeof chat_id == "undefined" ? "" : chat_id);
+    setChatID(typeof chat_id == "undefined" ? public_chat_id : chat_id);
     typeof chat_id == "undefined"
-      ? null
+      ? socket.emit("joinPublicChat", public_chat_id)
       : socket.emit("joinPrivateChat", chat_id);
   }, [setChatID, chat_id]);
 

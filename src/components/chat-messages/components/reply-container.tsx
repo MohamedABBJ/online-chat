@@ -1,7 +1,6 @@
 "use client";
 import { socket } from "@/app/socket";
 import { Button } from "@/components/ui/button";
-import sendMessageQuery from "@/db/send-message-query";
 import useUsersTyping from "@/hooks/use-users-typing";
 import UserSessionProps from "@/interfaces/user-session-props";
 import currentChatIdStore from "@/store/current-chat-id-store";
@@ -11,6 +10,7 @@ import replyContainerStore from "@/store/upload-image-dialog-store";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import openAIQuery from "@/utils/ai/openai-query";
 import uploadImageMessage from "@/utils/aws/upload-image.message";
+import messageQuery from "@/utils/message-query";
 import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import userTypingHandler from "@/utils/user-typing-handler";
 import { Check, FileImage } from "lucide-react";
@@ -37,38 +37,21 @@ function ReplyContainer({
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
       if (chatID != "") {
-        socket.emit(
-          `newPrivateMessage`,
-          await sendMessageQuery({
-            chat_id: chatID,
-            userID: session.user?.id as string,
-            message: message,
-            message_id: replyData.messageID,
-          }),
-        );
+        const privateMessageQueryResult = await messageQuery({
+          messageData: message,
+          replyID: replyData.messageID,
+          userID: session.user.id as string,
+          image: image,
+          chatID: chatID,
+        });
+        socket.emit(`newPrivateMessage`, privateMessageQueryResult);
       } else {
-        const messageQuery = async ({
-          messageData,
-          replyID,
-          userID,
-        }: {
-          messageData: string;
-          replyID: string | null;
-          userID: string;
-        }) => {
-          return await sendMessageQuery({
-            chat_id: chatID,
-            userID: userID,
-            message: messageData,
-            message_id: replyID,
-            image: image,
-          });
-        };
-
         const messageQueryResult = await messageQuery({
           messageData: message,
           replyID: replyData.messageID,
           userID: session.user.id as string,
+          image: image,
+          chatID: chatID,
         });
 
         socket.emit("newMessage", messageQueryResult);
@@ -82,8 +65,11 @@ function ReplyContainer({
               messageData: (await openAIQuery({ message: message })) as string,
               replyID: messageQueryResult?.id.toString() as string,
               userID: "1",
+              image: image,
+              chatID: chatID,
             }),
           );
+
         socket.emit("newMessageScroller", session.user?.id);
       }
     } else {
@@ -98,7 +84,7 @@ function ReplyContainer({
     <div className="relative mb-4 flex h-[20%] w-11/12">
       {currentUsersTyping.length > 0 && (
         <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
-          {currentUsersTyping.length > 10 ? (
+          {currentUsersTyping.length > 5 ? (
             <p>{`Many users are typing...`}</p>
           ) : (
             <p>{`${currentUsersTyping.map((element) => element.name)}  ${currentUsersTyping.length == 1 ? "is typing..." : "are typing"}`}</p>

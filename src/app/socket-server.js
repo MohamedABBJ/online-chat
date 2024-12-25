@@ -16,11 +16,15 @@ app.prepare().then(() => {
       console.log(`the user joined the private chat ${roomID}`);
       socket.join(roomID);
     });
+    socket.on("joinPublicChat", (roomID) => {
+      console.log(`the user joined the chat ${roomID}`);
+      socket.join(roomID);
+    });
     socket.on("newPrivateMessage", (message) => {
       io.to(message.chat_id).emit("newMessage", message);
     });
     socket.on("newMessage", (message) => {
-      io.emit("newMessage", message);
+      io.to(message.chat_id).emit("newMessage", message);
     });
     socket.on("newMessageScroller", (user_id) => {
       io.emit("newMessageScroller", user_id);

@@ -1,7 +1,11 @@
 "use server";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { publicChatTable, usersTable } from "../../drizzle/schema";
+import {
+  privateChatTable,
+  publicChatTable,
+  usersTable,
+} from "../../drizzle/schema";
 import client from "./client";
 
 const sendMessageQuery = async ({
@@ -59,6 +63,40 @@ const sendMessageQuery = async ({
 
       return await getUserData;
     }
+    const sendPrivateMessage = (
+      await db
+        .insert(privateChatTable)
+        .values({
+          chat_id: chat_id,
+          message: message,
+          user_id: userID,
+          reply: message_id,
+          image: image,
+        })
+        .returning({ insertedID: privateChatTable.id })
+    )[0];
+
+    const getUserData = {
+      user_details: (
+        await db.select().from(usersTable).where(eq(usersTable.id, userID))
+      )[0],
+      id: sendPrivateMessage.insertedID,
+      user_id: userID,
+      message: message,
+      chat_id: chat_id,
+      image: image,
+      reply: message_id,
+      messageReplyData: message_id
+        ? (
+            await db
+              .select()
+              .from(publicChatTable)
+              .where(eq(publicChatTable.id, Number(message_id)))
+          )[0]
+        : null,
+    };
+
+    return await getUserData;
   } catch (error) {
     console.log(error);
   }
