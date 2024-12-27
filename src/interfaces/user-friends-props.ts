@@ -12,5 +12,6 @@ interface UserFriends {
   id: number;
   friend_id: string;
   requestState: "pending" | "accepted" | "denied";
+  chat_id: string;
 }
 [];

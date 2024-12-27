@@ -33,7 +33,11 @@ function FriendsList({ session }: { session: UserSessionProps }) {
     <div>
       {friends?.friends &&
         friends.friends.map((element) => (
-          <FriendProfile friendDetails={element} key={element.id} />
+          <FriendProfile
+            session={session}
+            friendDetails={element}
+            key={element.id}
+          />
         ))}
     </div>
   );

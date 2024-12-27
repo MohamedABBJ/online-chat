@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-avatar/user-avatar";
 import friendRequestHandlerQuery from "@/db/friend-request-handler-query";
 import chatListSelectorStore from "@/store/chat-list-selector-store";
+import currentChatIdStore from "@/store/current-chat-id-store";
 import { Check, X } from "lucide-react";
 
 function FriendRequestNotification({
@@ -13,6 +14,7 @@ function FriendRequestNotification({
   notificationDetails: UserFriends;
 }) {
   const { setChatListSelector } = chatListSelectorStore();
+  const { chatID } = currentChatIdStore();
 
   return (
     <div>
@@ -28,6 +30,7 @@ function FriendRequestNotification({
           <Button
             onClick={async () => {
               await friendRequestHandlerQuery({
+                chat_id: chatID,
                 friend_id: notificationDetails.friend_id,
                 user_id: notificationDetails.user_id,
                 requestState: "accepted",
@@ -42,6 +45,7 @@ function FriendRequestNotification({
           <Button
             onClick={async () => {
               await friendRequestHandlerQuery({
+                chat_id: chatID,
                 friend_id: notificationDetails.friend_id,
                 user_id: notificationDetails.user_id,
                 requestState: "denied",
