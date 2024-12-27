@@ -20,6 +20,10 @@ app.prepare().then(() => {
       console.log(`the user joined the chat ${roomID}`);
       socket.join(roomID);
     });
+    socket.on("leaveChat", (roomID) => {
+      console.log(`the user left the chat ${roomID}`);
+      socket.leave(roomID);
+    });
     socket.on("newPrivateMessage", (message) => {
       io.to(message.chat_id).emit("newMessage", message);
     });

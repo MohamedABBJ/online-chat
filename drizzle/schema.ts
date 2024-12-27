@@ -115,3 +115,11 @@ export const userFriendsTable = pgTable("user_friends", {
   chat_id: text("chat_id"),
   requestState: requestStateType("request_state").notNull().default("pending"),
 });
+
+export const currentJoinedChat = pgTable("current_joined_chat", {
+  id: serial("id").primaryKey(),
+  user_id: text("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+  last_chat_id: text("chat_id"),
+});

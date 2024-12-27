@@ -36,7 +36,7 @@ function ReplyContainer({
 
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
-      if (chatID != "") {
+      if (chatID != "public_chat") {
         const privateMessageQueryResult = await messageQuery({
           messageData: message,
           replyID: replyData.messageID,
@@ -44,7 +44,22 @@ function ReplyContainer({
           image: image,
           chatID: chatID,
         });
+
         socket.emit(`newPrivateMessage`, privateMessageQueryResult);
+        socket.emit("newMessageScroller", session.user?.id);
+        setBtnAIState(false);
+
+        btnAIState &&
+          socket.emit(
+            "newPrivateMessage",
+            await messageQuery({
+              messageData: (await openAIQuery({ message: message })) as string,
+              replyID: privateMessageQueryResult?.id.toString() as string,
+              userID: "1",
+              image: image,
+              chatID: chatID,
+            }),
+          );
       } else {
         const messageQueryResult = await messageQuery({
           messageData: message,

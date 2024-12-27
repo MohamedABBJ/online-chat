@@ -1,20 +1,17 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-avatar/user-avatar";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 function FriendProfile({ friendDetails }: { friendDetails: UserFriends }) {
   const router = useRouter();
   return (
-    <Button
-      onClick={() => router.push(friendDetails.chat_id)}
-      className="flex gap-3 text-start"
-    >
+    <Link href={`/${friendDetails.chat_id}`} className="flex gap-3 text-start">
       <UserAvatar userImage={friendDetails.friendData?.image as string} />
       <div>
         <p>{friendDetails.friendData?.name}</p>
       </div>
-    </Button>
+    </Link>
   );
 }
 

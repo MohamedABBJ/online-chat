@@ -9,9 +9,12 @@ function ChatIDStore({ chat_id }: { chat_id: string }) {
 
   useEffect(() => {
     setChatID(typeof chat_id == "undefined" ? public_chat_id : chat_id);
+
     typeof chat_id == "undefined"
-      ? socket.emit("joinPublicChat", public_chat_id)
-      : socket.emit("joinPrivateChat", chat_id);
+      ? (socket.emit("joinPublicChat", public_chat_id),
+        socket.emit("leaveChat", chat_id))
+      : (socket.emit("joinPrivateChat", chat_id),
+        socket.emit("leaveChat", public_chat_id));
   }, [setChatID, chat_id]);
 
   return <></>;
