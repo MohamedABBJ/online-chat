@@ -4,7 +4,6 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { nanoid } from "nanoid";
 import { userFriendsTable } from "../../drizzle/schema";
 import client from "./client";
-import currentUserChat from "./current-user-chat";
 
 const friendRequestHandlerQuery = async ({
   user_id,
@@ -29,8 +28,6 @@ const friendRequestHandlerQuery = async ({
         .where(
           sql`${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.friend_id} = ${friend_id}`,
         );
-
-      currentUserChat({ option: "create", user_id: user_id, chat_id: chat_id });
     }
 
     return await { status: 200 };
