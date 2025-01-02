@@ -6,6 +6,7 @@ import Home from "../page";
 async function Page({ params }: { params: { chat_id: string } }) {
   const session: UserSessionProps =
     (await verifyUserSession()) as UserSessionProps;
+
   const checkPrivateChat = await privateChatIDQuery({
     chat_id: params.chat_id,
     user_id: session.user?.id as string,

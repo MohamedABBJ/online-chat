@@ -12,7 +12,6 @@ async function currentUserChat({
   chat_id: string | "none";
 }) {
   const db = drizzle(client);
-
   const checkIfUserExists = async () => {
     return await db
       .select()
@@ -23,7 +22,9 @@ async function currentUserChat({
     const checkSameChatIDQuery = await db
       .select()
       .from(joinedChatID)
-      .where(sql`${joinedChatID.current_chat_id} = ${chat_id}`);
+      .where(
+        sql`${joinedChatID.current_chat_id} = ${chat_id} and ${joinedChatID.user_id} = ${user_id}`,
+      );
     return checkSameChatIDQuery;
   };
 
