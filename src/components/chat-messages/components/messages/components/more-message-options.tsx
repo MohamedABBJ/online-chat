@@ -6,7 +6,11 @@ import {
 import UserMessageProps from "@/interfaces/user-messages-props";
 import replyingStateStore from "@/store/replying-state-store";
 
-function MoreOptions({ messageElement }: { messageElement: UserMessageProps }) {
+function MoreMessageOptions({
+  messageElement,
+}: {
+  messageElement: UserMessageProps;
+}) {
   const { setReplyData } = replyingStateStore();
 
   return (
@@ -32,4 +36,4 @@ function MoreOptions({ messageElement }: { messageElement: UserMessageProps }) {
   );
 }
 
-export default MoreOptions;
+export default MoreMessageOptions;

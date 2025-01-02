@@ -3,8 +3,7 @@ import UserMenu from "@/components/user-avatar/user-menu";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import UserSessionProps from "@/interfaces/user-session-props";
 import Image from "next/image";
-import MoreOptions from "./more-options";
-
+import MoreMessageOptions from "./more-message-options";
 function MessageElement({
   messageElement,
   session,
@@ -47,7 +46,7 @@ function MessageElement({
           className={`group relative -mt-2 flex w-full flex-col items-center gap-4 rounded-xl border border-black px-8 py-6 ${messageType}`}
         >
           <p>{messageElement.message}</p>
-          <MoreOptions messageElement={messageElement} />
+          <MoreMessageOptions messageElement={messageElement} />
           {messageElement.image && (
             <button>
               <Image

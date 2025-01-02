@@ -26,7 +26,7 @@ const sendMessageQuery = async ({
   try {
     const db = drizzle(client);
 
-    if (chat_id == "") {
+    if (chat_id == "public_chat") {
       const insertMessage = (
         await db
           .insert(publicChatTable)
@@ -60,9 +60,9 @@ const sendMessageQuery = async ({
             )[0]
           : null,
       };
-
       return await getUserData;
     }
+
     const sendPrivateMessage = (
       await db
         .insert(privateChatTable)
@@ -90,8 +90,8 @@ const sendMessageQuery = async ({
         ? (
             await db
               .select()
-              .from(publicChatTable)
-              .where(eq(publicChatTable.id, Number(message_id)))
+              .from(privateChatTable)
+              .where(eq(privateChatTable.id, Number(message_id)))
           )[0]
         : null,
     };

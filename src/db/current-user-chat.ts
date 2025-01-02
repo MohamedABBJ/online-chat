@@ -28,6 +28,13 @@ async function currentUserChat({
     return checkSameChatIDQuery;
   };
 
+  const previousChatID = (
+    await db
+      .select({ previousChatID: joinedChatID.current_chat_id })
+      .from(joinedChatID)
+      .where(eq(joinedChatID.user_id, user_id))
+  )[0].previousChatID;
+
   if ((await checkIfUserExists()).length == 0) {
     await db.insert(joinedChatID).values({
       user_id: user_id,
@@ -40,12 +47,6 @@ async function currentUserChat({
     (await checkIfUserExists()).length == 1 &&
     (await checkSameChatID()).length == 0
   ) {
-    const previousChatID = (
-      await db
-        .select({ previousChatID: joinedChatID.current_chat_id })
-        .from(joinedChatID)
-        .where(eq(joinedChatID.user_id, user_id))
-    )[0].previousChatID;
     await db
       .update(joinedChatID)
       .set({ current_chat_id: chat_id, last_chat_id: previousChatID })
@@ -54,7 +55,7 @@ async function currentUserChat({
     return { previousChatID: previousChatID, joinedChatID: chat_id };
   }
   if ((await checkSameChatID()).length == 1) {
-    return;
+    return { previousChatID: previousChatID, joinedChatID: chat_id };
   }
 
   console.log("The user has more than one chatID, please check the database");
