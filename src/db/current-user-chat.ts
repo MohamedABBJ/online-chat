@@ -51,7 +51,7 @@ async function currentUserChat({
       .set({ current_chat_id: chat_id, last_chat_id: previousChatID })
       .where(eq(joinedChatID.user_id, user_id));
     console.log("The chatID has beed updated correctly");
-    return;
+    return { previousChatID: previousChatID, joinedChatID: chat_id };
   }
   if ((await checkSameChatID()).length == 1) {
     return;

@@ -12,11 +12,7 @@ app.prepare().then(() => {
 
   io.on("connection", (socket) => {
     console.log(`Socket ${socket.id} connected.`);
-    socket.on("joinPrivateChat", (roomID) => {
-      console.log(`the user joined the private chat ${roomID}`);
-      socket.join(roomID);
-    });
-    socket.on("joinPublicChat", (roomID) => {
+    socket.on("joinChat", (roomID) => {
       console.log(`the user joined the chat ${roomID}`);
       socket.join(roomID);
     });
