@@ -1,6 +1,6 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { userFriendsTable } from "../../drizzle/schema";
 import client from "./client";
@@ -17,10 +17,10 @@ const removeOrBlockUserQuery = async ({
 
     await db
       .update(userFriendsTable)
-      .set({ requestState: typeOfQuery })
-      .where(eq(userFriendsTable.user_id, requiredData.user_id));
-
-    console.log(`The user has been ${typeOfQuery} correctly`);
+      .set({ requestState: "removed" })
+      .where(
+        sql`${userFriendsTable.user_id} = ${requiredData.user_id} and ${userFriendsTable.friend_id} = ${requiredData.friend_id} or ${userFriendsTable.user_id} = ${requiredData.friend_id} and ${userFriendsTable.friend_id} = ${requiredData.user_id}`,
+      );
 
     return;
   } catch (error) {
