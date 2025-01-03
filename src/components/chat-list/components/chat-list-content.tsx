@@ -23,9 +23,11 @@ function ChatListContent({ session }: { session: UserSessionProps }) {
         </Button>
       </div>
       {chatListSelector == "chat" ? (
-        <div className="flex h-full flex-col items-start gap-4 overflow-y-auto p-4">
-          <PublicChatButton />
-          <FriendsList session={session} />
+        <div className="flex h-full flex-col items-start overflow-y-auto p-4">
+          <div className="flex w-full flex-col gap-4">
+            <PublicChatButton />
+            <FriendsList session={session} />
+          </div>
         </div>
       ) : chatListSelector == "notification" ? (
         <UserNotifications session={session} />
