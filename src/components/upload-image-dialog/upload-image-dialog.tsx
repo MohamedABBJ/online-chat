@@ -1,7 +1,8 @@
 "use client";
 
 import UserSessionProps from "@/interfaces/user-session-props";
-import uploadImageDialogStore from "@/store/upload-image-dialog-store";
+
+import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import ReplyContainer from "../chat-messages/components/reply-container";
@@ -16,7 +17,7 @@ import {
 
 function UploadImageDialog({ session }: { session: UserSessionProps }) {
   const { openImageDialog, setOpenImageDialog, image, setImage } =
-    uploadImageDialogStore();
+    replyContainerStore();
 
   const [imagePreview, setImagePreview] = useState("#");
 

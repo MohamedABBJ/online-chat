@@ -6,7 +6,7 @@ import {
   UsersTypingProps,
   UserTypingProps,
 } from "@/interfaces/users-typing-props";
-import replyContainerStore from "@/store/upload-image-dialog-store";
+import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
 import { useEffect, useState } from "react";
 
 function useUsersTyping({ session }: { session: UserSessionProps }) {

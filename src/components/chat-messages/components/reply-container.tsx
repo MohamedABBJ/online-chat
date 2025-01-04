@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import useUsersTyping from "@/hooks/use-users-typing";
 import UserSessionProps from "@/interfaces/user-session-props";
 import currentChatIdStore from "@/store/current-chat-id-store";
+import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
 import replyingStateStore from "@/store/replying-state-store";
-import replyContainerStore from "@/store/upload-image-dialog-store";
 
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import openAIQuery from "@/utils/ai/openai-query";

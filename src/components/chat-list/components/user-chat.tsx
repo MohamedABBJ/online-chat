@@ -18,7 +18,7 @@ function FriendsList({ session }: { session: UserSessionProps }) {
       );
     };
 
-    socket.on("getNotificationsFun", async () => await getUserFriendsFun());
+    socket.on("updateFriendList", async () => await getUserFriendsFun());
 
     if (session) {
       getUserFriendsFun();

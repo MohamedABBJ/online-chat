@@ -1,4 +1,3 @@
-import { socket } from "@/app/socket";
 import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-avatar/user-avatar";
 import friendRequestHandlerQuery from "@/db/friend-request-handler-query";
@@ -35,7 +34,7 @@ function FriendRequestNotification({
                 user_id: notificationDetails.user_id,
                 requestState: "accepted",
               });
-              socket.emit("updateFriendList");
+
               return;
             }}
             className="min-w-0 rounded-full p-1"
@@ -50,7 +49,7 @@ function FriendRequestNotification({
                 user_id: notificationDetails.user_id,
                 requestState: "denied",
               });
-              socket.emit("updateFriendList");
+
               return;
             }}
             color="error"

@@ -1,11 +1,10 @@
-import { socket } from "@/app/socket";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import removeOrBlockUserQuery from "@/db/remove-block-user-query";
 import UserSessionProps from "@/interfaces/user-session-props";
+import confirmActionDialogStore from "@/store/dialog-stores/confirm-action-dialog-store";
 
 function MoreFriendsOptions({
   friendDetails,
@@ -14,10 +13,8 @@ function MoreFriendsOptions({
   friendDetails: UserFriendsChat;
   session: UserSessionProps;
 }) {
-  const removeOrBlockUserQueryData = {
-    user_id: session?.user.id as string,
-    friend_id: friendDetails?.friendData?.id as string,
-  };
+  const { setOpen, setTypeOfAction, setFriendDetails } =
+    confirmActionDialogStore();
 
   return (
     <DropdownMenu>
@@ -28,22 +25,18 @@ function MoreFriendsOptions({
         <div className="flex flex-col gap-2">
           <button
             onClick={async () => {
-              await removeOrBlockUserQuery({
-                requiredData: removeOrBlockUserQueryData,
-                typeOfQuery: "removed",
-              });
-              socket.emit("updateFriendList");
+              setOpen(true);
+              setTypeOfAction("remove");
+              setFriendDetails(friendDetails);
             }}
           >
             Remove
           </button>
           <button
             onClick={async () => {
-              await removeOrBlockUserQuery({
-                requiredData: removeOrBlockUserQueryData,
-                typeOfQuery: "blocked",
-              });
-              socket.emit("updateFriendList");
+              setOpen(true);
+              setTypeOfAction("block");
+              setFriendDetails(friendDetails);
             }}
           >
             Block

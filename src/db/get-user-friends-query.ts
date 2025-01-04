@@ -10,7 +10,7 @@ const getUserFriendsQuery = async ({
   friendState,
 }: {
   user_id: string;
-  friendState: "pending" | "accepted";
+  friendState: "accepted" | "pending";
 }) => {
   try {
     const db = drizzle(client);
