@@ -18,6 +18,7 @@ function ConfirmActionDialog({ session }: { session: UserSessionProps }) {
         <div className="flex gap-2">
           <Button
             onClick={async () => {
+              //TODO:Delete test constant
               const test = await removeBlockUserHandler({
                 session,
                 typeOfAction,
