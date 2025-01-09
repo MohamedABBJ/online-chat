@@ -1,6 +1,7 @@
 "use client";
 import UserMessageProps from "@/interfaces/user-messages-props";
 import UserSessionProps from "@/interfaces/user-session-props";
+import informationDialogStore from "@/store/dialog-stores/information-dialog-store";
 import userFriendsStore from "@/store/user-friends-store";
 import updateProfilePicture from "@/utils/aws/update-profile-picture";
 import logoutHandler from "@/utils/logout-handler";
@@ -19,6 +20,7 @@ function UserMenuElements({
   session?: UserSessionProps;
 }) {
   const { friends } = userFriendsStore();
+  const { props, setProps } = informationDialogStore();
   return (
     <div className="flex w-48 flex-col items-center gap-2">
       {viewType == "profile" ? (
@@ -37,9 +39,19 @@ function UserMenuElements({
         {viewType == "profile" ? (
           <label className="group cursor-pointer rounded-full">
             <input
-              onChange={async (event) =>
-                await updateProfilePicture(event, session?.user.id as string)
-              }
+              onChange={async (event) => {
+                const updateProfileResponse = await updateProfilePicture(
+                  event,
+                  session?.user.id as string,
+                );
+                if (!updateProfileResponse) {
+                  setProps({
+                    open: true,
+                    callingName: { prop: "pfpUploadError" },
+                  });
+                  return;
+                }
+              }}
               type="file"
               className="hidden"
             />

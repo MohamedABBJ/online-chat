@@ -15,13 +15,12 @@ function InformationDialog({ session }: { session: UserSessionProps }) {
     message: dialogMessages.filter(
       (element) =>
         element.callingName.prop == props.callingName.prop && element.message,
-    )[0].message,
+    )[0]?.message,
     type: dialogMessages.filter(
       (element) =>
         element.callingName.prop == props.callingName.prop && element.category,
-    )[0].category,
+    )[0]?.category,
   };
-  console.log(dialogProps);
 
   return (
     <Dialog
@@ -61,9 +60,7 @@ function ConfirmationButtons({ session }: { session: UserSessionProps }) {
       >
         Accept
       </Button>
-      <Button
-        onClick={() => setProps({ open: false, callingName: { prop: "none" } })}
-      >
+      <Button onClick={() => setProps({ ...props, open: false })}>
         Cancel
       </Button>
     </>
@@ -71,9 +68,12 @@ function ConfirmationButtons({ session }: { session: UserSessionProps }) {
 }
 
 function AcceptButton() {
+  const { props, setProps } = informationDialogStore();
   return (
     <>
-      <Button>Accept</Button>
+      <Button onClick={() => setProps({ ...props, open: false })}>
+        Accept
+      </Button>
     </>
   );
 }

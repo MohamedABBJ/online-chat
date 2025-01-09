@@ -99,6 +99,7 @@ const sendMessageQuery = async ({
     return await getUserData;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 

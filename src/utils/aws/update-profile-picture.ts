@@ -37,6 +37,7 @@ const updateProfilePicture = async (
       alert("The image has been uploaded!");
     } catch (error) {
       console.log(error);
+      return false;
     }
   }
 };

@@ -8,6 +8,12 @@ const dialogMessages: DialogMessagesProps[] = [
     callingName: { prop: "removeUser" },
   },
   {
+    message: "Do you want to unblock this user?",
+    section: "chatList",
+    category: "info",
+    callingName: { prop: "unblockUser" },
+  },
+  {
     message: "Are you sure that you want to block this user?",
     section: "chatList",
     category: "info",

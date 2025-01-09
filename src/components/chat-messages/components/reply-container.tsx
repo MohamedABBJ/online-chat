@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import useUsersTyping from "@/hooks/use-users-typing";
 import UserSessionProps from "@/interfaces/user-session-props";
 import currentChatIdStore from "@/store/current-chat-id-store";
+import informationDialogStore from "@/store/dialog-stores/information-dialog-store";
 import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
 import replyingStateStore from "@/store/replying-state-store";
 
@@ -33,6 +34,11 @@ function ReplyContainer({
     replyContainerStore();
   const [btnAIState, setBtnAIState] = useState<boolean>(false);
   const currentUsersTyping = useUsersTyping({ session: session });
+  const mbConversion = {
+    maxSize: 5.0,
+    mbDivisor: 1000000,
+  };
+  const { setProps } = informationDialogStore();
 
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
@@ -44,6 +50,14 @@ function ReplyContainer({
           image: image,
           chatID: chatID,
         });
+
+        if (!privateMessageQueryResult) {
+          setProps({
+            open: true,
+            callingName: { prop: "sendingMessageError" },
+          });
+          return;
+        }
 
         socket.emit(`newPrivateMessage`, privateMessageQueryResult);
         socket.emit("newMessageScroller", session.user?.id);
@@ -68,6 +82,14 @@ function ReplyContainer({
           image: image,
           chatID: chatID,
         });
+
+        if (!messageQueryResult) {
+          setProps({
+            open: true,
+            callingName: { prop: "sendingMessageError" },
+          });
+          return;
+        }
 
         socket.emit("newMessage", messageQueryResult);
         socket.emit("newMessageScroller", session.user?.id);
@@ -157,11 +179,16 @@ function ReplyContainer({
                 <input
                   onClick={(event) => (event.currentTarget.value = "")}
                   onChange={(event) =>
-                    event.target.files
+                    event.target.files &&
+                    event.target.files[0].size / mbConversion.mbDivisor <=
+                      mbConversion.maxSize
                       ? (setOpenImageDialog(true), setImage(event))
-                      : null
+                      : setProps({
+                          open: true,
+                          callingName: { prop: "image5MBError" },
+                        })
                   }
-                  accept=".jpg, .png, .jpeg"
+                  accept="image/*"
                   hidden
                   type="file"
                 />
