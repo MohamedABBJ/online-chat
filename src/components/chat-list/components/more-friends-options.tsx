@@ -4,7 +4,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import UserSessionProps from "@/interfaces/user-session-props";
-import confirmActionDialogStore from "@/store/dialog-stores/confirm-action-dialog-store";
+import informationDialogStore from "@/store/dialog-stores/information-dialog-store";
 
 function MoreFriendsOptions({
   friendDetails,
@@ -13,8 +13,7 @@ function MoreFriendsOptions({
   friendDetails: UserFriendsChat;
   session: UserSessionProps;
 }) {
-  const { setOpen, setTypeOfAction, setFriendDetails } =
-    confirmActionDialogStore();
+  const { setProps } = informationDialogStore();
 
   return (
     <DropdownMenu>
@@ -25,18 +24,22 @@ function MoreFriendsOptions({
         <div className="flex flex-col gap-2">
           <button
             onClick={async () => {
-              setOpen(true);
-              setTypeOfAction("remove");
-              setFriendDetails(friendDetails);
+              setProps({
+                open: true,
+                callingName: { prop: "removeUser" },
+                friendDetails: friendDetails,
+              });
             }}
           >
             Remove
           </button>
           <button
             onClick={async () => {
-              setOpen(true);
-              setTypeOfAction("block");
-              setFriendDetails(friendDetails);
+              setProps({
+                open: true,
+                callingName: { prop: "blockUser" },
+                friendDetails: friendDetails,
+              });
             }}
           >
             Block

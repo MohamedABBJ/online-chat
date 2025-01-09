@@ -22,7 +22,6 @@ function ChatIDStore({
         user_id: user_id,
         chat_id: chat_id_handler,
       });
-
       socket.emit("leaveChat", ID?.previousChatID);
       socket.emit("joinChat", ID?.joinedChatID);
     };
