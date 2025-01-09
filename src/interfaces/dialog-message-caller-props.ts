@@ -6,6 +6,7 @@ interface DialogMessageCallerProps {
     | "image5MBError"
     | "sendingMessageError"
     | "pfpUploadError"
+    | "blockedUser"
     | "none";
 }
 
