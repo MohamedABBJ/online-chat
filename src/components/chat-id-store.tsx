@@ -17,17 +17,19 @@ function ChatIDStore({
     typeof chat_id == "undefined" ? public_chat_id : chat_id;
 
   useEffect(() => {
-    const updateChatID = async () => {
-      const ID = await currentUserChat({
-        user_id: user_id,
-        chat_id: chat_id_handler,
-      });
-      socket.emit("leaveChat", ID?.previousChatID);
-      socket.emit("joinChat", ID?.joinedChatID);
-    };
+    if (user_id) {
+      const updateChatID = async () => {
+        const ID = await currentUserChat({
+          user_id: user_id,
+          chat_id: chat_id_handler,
+        });
+        socket.emit("leaveChat", ID?.previousChatID);
+        socket.emit("joinChat", ID?.joinedChatID);
+      };
 
-    setChatID(chat_id_handler);
-    updateChatID();
+      setChatID(chat_id_handler);
+      updateChatID();
+    }
   }, [setChatID, chat_id_handler, chat_id, user_id]);
 
   return <></>;

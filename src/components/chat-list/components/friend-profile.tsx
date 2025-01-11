@@ -14,24 +14,28 @@ function FriendProfile({
 }) {
   const { setProps } = informationDialogStore();
   return (
-    <Link
-      href={
-        friendDetails.requestState == "blocked"
-          ? `/${friendDetails.chat_id}`
-          : ""
-      }
-      onClick={() =>
-        friendDetails.requestState == "blocked" &&
-        setProps({ open: true, callingName: { prop: "blockedUser" } })
-      }
+    <div
       className={`relative flex w-full items-center justify-center gap-4 text-start`}
     >
-      <UserAvatar userImage={friendDetails.friendData?.image as string} />
-      <div>
-        <p>{friendDetails.friendData?.name}</p>
-      </div>
+      <Link
+        className="flex items-center gap-4"
+        href={
+          friendDetails.requestState != "blocked"
+            ? `/${friendDetails.chat_id}`
+            : ""
+        }
+        onClick={() =>
+          friendDetails.requestState == "blocked" &&
+          setProps({ open: true, callingName: { prop: "blockedUser" } })
+        }
+      >
+        <UserAvatar userImage={friendDetails.friendData?.image as string} />
+        <div>
+          <p>{friendDetails.friendData?.name}</p>
+        </div>
+      </Link>
       <MoreFriendsOptions friendDetails={friendDetails} session={session} />
-    </Link>
+    </div>
   );
 }
 

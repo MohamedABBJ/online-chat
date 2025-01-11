@@ -17,7 +17,7 @@ const removeOrBlockUserQuery = async ({
 
     await db
       .update(userFriendsTable)
-      .set({ requestState: "removed" })
+      .set({ requestState: typeOfQuery })
       .where(
         sql`${userFriendsTable.user_id} = ${requiredData.user_id} and ${userFriendsTable.friend_id} = ${requiredData.friend_id} or ${userFriendsTable.user_id} = ${requiredData.friend_id} and ${userFriendsTable.friend_id} = ${requiredData.user_id}`,
       );

@@ -48,15 +48,16 @@ function ConfirmationButtons({ session }: { session: UserSessionProps }) {
   return (
     <>
       <Button
-        onClick={() =>
+        onClick={() => {
           dialogHandler({
             callingName: props.callingName,
             requiredData: {
               user_id: session.user.id as string,
               friend_id: props.friendDetails?.friendData?.id as string,
             },
-          })
-        }
+          });
+          setProps({ ...props, open: false });
+        }}
       >
         Accept
       </Button>

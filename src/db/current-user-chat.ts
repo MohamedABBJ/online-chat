@@ -19,13 +19,12 @@ async function currentUserChat({
       .where(eq(joinedChatID.user_id, user_id));
   };
   const checkSameChatID = async () => {
-    const checkSameChatIDQuery = await db
+    return await db
       .select()
       .from(joinedChatID)
       .where(
         sql`${joinedChatID.current_chat_id} = ${chat_id} and ${joinedChatID.user_id} = ${user_id}`,
       );
-    return checkSameChatIDQuery;
   };
 
   const previousChatID = (
@@ -33,7 +32,7 @@ async function currentUserChat({
       .select({ previousChatID: joinedChatID.current_chat_id })
       .from(joinedChatID)
       .where(eq(joinedChatID.user_id, user_id))
-  )[0].previousChatID;
+  )[0]?.previousChatID;
 
   if ((await checkIfUserExists()).length == 0) {
     await db.insert(joinedChatID).values({

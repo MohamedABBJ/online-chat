@@ -20,6 +20,12 @@ const dialogMessages: DialogMessagesProps[] = [
     callingName: { prop: "blockUser" },
   },
   {
+    message: "You can't interact with this user because they're blocked",
+    section: "chatList",
+    category: "error",
+    callingName: { prop: "blockedUser" },
+  },
+  {
     message: "This image weights more than 5Mb",
     section: "chatContainer",
     category: "error",

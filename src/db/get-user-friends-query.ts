@@ -14,19 +14,20 @@ const getUserFriendsQuery = async ({
 }) => {
   try {
     const db = drizzle(client);
+    const blockedProps = "blocked";
 
     const getFriendsSentQuery = await db
       .select()
       .from(userFriendsTable)
       .where(
-        sql`${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState}`,
+        sql`${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps}`,
       );
 
     const getFriendsReceiverQuery = await db
       .select()
       .from(userFriendsTable)
       .where(
-        sql`${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState}`,
+        sql`${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps}`,
       );
 
     if (getFriendsSentQuery.length > 0) {
