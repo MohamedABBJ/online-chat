@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UserSessionProps from "@/interfaces/user-session-props";
 import informationDialogStore from "@/store/dialog-stores/information-dialog-store";
+import userBlockedHandler from "@/utils/user-blocked-handler";
 
 function MoreFriendsOptions({
   friendDetails,
@@ -19,10 +20,15 @@ function MoreFriendsOptions({
         <button className="focus:outline-none">{`...`}</button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {friendDetails.requestState == "accepted" && (
-          <BlockRemoveUserButtons friendDetails={friendDetails} />
-        )}
-        {friendDetails.requestState == "blocked" && (
+        {friendDetails.requestState == "accepted" ||
+          (userBlockedHandler({
+            friendDetails: friendDetails,
+            session: session,
+          }).checkIfFriendBlocked && (
+            <BlockRemoveUserButtons friendDetails={friendDetails} />
+          ))}
+        {userBlockedHandler({ friendDetails: friendDetails, session: session })
+          .checkIfUserBlocked && (
           <UnblockUserButtons friendDetails={friendDetails} />
         )}
       </DropdownMenuContent>

@@ -11,7 +11,13 @@ interface UserFriends {
   user_id: string;
   id: number;
   friend_id: string;
-  requestState: "pending" | "accepted" | "denied" | "blocked" | "removed";
+  requestState:
+    | "pending"
+    | "accepted"
+    | "denied"
+    | "blockedUser"
+    | "blockedFriend"
+    | "removed";
 }
 [];
 

@@ -26,7 +26,13 @@ const customMessageStatusType = customType<{
 });
 
 const requestStateType = customType<{
-  data: "pending" | "accepted" | "denied" | "blocked" | "removed";
+  data:
+    | "pending"
+    | "accepted"
+    | "denied"
+    | "blockedUser"
+    | "blockedFriend"
+    | "removed";
 }>({
   dataType() {
     return "pending";

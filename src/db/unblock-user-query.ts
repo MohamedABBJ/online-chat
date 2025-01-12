@@ -16,7 +16,9 @@ const unblockUserQuery = async ({
     await db
       .update(userFriendsTable)
       .set({ requestState: "accepted" })
-      .where(sql`${userFriendsTable.user_id} = ${requiredData.user_id}`);
+      .where(
+        sql`${userFriendsTable.user_id} = ${requiredData.user_id} or ${userFriendsTable.user_id} = ${requiredData.friend_id} and ${userFriendsTable.friend_id} = ${requiredData.user_id} or  ${userFriendsTable.friend_id} = ${requiredData.friend_id}`,
+      );
 
     return;
   } catch (error) {

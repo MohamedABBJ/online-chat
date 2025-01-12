@@ -7,6 +7,7 @@ interface DialogMessageCallerProps {
     | "sendingMessageError"
     | "pfpUploadError"
     | "blockedUser"
+    | "blockedFriend"
     | "none";
 }
 

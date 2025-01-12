@@ -14,20 +14,23 @@ const getUserFriendsQuery = async ({
 }) => {
   try {
     const db = drizzle(client);
-    const blockedProps = "blocked";
+    const blockedProps = {
+      userBlock: "blockedUser",
+      friendBlock: "blockedFriend",
+    };
 
     const getFriendsSentQuery = await db
       .select()
       .from(userFriendsTable)
       .where(
-        sql`${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps}`,
+        sql`${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.userBlock} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.friendBlock}`,
       );
 
     const getFriendsReceiverQuery = await db
       .select()
       .from(userFriendsTable)
       .where(
-        sql`${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps}`,
+        sql`${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.userBlock} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.friendBlock}`,
       );
 
     if (getFriendsSentQuery.length > 0) {

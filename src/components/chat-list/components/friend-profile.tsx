@@ -20,13 +20,16 @@ function FriendProfile({
       <Link
         className="flex items-center gap-4"
         href={
-          friendDetails.requestState != "blocked"
+          !friendDetails.requestState.startsWith("blocked")
             ? `/${friendDetails.chat_id}`
             : ""
         }
         onClick={() =>
-          friendDetails.requestState == "blocked" &&
-          setProps({ open: true, callingName: { prop: "blockedUser" } })
+          (friendDetails.requestState == "blockedUser" &&
+            session.user.id == friendDetails.user_id) ||
+          (friendDetails.requestState == "blockedFriend" &&
+            session.user.id == friendDetails.friend_id &&
+            setProps({ open: true, callingName: { prop: "blockedUser" } }))
         }
       >
         <UserAvatar userImage={friendDetails.friendData?.image as string} />
