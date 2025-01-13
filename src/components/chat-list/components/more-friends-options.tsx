@@ -20,13 +20,12 @@ function MoreFriendsOptions({
         <button className="focus:outline-none">{`...`}</button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {friendDetails.requestState == "accepted" ||
-          (userBlockedHandler({
-            friendDetails: friendDetails,
-            session: session,
-          }).checkIfFriendBlocked && (
-            <BlockRemoveUserButtons friendDetails={friendDetails} />
-          ))}
+        {userBlockedHandler({
+          friendDetails: friendDetails,
+          session: session,
+        }).checkIfFriendBlocked && (
+          <BlockRemoveUserButtons friendDetails={friendDetails} />
+        )}
         {userBlockedHandler({ friendDetails: friendDetails, session: session })
           .checkIfUserBlocked && (
           <UnblockUserButtons friendDetails={friendDetails} />

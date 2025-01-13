@@ -32,6 +32,7 @@ const requestStateType = customType<{
     | "denied"
     | "blockedUser"
     | "blockedFriend"
+    | "blocked"
     | "removed";
 }>({
   dataType() {

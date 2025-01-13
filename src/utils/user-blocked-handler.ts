@@ -7,7 +7,7 @@ const userBlockedHandler = ({
   friendDetails: UserFriendsChat;
   session: UserSessionProps;
 }) => {
-  /* This handles when the user block the other one  */
+  /* This handles when the user block the friend  */
   const blockedUser = {
     userBlocked:
       friendDetails.requestState == "blockedUser" &&
@@ -18,7 +18,7 @@ const userBlockedHandler = ({
   };
 
   const checkIfUserBlocked =
-    blockedUser.friendBlocked && blockedUser.userBlocked;
+    blockedUser.friendBlocked || blockedUser.userBlocked;
 
   /* This handles when the friend blocks the user */
   const blockedFriend = {
@@ -31,7 +31,9 @@ const userBlockedHandler = ({
   };
 
   const checkIfFriendBlocked =
-    blockedFriend.friendBlocked && blockedFriend.userBlocked;
+    friendDetails.requestState == "accepted" ||
+    blockedFriend.friendBlocked ||
+    blockedFriend.userBlocked;
 
   return { checkIfUserBlocked, checkIfFriendBlocked };
 };

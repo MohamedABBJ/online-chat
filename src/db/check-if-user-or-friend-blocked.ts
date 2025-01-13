@@ -10,6 +10,14 @@ const checkIfUserOrFriendBlocked = async ({
 }) => {
   const db = drizzle(client);
 
+  const checkIfAlreadyBlocked = async () => {
+    db.select()
+      .from(userFriendsTable)
+      .where(
+        sql`${userFriendsTable.user_id} = ${requiredData.user_id} and ${userFriendsTable.friend_id} = ${requiredData.friend_id}`,
+      );
+  };
+
   const userBlocking = await db
     .select()
     .from(userFriendsTable)
