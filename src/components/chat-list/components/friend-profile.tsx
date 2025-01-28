@@ -13,6 +13,9 @@ function FriendProfile({
   session: UserSessionProps;
 }) {
   const { setProps } = informationDialogStore();
+  const checkFriendOrUserSession =
+    session.user.id == friendDetails.user_id ||
+    session.user.id == friendDetails.friend_id;
   return (
     <div
       className={`relative flex w-full items-center justify-center gap-4 text-start`}
@@ -28,7 +31,9 @@ function FriendProfile({
           (friendDetails.requestState == "blockedUser" &&
             session.user.id == friendDetails.user_id) ||
           (friendDetails.requestState == "blockedFriend" &&
-            session.user.id == friendDetails.friend_id &&
+            session.user.id == friendDetails.friend_id) ||
+          (friendDetails.requestState == "blocked" &&
+            checkFriendOrUserSession &&
             setProps({ open: true, callingName: { prop: "blockedUser" } }))
         }
       >

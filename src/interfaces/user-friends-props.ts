@@ -16,6 +16,7 @@ interface UserFriends {
     | "accepted"
     | "denied"
     | "blockedUser"
+    | "blocked"
     | "blockedFriend"
     | "removed";
 }

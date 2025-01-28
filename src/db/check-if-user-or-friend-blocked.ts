@@ -8,14 +8,29 @@ const checkIfUserOrFriendBlocked = async ({
 }: {
   requiredData: { user_id: string; friend_id: string };
 }) => {
+  const blockedStates = {
+    blockedUser: "blockedUser",
+    blockedFriend: "blockedFriend",
+  };
   const db = drizzle(client);
 
   const checkIfAlreadyBlocked = async () => {
-    db.select()
+    const friendBlocked = await db
+      .select()
       .from(userFriendsTable)
       .where(
-        sql`${userFriendsTable.user_id} = ${requiredData.user_id} and ${userFriendsTable.friend_id} = ${requiredData.friend_id}`,
+        sql`${userFriendsTable.user_id} = ${requiredData.user_id} and ${userFriendsTable.friend_id} = ${requiredData.friend_id} and ${userFriendsTable.requestState} = ${blockedStates.blockedFriend}`,
       );
+    const userBlocked = await db
+      .select()
+      .from(userFriendsTable)
+      .where(
+        sql`${userFriendsTable.user_id} = ${requiredData.user_id} and ${userFriendsTable.friend_id} = ${requiredData.friend_id} and ${userFriendsTable.requestState} = ${blockedStates.blockedUser}`,
+      );
+    if (friendBlocked.length > 0 || userBlocked.length > 0) {
+      return true;
+    }
+    return false;
   };
 
   const userBlocking = await db
@@ -25,10 +40,6 @@ const checkIfUserOrFriendBlocked = async ({
       sql`${userFriendsTable.user_id} = ${requiredData.user_id} and ${userFriendsTable.friend_id} = ${requiredData.friend_id}`,
     );
 
-  if (userBlocking.length == 1) {
-    return "blockedUser";
-  }
-
   const friendBlocking = await db
     .select()
     .from(userFriendsTable)
@@ -36,6 +47,12 @@ const checkIfUserOrFriendBlocked = async ({
       sql`${userFriendsTable.user_id} = ${requiredData.friend_id} and ${userFriendsTable.friend_id} = ${requiredData.user_id}`,
     );
 
+  if (await checkIfAlreadyBlocked()) {
+    return "blocked";
+  }
+  if (userBlocking.length == 1) {
+    return "blockedUser";
+  }
   if (friendBlocking.length == 1) {
     return "blockedFriend";
   }

@@ -17,20 +17,21 @@ const getUserFriendsQuery = async ({
     const blockedProps = {
       userBlock: "blockedUser",
       friendBlock: "blockedFriend",
+      bothBlocked: "blocked",
     };
 
     const getFriendsSentQuery = await db
       .select()
       .from(userFriendsTable)
       .where(
-        sql`${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.userBlock} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.friendBlock}`,
+        sql`${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.userBlock} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.friendBlock} or ${userFriendsTable.user_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.bothBlocked}`,
       );
 
     const getFriendsReceiverQuery = await db
       .select()
       .from(userFriendsTable)
       .where(
-        sql`${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.userBlock} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.friendBlock}`,
+        sql`${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${friendState} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.userBlock} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.friendBlock} or ${userFriendsTable.friend_id} = ${user_id} and ${userFriendsTable.requestState} = ${blockedProps.bothBlocked}`,
       );
 
     if (getFriendsSentQuery.length > 0) {
