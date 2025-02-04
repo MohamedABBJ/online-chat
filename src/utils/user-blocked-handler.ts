@@ -35,7 +35,9 @@ const userBlockedHandler = ({
     blockedFriend.friendBlocked ||
     blockedFriend.userBlocked;
 
-  return { checkIfUserBlocked, checkIfFriendBlocked };
+  const checkIfBothBlocked = friendDetails.requestState == "blocked";
+
+  return { checkIfUserBlocked, checkIfFriendBlocked, checkIfBothBlocked };
 };
 
 export default userBlockedHandler;

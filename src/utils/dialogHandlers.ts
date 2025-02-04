@@ -10,6 +10,7 @@ const dialogHandler = async ({
   requiredData: { user_id: string; friend_id: string };
   callingName: DialogMessageCallerProps;
 }) => {
+  console.log(callingName.prop);
   switch (callingName.prop) {
     case "blockUser":
       await removeOrBlockUserQuery({
@@ -28,6 +29,14 @@ const dialogHandler = async ({
     case "unblockUser":
       await unblockUserQuery({
         requiredData: requiredData,
+        mode: "unblockUser",
+      });
+      socket.emit("updateFriendList");
+      break;
+    case "unblockFriend":
+      await unblockUserQuery({
+        requiredData: requiredData,
+        mode: "unblockFriend",
       });
       socket.emit("updateFriendList");
       break;

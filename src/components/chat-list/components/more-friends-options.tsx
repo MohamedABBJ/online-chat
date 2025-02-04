@@ -28,7 +28,21 @@ function MoreFriendsOptions({
         )}
         {userBlockedHandler({ friendDetails: friendDetails, session: session })
           .checkIfUserBlocked && (
-          <UnblockUserButtons friendDetails={friendDetails} />
+          <UnblockUserButtons
+            mode="unblockUser"
+            friendDetails={friendDetails}
+          />
+        )}
+        {userBlockedHandler({ friendDetails: friendDetails, session: session })
+          .checkIfBothBlocked && (
+          <UnblockUserButtons
+            mode={
+              session.user.id == friendDetails.friendData?.id
+                ? "unblockFriend"
+                : "unblockUser"
+            }
+            friendDetails={friendDetails}
+          />
         )}
       </DropdownMenuContent>
     </DropdownMenu>
@@ -37,7 +51,9 @@ function MoreFriendsOptions({
 
 const UnblockUserButtons = ({
   friendDetails,
+  mode,
 }: {
+  mode: "unblockFriend" | "unblockUser";
   friendDetails: UserFriendsChat;
 }) => {
   const { setProps } = informationDialogStore();
@@ -47,7 +63,7 @@ const UnblockUserButtons = ({
         onClick={async () => {
           setProps({
             open: true,
-            callingName: { prop: "unblockUser" },
+            callingName: { prop: mode },
             friendDetails: friendDetails,
           });
         }}

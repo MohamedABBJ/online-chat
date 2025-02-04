@@ -3,6 +3,7 @@ interface DialogMessageCallerProps {
     | "removeUser"
     | "blockUser"
     | "unblockUser"
+    | "unblockFriend"
     | "image5MBError"
     | "sendingMessageError"
     | "pfpUploadError"
