@@ -1,5 +1,6 @@
 "use client";
 import { socket } from "@/app/socket";
+import checkAIUserQuery from "@/db/check-ai-user-query";
 import currentUserChat from "@/db/current-user-chat";
 import currentChatIdStore from "@/store/current-chat-id-store";
 import { useEffect } from "react";
@@ -29,6 +30,7 @@ function ChatIDStore({
 
       setChatID(chat_id_handler);
       updateChatID();
+      checkAIUserQuery();
     }
   }, [setChatID, chat_id_handler, chat_id, user_id]);
 
