@@ -3,6 +3,7 @@ import { socket } from "@/app/socket";
 import { Button } from "@/components/ui/button";
 import useUsersTyping from "@/hooks/use-users-typing";
 import UserSessionProps from "@/interfaces/user-session-props";
+import chatMessagesLoadingStore from "@/store/chat-messages-loading-store";
 import currentChatIdStore from "@/store/current-chat-id-store";
 import informationDialogStore from "@/store/dialog-stores/information-dialog-store";
 import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
@@ -39,6 +40,7 @@ function ReplyContainer({
     mbDivisor: 1000000,
   };
   const { setProps } = informationDialogStore();
+  const { loaded } = chatMessagesLoadingStore();
 
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
@@ -158,6 +160,7 @@ function ReplyContainer({
       <div className="flex gap-2">
         <div className="flex flex-col">
           <Button
+            disabled={!loaded}
             className="h-full"
             onClick={async () => {
               if (image) {

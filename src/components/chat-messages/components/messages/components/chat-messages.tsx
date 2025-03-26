@@ -1,7 +1,11 @@
-"use client";
 import UserSessionProps from "@/interfaces/user-session-props";
-import AllMessages from "./all-messages";
+import dynamic from "next/dynamic";
 import NewMessage from "./new-messages";
+
+const AllMessages = dynamic(() => import("./all-messages"), {
+  ssr: false,
+  loading: () => <div>Loading...</div>,
+});
 
 interface Test {
   messages: {
@@ -29,17 +33,17 @@ interface Test {
 
 function ChatMessages({
   session,
-  chatID,
+  chat_id,
   messages,
 }: {
   session: UserSessionProps;
-  chatID: string;
+  chat_id: string;
   messages: Test;
 }) {
   return (
     <>
-      <AllMessages messages={messages} session={session} chatID={chatID} />
-      <NewMessage session={session} chatID={chatID} />
+      <AllMessages messages={messages} session={session} chatID={chat_id} />
+      <NewMessage session={session} chatID={chat_id} />
     </>
   );
 }

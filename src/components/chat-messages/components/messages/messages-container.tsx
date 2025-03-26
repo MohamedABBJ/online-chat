@@ -1,9 +1,9 @@
 "use client";
 import { socket } from "@/app/socket";
-import getMesagesQuery from "@/db/get-messages-query";
 import UserSessionProps from "@/interfaces/user-session-props";
+import chatMessagesLoadingStore from "@/store/chat-messages-loading-store";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import ChatMessages from "./components/chat-messages";
 interface Test {
   messages: {
@@ -30,30 +30,24 @@ interface Test {
   }[];
 }
 
-function MessagesContainer({ session }: { session: UserSessionProps }) {
+function MessagesContainer({
+  session,
+  getChatMessages,
+}: {
+  session: UserSessionProps;
+  getChatMessages: any;
+}) {
   const chatID = usePathname().substring(1);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
   const [quantityOfMessagesView, setQuantityOfMessagesView] = useState(50);
   const [quantityOfMessages, setQuantityOfMessages] = useState(0);
   const [loadMoreMessages, setLoadMoreMessages] = useState(false);
-  const [messages, setMessages] = useState<Test>();
-
-  useEffect(() => {
-    const getChatMessages = async () => {
-      const messagesQuery = await getMesagesQuery({
-        chat_id: chatID,
-        quantity: quantityOfMessagesView,
-      });
-      quantityOfMessagesView <= 50 &&
-        setQuantityOfMessages(messagesQuery?.maxIDMessages as number);
-      setMessages(messagesQuery);
-      setLoadMoreMessages(false);
-    };
-    getChatMessages();
-  }, [chatID, session, quantityOfMessagesView]);
+  const { setLoaded } = chatMessagesLoadingStore();
+  const messages = use(getChatMessages);
 
   useEffect(() => {
     quantityOfMessagesView == 50 && scrollContentToBottom();
+    setLoaded(true);
   }, [messages]);
 
   const scrollContentToBottom = () => {
