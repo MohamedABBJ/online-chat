@@ -1,37 +1,33 @@
-"use client";
-import { Button } from "@/components/ui/button";
+import verifyUserSession from "@/app/lib/dal";
+import Loading from "@/app/loading";
 import UserSessionProps from "@/interfaces/user-session-props";
-import chatListSelectorStore from "@/store/chat-list-selector-store";
-import PublicChatButton from "./public-chat-button";
-import FriendsList from "./user-chat";
-import UserNotifications from "./user-notifications";
+import getUserNotifications from "@/utils/get-notifications";
+import dynamic from "next/dynamic";
+import ChatListOptions from "./chat-list-options";
 
-function ChatListContent({ session }: { session: UserSessionProps }) {
-  const { chatListSelector, setChatListSelector } = chatListSelectorStore();
+const ChatListFriendsNotifications = dynamic(
+  () => import("./chat-list-friends-notifications"),
+  { ssr: false, loading: () => <Loading /> },
+);
+
+async function ChatListContent() {
+  const session: UserSessionProps =
+    (await verifyUserSession()) as UserSessionProps;
+
+  const getUserFriendsFun = () => {
+    return getUserNotifications({
+      friendState: "accepted",
+      session: session,
+    });
+  };
 
   return (
     <>
-      <div className="flex w-full justify-between border border-red-800">
-        <Button onClick={() => setChatListSelector("chat")} className="w-1/2">
-          Chats
-        </Button>
-        <Button
-          onClick={() => setChatListSelector("notification")}
-          className="w-1/2"
-        >
-          Notifications
-        </Button>
-      </div>
-      {chatListSelector == "chat" ? (
-        <div className="flex h-full flex-col items-start overflow-y-auto p-4">
-          <div className="flex w-full flex-col gap-4">
-            <PublicChatButton />
-            <FriendsList session={session} />
-          </div>
-        </div>
-      ) : chatListSelector == "notification" ? (
-        <UserNotifications session={session} />
-      ) : null}
+      <ChatListOptions />
+      <ChatListFriendsNotifications
+        session={session}
+        getUserFriendsFun={getUserFriendsFun()}
+      />
     </>
   );
 }

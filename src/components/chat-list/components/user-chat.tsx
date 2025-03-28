@@ -5,7 +5,13 @@ import getUserNotifications from "@/utils/get-notifications";
 import { useEffect } from "react";
 import FriendProfile from "./friend-profile";
 
-function FriendsList({ session }: { session: UserSessionProps }) {
+function FriendsList({
+  session,
+  userFriends,
+}: {
+  session: UserSessionProps;
+  userFriends: unknown;
+}) {
   const { friends, setFriends } = userFriendsStore();
 
   useEffect(() => {
@@ -20,9 +26,7 @@ function FriendsList({ session }: { session: UserSessionProps }) {
 
     socket.on("updateFriendList", async () => await getUserFriendsFun());
 
-    if (session) {
-      getUserFriendsFun();
-    }
+    setFriends(userFriends);
 
     return () => {
       socket.off("getNotificationsFun");
