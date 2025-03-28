@@ -73,7 +73,7 @@ const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
       };
     }
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 };
 
