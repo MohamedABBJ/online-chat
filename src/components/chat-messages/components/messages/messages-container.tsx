@@ -68,7 +68,7 @@ function MessagesContainer({
           (setQuantityOfMessagesView(quantityOfMessagesView + 50),
           setLoadMoreMessages(true));
       }}
-      className="h-full overflow-y-auto border border-s"
+      className="relative h-full overflow-y-auto border border-s"
       ref={chatMessagesRef}
     >
       <ChatMessages chatID={chatID} session={session} messages={messages} />

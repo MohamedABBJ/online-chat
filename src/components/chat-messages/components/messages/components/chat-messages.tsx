@@ -1,10 +1,11 @@
+import Loading from "@/app/loading";
 import UserSessionProps from "@/interfaces/user-session-props";
 import dynamic from "next/dynamic";
 import NewMessage from "./new-messages";
 
 const AllMessages = dynamic(() => import("./all-messages"), {
   ssr: false,
-  loading: () => <div>Loading...</div>,
+  loading: () => <Loading />,
 });
 
 interface Test {
