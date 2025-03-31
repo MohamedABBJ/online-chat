@@ -126,7 +126,7 @@ function ReplyContainer({
           {currentUsersTyping.length > 5 ? (
             <p>{`Many users are typing...`}</p>
           ) : (
-            <p>{`${currentUsersTyping.map((element) => element.name)}  ${currentUsersTyping.length == 1 ? "is typing..." : "are typing"}`}</p>
+            <p>{`${currentUsersTyping.map((element) => `${element.name} ${currentUsersTyping.length == 1 ? "is typing..." : "are typing"}`)} `}</p>
           )}
         </div>
       )}
