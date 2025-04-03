@@ -6,7 +6,7 @@ import ShowHideFriendsList from "./show-hide-friends-list";
 function ChatListOptions() {
   const { setChatListSelector } = chatListSelectorStore();
   return (
-    <div className="flex w-full justify-between gap-5 border border-red-800 md:gap-0">
+    <div className="flex w-full items-center justify-between border border-red-800">
       <Button onClick={() => setChatListSelector("chat")} className="w-1/2">
         Chats
       </Button>
@@ -16,8 +16,9 @@ function ChatListOptions() {
       >
         Notifications
       </Button>
-
-      <ShowHideFriendsList />
+      <div className="pl-4 md:hidden">
+        <ShowHideFriendsList />
+      </div>
     </div>
   );
 }

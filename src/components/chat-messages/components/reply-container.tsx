@@ -120,94 +120,96 @@ function ReplyContainer({
   };
 
   return (
-    <div className="relative mb-4 flex h-[20%] w-11/12">
-      {currentUsersTyping.length > 0 && (
-        <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
-          {currentUsersTyping.length > 5 ? (
-            <p>{`Many users are typing...`}</p>
-          ) : (
-            <p>{`${currentUsersTyping.map((element) => `${element.name} ${currentUsersTyping.length == 1 ? "is typing..." : "are typing"}`)} `}</p>
-          )}
-        </div>
-      )}
-      <div className="relative w-full rounded-xl border border-black">
-        {replyData.replyState && (
-          <div className="flex w-full justify-between px-6 outline outline-1 outline-black">
-            <p>replying</p>
-            <button
-              onClick={() =>
-                setReplyData({ replyState: false, messageID: null })
-              }
-            >
-              x
-            </button>
+    <div className="relative mb-4 flex h-[20%] w-full justify-center">
+      <div className="absolute flex h-full w-full px-2 md:w-11/12 md:px-0">
+        {currentUsersTyping.length > 0 && (
+          <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
+            {currentUsersTyping.length > 5 ? (
+              <p>{`Many users are typing...`}</p>
+            ) : (
+              <p>{`${currentUsersTyping.map((element) => `${element.name} ${currentUsersTyping.length == 1 ? "is typing..." : "are typing"}`)} `}</p>
+            )}
           </div>
         )}
+        <div className="relative w-full rounded-xl border border-black">
+          {replyData.replyState && (
+            <div className="flex w-full justify-between px-6 outline outline-1 outline-black">
+              <p>replying</p>
+              <button
+                onClick={() =>
+                  setReplyData({ replyState: false, messageID: null })
+                }
+              >
+                x
+              </button>
+            </div>
+          )}
 
-        <input
-          value={message}
-          onChange={(event) => {
-            setMessage(event.currentTarget.value);
-            userTypingHandler({
-              currentUsersTyping: currentUsersTyping,
-              session: session,
-            });
-          }}
-          placeholder="Write a reply..."
-          className="flex h-full w-full items-start bg-transparent"
-        />
-      </div>
-      <div className="flex gap-2">
-        <div className="flex flex-col">
-          <Button
-            disabled={!loaded}
-            className="h-full"
-            onClick={async () => {
-              if (image) {
-                const imageName = await uploadImageMessage(image);
-                imageName && (await sendMessageHandler({ image: imageName }));
-                setReplyData({ replyState: false, messageID: null });
-                return;
-              }
-              sendMessageHandler({ image: null });
-              setReplyData({ replyState: false, messageID: null });
+          <input
+            value={message}
+            onChange={(event) => {
+              setMessage(event.currentTarget.value);
+              userTypingHandler({
+                currentUsersTyping: currentUsersTyping,
+                session: session,
+              });
             }}
-          >
-            <Check />
-          </Button>
+            placeholder="Write a reply..."
+            className="flex h-full w-full items-start bg-transparent"
+          />
+        </div>
+        <div className="flex gap-2">
+          <div className="flex flex-col">
+            <Button
+              disabled={!loaded}
+              className="h-full"
+              onClick={async () => {
+                if (image) {
+                  const imageName = await uploadImageMessage(image);
+                  imageName && (await sendMessageHandler({ image: imageName }));
+                  setReplyData({ replyState: false, messageID: null });
+                  return;
+                }
+                sendMessageHandler({ image: null });
+                setReplyData({ replyState: false, messageID: null });
+              }}
+            >
+              <Check />
+            </Button>
+            {!imageMessage.view && (
+              <Button className="relative h-full">
+                <label className="absolute flex h-full w-full items-center justify-center">
+                  <FileImage />
+                  <input
+                    onClick={(event) => (event.currentTarget.value = "")}
+                    onChange={(event) =>
+                      event.target.files &&
+                      event.target.files[0].size / mbConversion.mbDivisor <=
+                        mbConversion.maxSize
+                        ? (setOpenImageDialog(true), setImage(event))
+                        : setProps({
+                            open: true,
+                            callingName: { prop: "image5MBError" },
+                          })
+                    }
+                    accept="image/*"
+                    hidden
+                    type="file"
+                  />
+                </label>
+              </Button>
+            )}
+          </div>
           {!imageMessage.view && (
-            <Button className="relative h-full">
-              <label className="absolute flex h-full w-full items-center justify-center">
-                <FileImage />
-                <input
-                  onClick={(event) => (event.currentTarget.value = "")}
-                  onChange={(event) =>
-                    event.target.files &&
-                    event.target.files[0].size / mbConversion.mbDivisor <=
-                      mbConversion.maxSize
-                      ? (setOpenImageDialog(true), setImage(event))
-                      : setProps({
-                          open: true,
-                          callingName: { prop: "image5MBError" },
-                        })
-                  }
-                  accept="image/*"
-                  hidden
-                  type="file"
-                />
-              </label>
+            <Button
+              onClick={() => setBtnAIState(!btnAIState)}
+              variant={`${btnAIState ? "destructive" : "default"}`}
+              className={`h-full w-full`}
+            >
+              AI
             </Button>
           )}
         </div>
-        {!imageMessage.view && (
-          <Button
-            onClick={() => setBtnAIState(!btnAIState)}
-            variant={`${btnAIState ? "destructive" : "default"}`}
-            className={`h-full w-full`}
-          >
-            AI
-          </Button>
-        )}
       </div>
     </div>
   );

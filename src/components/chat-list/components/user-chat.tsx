@@ -35,14 +35,15 @@ function FriendsList({
 
   return (
     <div>
-      {friends?.friends &&
-        friends.friends.map((element) => (
-          <FriendProfile
-            session={session}
-            friendDetails={element}
-            key={element.id}
-          />
-        ))}
+      {friends?.friends.length > 0
+        ? friends.friends.map((element) => (
+            <FriendProfile
+              session={session}
+              friendDetails={element}
+              key={element.id}
+            />
+          ))
+        : null}
     </div>
   );
 }

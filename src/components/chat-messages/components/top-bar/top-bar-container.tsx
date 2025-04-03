@@ -6,7 +6,7 @@ import SearchBar from "./components/search-bar";
 
 function TopBarContainer({ session }: { session: UserSessionProps }) {
   return (
-    <div className="flex h-16 w-full items-center justify-between rounded-bl-3xl border-b border-l border-black pl-16">
+    <div className="flex h-16 w-full items-center justify-between rounded-bl-3xl border-b border-l border-black px-3 md:pl-16">
       <ShowHideFriendsList />
       <SearchBar />
       {session ? (
