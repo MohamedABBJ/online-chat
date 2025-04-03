@@ -7,6 +7,7 @@ function ShowHideFriendsList() {
   return (
     <label className="relative flex md:hidden">
       <input
+        readOnly
         className="relative appearance-none"
         type="checkbox"
         src=""

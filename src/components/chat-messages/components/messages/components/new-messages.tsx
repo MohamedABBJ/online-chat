@@ -17,7 +17,6 @@ function NewMessage({
 
   socket.on(`newMessage`, (args) => {
     setNewMessage([...newMessage, args]);
-    console.log(args);
   });
 
   return (

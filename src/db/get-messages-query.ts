@@ -8,7 +8,13 @@ import {
 } from "../../drizzle/schema";
 import client from "./client";
 
-const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
+const getMesagesQuery = async ({
+  chat_id,
+  quantity,
+}: {
+  chat_id: string;
+  quantity: number;
+}) => {
   try {
     const db = drizzle(client);
     if (chat_id != "") {
@@ -45,7 +51,10 @@ const getMesagesQuery = async ({ chat_id }: { chat_id: string }) => {
           .from(publicChatTable)
       )[0].maxID;
 
-      const getPublicChatMessages = await db.select().from(publicChatTable);
+      const getPublicChatMessages = await db
+        .select()
+        .from(publicChatTable)
+        .where(sql`${publicChatTable.id} > ${getMaxIDMessages! - quantity}`);
       const messagesWithRole = await Promise.all(
         getPublicChatMessages.map(async (element) => ({
           ...element,

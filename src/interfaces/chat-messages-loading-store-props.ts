@@ -1,5 +1,5 @@
-interface ShowFriendsListStoreProps {
-  show: boolean;
-  setShow: (value: boolean) => void;
+interface ChatMessagesLoadingStoreProps {
+  loaded: boolean;
+  setLoaded: (value: boolean) => void;
 }
-export default ShowFriendsListStoreProps;
+export default ChatMessagesLoadingStoreProps;
