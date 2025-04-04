@@ -74,9 +74,12 @@ function MessagesContainer({
           quantity: quantityOfMessagesView,
         })) as Test,
       );
+      chatMessagesRef.current?.scrollTo(0, 200);
     };
 
-    loadMoreMessages();
+    setTimeout(() => {
+      quantityOfMessagesView != initialQuantityOfMessages && loadMoreMessages();
+    }, 2000);
   }, [quantityOfMessagesView]);
 
   socket.on(`newMessageScroller`, (user_id) => {
@@ -87,7 +90,7 @@ function MessagesContainer({
     <div
       onScroll={(event) => {
         event.preventDefault();
-        event.currentTarget.scrollTop <= 100 &&
+        event.currentTarget.scrollTop <= 200 &&
           quantityOfMessages > quantityOfMessagesView &&
           setQuantityOfMessagesView(quantityOfMessagesView + 50);
       }}
