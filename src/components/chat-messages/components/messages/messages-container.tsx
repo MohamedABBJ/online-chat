@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 import { socket } from "@/app/socket";
 import getMesagesQuery from "@/db/get-messages-query";
 import UserSessionProps from "@/interfaces/user-session-props";
@@ -45,7 +46,7 @@ function MessagesContainer({
   const [quantityOfMessagesView, setQuantityOfMessagesView] = useState(
     initialQuantityOfMessages,
   );
-
+  const [loadingNewMessages, setLoadingNewMessages] = useState(false);
   const [quantityOfMessages, setQuantityOfMessages] = useState(0);
   const { loaded, setLoaded } = chatMessagesLoadingStore();
   const [messages, setMessages] = useState<Test>();
@@ -56,11 +57,6 @@ function MessagesContainer({
     setQuantityOfMessages(messagesLoaded.maxIDMessages!);
     setLoaded(true);
   }, [messagesLoaded, setLoaded]);
-
-  useEffect(() => {
-    quantityOfMessagesView == initialQuantityOfMessages &&
-      scrollContentToBottom();
-  }, [messages]);
 
   const scrollContentToBottom = () => {
     chatMessagesRef.current?.scrollTo(0, chatMessagesRef.current?.scrollHeight);
@@ -74,20 +70,36 @@ function MessagesContainer({
           quantity: quantityOfMessagesView,
         })) as Test,
       );
-      chatMessagesRef.current?.scrollTo(0, 200);
+
+      chatMessagesRef.current?.scrollTop! > 0
+        ? chatMessagesRef.current?.scrollTo(
+            0,
+            chatMessagesRef.current?.scrollTop,
+          )
+        : chatMessagesRef.current?.scrollTo(0, 10);
+
+      setLoadingNewMessages(false);
     };
 
+    //DEBUG: This is timeout is for testing, won't be like this on production
     setTimeout(() => {
       quantityOfMessagesView != initialQuantityOfMessages && loadMoreMessages();
     }, 2000);
+
+    quantityOfMessagesView != initialQuantityOfMessages &&
+      setLoadingNewMessages(true);
   }, [quantityOfMessagesView]);
 
   socket.on(`newMessageScroller`, (user_id) => {
     session && session.user.id == user_id ? scrollContentToBottom() : null;
   });
-  //fix this here, the scroll doesn't load the messages correctly
+
   return (
     <div
+      onLoad={() =>
+        quantityOfMessagesView == initialQuantityOfMessages &&
+        scrollContentToBottom()
+      }
       onScroll={(event) => {
         event.preventDefault();
         event.currentTarget.scrollTop <= 200 &&
@@ -97,6 +109,11 @@ function MessagesContainer({
       className="relative h-full overflow-y-auto border border-s pr-4 md:px-6"
       ref={chatMessagesRef}
     >
+      {loadingNewMessages && (
+        <div className="h-48">
+          <Loading />
+        </div>
+      )}
       <ChatMessages chatID={chatID} session={session} messages={messages!} />
     </div>
   );
