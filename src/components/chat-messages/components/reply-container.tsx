@@ -154,7 +154,7 @@ function ReplyContainer({
                 session: session,
               });
             }}
-            placeholder="Write a reply..."
+            placeholder="Write a reply.."
             className="flex h-full w-full items-start bg-transparent"
           />
         </div>
