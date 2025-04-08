@@ -4,6 +4,7 @@ import { socket } from "@/app/socket";
 import getMesagesQuery from "@/db/get-messages-query";
 import UserSessionProps from "@/interfaces/user-session-props";
 import chatMessagesLoadingStore from "@/store/chat-messages-loading-store";
+import messagesContainerScrollHandler from "@/utils/messagesContainerScrollHandler";
 import { usePathname } from "next/navigation";
 import { use, useEffect, useRef, useState } from "react";
 import ChatMessages from "./components/chat-messages";
@@ -100,12 +101,14 @@ function MessagesContainer({
         quantityOfMessagesView == initialQuantityOfMessages &&
         scrollContentToBottom()
       }
-      onScroll={(event) => {
-        event.preventDefault();
-        event.currentTarget.scrollTop <= 200 &&
-          quantityOfMessages > quantityOfMessagesView &&
-          setQuantityOfMessagesView(quantityOfMessagesView + 50);
-      }}
+      onScroll={(event) =>
+        messagesContainerScrollHandler({
+          event: event,
+          quantityOfMessages: quantityOfMessages,
+          quantityOfMessagesView: quantityOfMessagesView,
+          setQuantityOfMessagesView: setQuantityOfMessagesView,
+        })
+      }
       className="relative h-full overflow-y-auto border border-s pr-4 md:px-6"
       ref={chatMessagesRef}
     >
