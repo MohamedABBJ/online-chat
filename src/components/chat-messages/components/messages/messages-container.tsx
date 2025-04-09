@@ -4,9 +4,11 @@ import { socket } from "@/app/socket";
 import getMesagesQuery from "@/db/get-messages-query";
 import UserSessionProps from "@/interfaces/user-session-props";
 import chatMessagesLoadingStore from "@/store/chat-messages-loading-store";
+import { chatContainerRefStore } from "@/store/refs/chat-container-ref-store";
 import messagesContainerScrollHandler from "@/utils/messagesContainerScrollHandler";
 import { usePathname } from "next/navigation";
-import { use, useEffect, useRef, useState } from "react";
+import { use, useEffect, useState } from "react";
+import BottomScroller from "../bottom-scroller";
 import ChatMessages from "./components/chat-messages";
 interface Test {
   messages: {
@@ -43,7 +45,7 @@ function MessagesContainer({
   initialQuantityOfMessages: number;
 }) {
   const chatID = usePathname().substring(1);
-  const chatMessagesRef = useRef<HTMLDivElement>(null);
+  const { chatContainerRef, setNotBottom } = chatContainerRefStore();
   const [quantityOfMessagesView, setQuantityOfMessagesView] = useState(
     initialQuantityOfMessages,
   );
@@ -60,7 +62,10 @@ function MessagesContainer({
   }, [messagesLoaded, setLoaded]);
 
   const scrollContentToBottom = () => {
-    chatMessagesRef.current?.scrollTo(0, chatMessagesRef.current?.scrollHeight);
+    chatContainerRef.current?.scrollTo(
+      0,
+      chatContainerRef.current?.scrollHeight,
+    );
   };
 
   useEffect(() => {
@@ -72,12 +77,12 @@ function MessagesContainer({
         })) as Test,
       );
 
-      chatMessagesRef.current?.scrollTop! > 0
-        ? chatMessagesRef.current?.scrollTo(
+      chatContainerRef.current?.scrollTop! > 0
+        ? chatContainerRef.current?.scrollTo(
             0,
-            chatMessagesRef.current?.scrollTop,
+            chatContainerRef.current?.scrollTop,
           )
-        : chatMessagesRef.current?.scrollTo(0, 10);
+        : chatContainerRef.current?.scrollTo(0, 10);
 
       setLoadingNewMessages(false);
     };
@@ -107,16 +112,20 @@ function MessagesContainer({
           quantityOfMessages: quantityOfMessages,
           quantityOfMessagesView: quantityOfMessagesView,
           setQuantityOfMessagesView: setQuantityOfMessagesView,
+          setNotBottom: setNotBottom,
         })
       }
-      className="relative h-full overflow-y-auto border border-s pr-4 md:px-6"
-      ref={chatMessagesRef}
+      className="h-full overflow-y-auto border border-s pr-4 md:px-6"
+      ref={chatContainerRef}
     >
       {loadingNewMessages && (
         <div className="h-48">
           <Loading />
         </div>
       )}
+      <div className="sticky bottom-0">
+        <BottomScroller />
+      </div>
       <ChatMessages chatID={chatID} session={session} messages={messages!} />
     </div>
   );
