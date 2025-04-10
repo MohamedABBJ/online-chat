@@ -9,6 +9,7 @@ import informationDialogStore from "@/store/dialog-stores/information-dialog-sto
 import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
 import replyingStateStore from "@/store/replying-state-store";
 
+import { chatContainerRefStore } from "@/store/refs/chat-container-ref-store";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import openAIQuery from "@/utils/ai/openai-query";
 import uploadImageMessage from "@/utils/aws/upload-image.message";
@@ -17,6 +18,7 @@ import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import userTypingHandler from "@/utils/user-typing-handler";
 import { Check, FileImage } from "lucide-react";
 import { useState } from "react";
+import BottomScroller from "./bottom-scroller";
 
 function ReplyContainer({
   session,
@@ -41,6 +43,7 @@ function ReplyContainer({
   };
   const { setProps } = informationDialogStore();
   const { loaded } = chatMessagesLoadingStore();
+  const { notBottom } = chatContainerRefStore();
 
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {
@@ -121,6 +124,11 @@ function ReplyContainer({
 
   return (
     <div className="relative mb-4 flex h-[20%] w-full justify-center">
+      <div
+        className={`absolute ${notBottom ? "-top-12" : "top-0"} flex w-full justify-center transition-all duration-300`}
+      >
+        <BottomScroller />
+      </div>
       <div className="absolute flex h-full w-full px-2 md:w-11/12 md:px-0">
         {currentUsersTyping.length > 0 && (
           <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
@@ -155,7 +163,7 @@ function ReplyContainer({
               });
             }}
             placeholder="Write a reply.."
-            className="flex h-full w-full items-start bg-transparent"
+            className="flex h-full w-full items-start bg-white"
           />
         </div>
         <div className="flex gap-2">

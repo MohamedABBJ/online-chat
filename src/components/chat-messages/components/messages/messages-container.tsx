@@ -8,7 +8,6 @@ import { chatContainerRefStore } from "@/store/refs/chat-container-ref-store";
 import messagesContainerScrollHandler from "@/utils/messagesContainerScrollHandler";
 import { usePathname } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import BottomScroller from "../bottom-scroller";
 import ChatMessages from "./components/chat-messages";
 interface Test {
   messages: {
@@ -115,7 +114,7 @@ function MessagesContainer({
           setNotBottom: setNotBottom,
         })
       }
-      className="h-full overflow-y-auto border border-s pr-4 md:px-6"
+      className="relative h-full overflow-y-auto border border-s pr-4 md:px-6"
       ref={chatContainerRef}
     >
       {loadingNewMessages && (
@@ -123,9 +122,6 @@ function MessagesContainer({
           <Loading />
         </div>
       )}
-      <div className="sticky bottom-0">
-        <BottomScroller />
-      </div>
       <ChatMessages chatID={chatID} session={session} messages={messages!} />
     </div>
   );
