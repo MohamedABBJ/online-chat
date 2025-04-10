@@ -4,17 +4,18 @@ import { chatContainerRefStore } from "@/store/refs/chat-container-ref-store";
 import { RefObject } from "react";
 
 function BottomScroller() {
-  const { chatContainerRef, notBottom, setNotBottom } = chatContainerRefStore();
-
+  const { chatContainerRef, notBottom, setNotBottom, newMessagesProps } =
+    chatContainerRefStore();
+  console.log(newMessagesProps.quantity);
   return (
     <>
-      {notBottom ? (
-        <ScrollToBottom chatContainerRef={chatContainerRef} />
-      ) : (
+      {notBottom && newMessagesProps.quantity > 0 && (
         <ScrollToNewNotifications />
       )}
     </>
   );
+
+  /*  <ScrollToBottom chatContainerRef={chatContainerRef} />*/
 }
 
 function ScrollToBottom({
