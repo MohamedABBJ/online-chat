@@ -10,7 +10,7 @@ function BottomScroller() {
   return (
     <>
       {notBottom && newMessagesProps.quantity > 0 && (
-        <ScrollToNewNotifications />
+        <ScrollToNewNotifications newMessagesProps={newMessagesProps} />
       )}
     </>
   );
@@ -37,8 +37,14 @@ function ScrollToBottom({
   );
 }
 
-function ScrollToNewNotifications() {
-  return <Button>You have 0 new messages</Button>;
+function ScrollToNewNotifications({
+  newMessagesProps,
+}: {
+  newMessagesProps: { quantity: number; latestID: string };
+}) {
+  return (
+    <Button>{`You have ${newMessagesProps.quantity} new messages`}</Button>
+  );
 }
 
 export default BottomScroller;

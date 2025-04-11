@@ -20,13 +20,19 @@ function NewMessage({
 
   socket.on(`newMessage`, (args: UserMessageProps) => {
     setNewMessage([...newMessage, args]);
+    const newMessagesScrollTopAction =
+      chatContainerRef.current?.scrollHeight! - 200;
 
-    if (
-      newMessagesProps.latestID == "" &&
-      chatContainerRef.current?.scrollTop! < 200
-    ) {
+    console.log(newMessagesProps);
+
+    if (newMessagesScrollTopAction < chatContainerRef.current?.scrollHeight!) {
+      const lastNewMessageID =
+        newMessagesProps.latestID == ""
+          ? args.id.toString()
+          : newMessagesProps.latestID;
+
       setNewMessagesProps({
-        latestID: args.id.toString(),
+        latestID: lastNewMessageID,
         quantity: newMessagesProps.quantity + 1,
       });
       //there's an error here, maybe it's the condition that's not boing met correctly?
