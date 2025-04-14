@@ -15,17 +15,13 @@ function NewMessage({
   chatID: string;
 }) {
   const [newMessage, setNewMessage] = useState<UserMessageProps[]>([]);
-  const { setNewMessagesProps, newMessagesProps, chatContainerRef } =
+  const { setNewMessagesProps, newMessagesProps, chatContainerRef, notBottom } =
     chatContainerRefStore();
 
   socket.on(`newMessage`, (args: UserMessageProps) => {
     setNewMessage([...newMessage, args]);
-    const newMessagesScrollTopAction =
-      chatContainerRef.current?.scrollHeight! - 200;
 
-    console.log(newMessagesProps);
-
-    if (newMessagesScrollTopAction < chatContainerRef.current?.scrollHeight!) {
+    if (notBottom && args.user_details.id != session.user.id) {
       const lastNewMessageID =
         newMessagesProps.latestID == ""
           ? args.id.toString()

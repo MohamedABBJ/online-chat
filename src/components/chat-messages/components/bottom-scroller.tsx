@@ -4,14 +4,29 @@ import { chatContainerRefStore } from "@/store/refs/chat-container-ref-store";
 import { RefObject } from "react";
 
 function BottomScroller() {
-  const { chatContainerRef, notBottom, setNotBottom, newMessagesProps } =
-    chatContainerRefStore();
-  console.log(newMessagesProps.quantity);
+  const {
+    chatContainerRef,
+    notBottom,
+    setNotBottom,
+    newMessagesProps,
+    setNewMessagesProps,
+  } = chatContainerRefStore();
+
   return (
     <>
-      {notBottom && newMessagesProps.quantity > 0 && (
-        <ScrollToNewNotifications newMessagesProps={newMessagesProps} />
-      )}
+      <div
+        className={`absolute ${notBottom && newMessagesProps.quantity == 0 ? "-top-12" : "top-0"} transition-all duration-300`}
+      >
+        <ScrollToBottom chatContainerRef={chatContainerRef} />
+      </div>
+      <div
+        className={`absolute ${notBottom && newMessagesProps.quantity > 0 ? "-top-12" : "top-0"} transition-all duration-300`}
+      >
+        <ScrollToNewNotifications
+          setNewMessagesProps={setNewMessagesProps}
+          newMessagesProps={newMessagesProps}
+        />
+      </div>
     </>
   );
 
@@ -39,11 +54,23 @@ function ScrollToBottom({
 
 function ScrollToNewNotifications({
   newMessagesProps,
+  setNewMessagesProps,
 }: {
   newMessagesProps: { quantity: number; latestID: string };
+  setNewMessagesProps: (value: { quantity: number; latestID: string }) => void;
 }) {
   return (
-    <Button>{`You have ${newMessagesProps.quantity} new messages`}</Button>
+    <a
+      onClick={() =>
+        setTimeout(
+          () => setNewMessagesProps({ quantity: 0, latestID: "" }),
+          1000,
+        )
+      }
+      href={`#${newMessagesProps.latestID}`}
+    >
+      <Button>{`You have ${newMessagesProps.quantity} new messages`}</Button>
+    </a>
   );
 }
 

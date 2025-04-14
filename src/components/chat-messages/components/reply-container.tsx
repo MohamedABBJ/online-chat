@@ -125,7 +125,7 @@ function ReplyContainer({
   return (
     <div className="relative mb-4 flex h-[20%] w-full justify-center">
       <div
-        className={`absolute ${notBottom ? "-top-12" : "top-0"} flex w-full justify-center transition-all duration-300`}
+        className={`absolute flex w-full justify-center transition-all duration-300`}
       >
         <BottomScroller />
       </div>
