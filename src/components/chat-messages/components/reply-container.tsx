@@ -9,7 +9,6 @@ import informationDialogStore from "@/store/dialog-stores/information-dialog-sto
 import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
 import replyingStateStore from "@/store/replying-state-store";
 
-import { chatContainerRefStore } from "@/store/refs/chat-container-ref-store";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
 import openAIQuery from "@/utils/ai/openai-query";
 import uploadImageMessage from "@/utils/aws/upload-image.message";
@@ -36,14 +35,15 @@ function ReplyContainer({
   const { setOpenImageDialog, setMessage, message, setImage, image } =
     replyContainerStore();
   const [btnAIState, setBtnAIState] = useState<boolean>(false);
-  const currentUsersTyping = useUsersTyping({ session: session });
+  /*This makes a rerender*/ const currentUsersTyping = useUsersTyping({
+    session: session,
+  });
   const mbConversion = {
     maxSize: 5.0,
     mbDivisor: 1000000,
   };
   const { setProps } = informationDialogStore();
   const { loaded } = chatMessagesLoadingStore();
-  const { notBottom } = chatContainerRefStore();
 
   const sendMessageHandler = async ({ image }: { image: string | null }) => {
     if (session) {

@@ -28,7 +28,7 @@ function useUsersTyping({ session }: { session: UserSessionProps }) {
 
     const typingTimeout = setTimeout(() => {
       socket.emit("userStopTyping", session?.user.name);
-    }, 1500);
+    }, 2500);
     return () => {
       clearTimeout(typingTimeout);
       socket.off("userStopTyping");

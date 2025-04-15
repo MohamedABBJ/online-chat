@@ -44,7 +44,13 @@ function MessagesContainer({
   initialQuantityOfMessages: number;
 }) {
   const chatID = usePathname().substring(1);
-  const { chatContainerRef, setNotBottom } = chatContainerRefStore();
+  const {
+    chatContainerRef,
+    setNotBottom,
+    notBottom,
+    newMessagesProps,
+    setNewMessagesProps,
+  } = chatContainerRefStore();
   const [quantityOfMessagesView, setQuantityOfMessagesView] = useState(
     initialQuantityOfMessages,
   );
@@ -58,7 +64,7 @@ function MessagesContainer({
     setMessages(messagesLoaded as Test);
     setQuantityOfMessages(messagesLoaded.maxIDMessages!);
     setLoaded(true);
-  }, [messagesLoaded, setLoaded]);
+  }, []);
 
   const scrollContentToBottom = () => {
     chatContainerRef.current?.scrollTo(
@@ -112,6 +118,9 @@ function MessagesContainer({
           quantityOfMessagesView: quantityOfMessagesView,
           setQuantityOfMessagesView: setQuantityOfMessagesView,
           setNotBottom: setNotBottom,
+          notBottom: notBottom,
+          newMessagesProps: newMessagesProps,
+          setNewMessagesProps: setNewMessagesProps,
         })
       }
       className="relative h-full overflow-y-auto border border-s pr-4 md:px-6"
