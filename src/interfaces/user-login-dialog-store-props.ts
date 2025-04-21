@@ -1,11 +1,13 @@
+import LoginModesProps from "./login-mode-props";
+
 interface UserLoginDialogStoreProps {
   openLoginDialogProps: {
     open: boolean;
-    loginMode: "allOptions" | "oAuthOptions";
+    loginMode: LoginModesProps["loginMode"];
   };
   setOpenLoginDialogProps: (value: {
     open: boolean;
-    loginMode: "allOptions" | "oAuthOptions";
+    loginMode: LoginModesProps["loginMode"];
   }) => void;
 }
 export default UserLoginDialogStoreProps;

@@ -6,10 +6,10 @@ import chatMessagesLoadingStore from "@/store/chat-messages-loading-store";
 import informationDialogStore from "@/store/dialog-stores/information-dialog-store";
 import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
 
+import useLoggedInDialog from "@/hooks/use-logged-in-dialog";
 import useSendMessage from "@/hooks/use-send-message";
 import btnAIStateStore from "@/store/btn-ai-state-store";
 import replyingStateStore from "@/store/replying-state-store";
-import userDialogLoginStore from "@/store/user-login-dialog-store";
 import userTypingHandler from "@/utils/user-typing-handler";
 import { Check, FileImage } from "lucide-react";
 import BottomScroller from "./bottom-scroller";
@@ -39,7 +39,7 @@ function ReplyContainer({
   const { setProps } = informationDialogStore();
   const { loaded } = chatMessagesLoadingStore();
   const { messageSender } = useSendMessage();
-  const { setOpenLoginDialogProps } = userDialogLoginStore();
+  const { handler } = useLoggedInDialog({ session });
 
   return (
     <div
@@ -79,11 +79,7 @@ function ReplyContainer({
           <textarea
             value={message}
             onClick={() => {
-              !session &&
-                setOpenLoginDialogProps({
-                  loginMode: "allOptions",
-                  open: true,
-                });
+              handler({ restrictedForGuest: false });
             }}
             onKeyDown={async (event) => {
               if (event.key == "Enter") {
@@ -111,14 +107,8 @@ function ReplyContainer({
               disabled={!loaded}
               className="h-full"
               onClick={async () => {
-                if (!session) {
-                  setOpenLoginDialogProps({
-                    loginMode: "allOptions",
-                    open: true,
-                  });
-                  return;
-                }
-                await messageSender({ session: session });
+                handler({ restrictedForGuest: false }) &&
+                  (await messageSender({ session: session }));
               }}
             >
               <Check />
@@ -126,13 +116,7 @@ function ReplyContainer({
             {!imageMessage.view && (
               <Button
                 onClick={() => {
-                  if (!session) {
-                    setOpenLoginDialogProps({
-                      loginMode: "allOptions",
-                      open: true,
-                    });
-                    return;
-                  }
+                  handler({ restrictedForGuest: false });
                 }}
                 className="relative h-full"
               >
@@ -167,14 +151,7 @@ function ReplyContainer({
           {!imageMessage.view && (
             <Button
               onClick={() => {
-                if (!session) {
-                  setOpenLoginDialogProps({
-                    loginMode: "allOptions",
-                    open: true,
-                  });
-                  return;
-                }
-                setActive(!active);
+                handler({ restrictedForGuest: true }) && setActive(!active);
               }}
               variant={`${active ? "destructive" : "default"}`}
               className={`h-full w-full`}

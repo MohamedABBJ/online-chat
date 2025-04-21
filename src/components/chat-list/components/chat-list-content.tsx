@@ -23,7 +23,7 @@ async function ChatListContent() {
 
   return (
     <>
-      <ChatListOptions />
+      <ChatListOptions session={session} />
       <ChatListFriendsNotifications
         session={session}
         getUserFriendsFun={getUserFriendsFun()}

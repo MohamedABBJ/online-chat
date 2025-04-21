@@ -46,7 +46,10 @@ function MessageElement({
           className={`group relative -mt-2 flex w-full flex-col items-center gap-4 rounded-xl border border-black px-8 py-6 ${messageType}`}
         >
           <p>{messageElement.message}</p>
-          <MoreMessageOptions messageElement={messageElement} />
+          <MoreMessageOptions
+            session={session}
+            messageElement={messageElement}
+          />
           {messageElement.image && (
             <button>
               <Image
