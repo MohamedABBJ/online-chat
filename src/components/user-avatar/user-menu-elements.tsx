@@ -5,8 +5,8 @@ import informationDialogStore from "@/store/dialog-stores/information-dialog-sto
 import userFriendsStore from "@/store/user-friends-store";
 import updateProfilePicture from "@/utils/aws/update-profile-picture";
 import logoutHandler from "@/utils/logout-handler";
+import UserLoginDialog from "../dialogs/user-login-dialog/user-login-dialog";
 import { Button } from "../ui/button";
-import UserLoginDialog from "../user-login-dialog/user-login-dialog";
 import AddUserBtn from "./components/add-user-btn";
 import UserAvatar from "./user-avatar";
 

@@ -2,8 +2,14 @@ import UserLoginDialogStoreProps from "@/interfaces/user-login-dialog-store-prop
 import { create } from "zustand";
 
 const userDialogLoginStore = create<UserLoginDialogStoreProps>((set) => ({
-  open: false,
-  setOpen: (open: boolean) => set({ open }),
+  openLoginDialogProps: {
+    open: false,
+    loginMode: "allOptions",
+  },
+  setOpenLoginDialogProps: (openLoginDialogProps: {
+    open: boolean;
+    loginMode: "allOptions" | "oAuthOptions";
+  }) => set({ openLoginDialogProps }),
 }));
 
 export default userDialogLoginStore;

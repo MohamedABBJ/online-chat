@@ -1,4 +1,3 @@
-import UserLoginDialogStoreProps from "@/interfaces/user-login-dialog-store-props";
 import UserLoginStateStoreProps from "@/interfaces/user-login-state-store-props";
 import { create } from "zustand";
 

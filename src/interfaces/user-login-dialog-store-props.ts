@@ -1,5 +1,11 @@
 interface UserLoginDialogStoreProps {
-  open?: boolean;
-  setOpen: (value: boolean) => void;
+  openLoginDialogProps: {
+    open: boolean;
+    loginMode: "allOptions" | "oAuthOptions";
+  };
+  setOpenLoginDialogProps: (value: {
+    open: boolean;
+    loginMode: "allOptions" | "oAuthOptions";
+  }) => void;
 }
 export default UserLoginDialogStoreProps;

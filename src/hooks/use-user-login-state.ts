@@ -4,7 +4,7 @@ import verifyUserSession from "@/app/lib/dal";
 import { JWTPayload } from "jose";
 import { useEffect, useState } from "react";
 
-const useUserLoginState = async () => {
+const useUserLoginState = () => {
   const [userData, setUserData] = useState<JWTPayload | null>();
 
   useEffect(() => {

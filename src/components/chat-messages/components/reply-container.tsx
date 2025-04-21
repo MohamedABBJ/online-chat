@@ -1,22 +1,17 @@
 "use client";
-import { socket } from "@/app/socket";
 import { Button } from "@/components/ui/button";
 import useUsersTyping from "@/hooks/use-users-typing";
 import UserSessionProps from "@/interfaces/user-session-props";
 import chatMessagesLoadingStore from "@/store/chat-messages-loading-store";
-import currentChatIdStore from "@/store/current-chat-id-store";
 import informationDialogStore from "@/store/dialog-stores/information-dialog-store";
 import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
-import replyingStateStore from "@/store/replying-state-store";
 
+import useSendMessage from "@/hooks/use-send-message";
+import btnAIStateStore from "@/store/btn-ai-state-store";
+import replyingStateStore from "@/store/replying-state-store";
 import userDialogLoginStore from "@/store/user-login-dialog-store";
-import openAIQuery from "@/utils/ai/openai-query";
-import uploadImageMessage from "@/utils/aws/upload-image.message";
-import messageQuery from "@/utils/message-query";
-import userDialogLoginHandler from "@/utils/user-dialog-login-handler";
 import userTypingHandler from "@/utils/user-typing-handler";
 import { Check, FileImage } from "lucide-react";
-import { useState } from "react";
 import BottomScroller from "./bottom-scroller";
 
 function ReplyContainer({
@@ -29,13 +24,12 @@ function ReplyContainer({
     message?: string;
   };
 }) {
-  const { setOpen } = userDialogLoginStore();
-  const { chatID } = currentChatIdStore();
-  const { replyData, setReplyData } = replyingStateStore();
-  const { setOpenImageDialog, setMessage, message, setImage, image } =
+  const { setOpenImageDialog, setMessage, message, setImage } =
     replyContainerStore();
-  const [btnAIState, setBtnAIState] = useState<boolean>(false);
-  /*This makes a rerender*/ const currentUsersTyping = useUsersTyping({
+  const { replyData, setReplyData } = replyingStateStore();
+  const { active, setActive } = btnAIStateStore();
+  /*This makes a rerender*/
+  const currentUsersTyping = useUsersTyping({
     session: session,
   });
   const mbConversion = {
@@ -44,91 +38,20 @@ function ReplyContainer({
   };
   const { setProps } = informationDialogStore();
   const { loaded } = chatMessagesLoadingStore();
-
-  const sendMessageHandler = async ({ image }: { image: string | null }) => {
-    if (session) {
-      if (chatID != "public_chat") {
-        const privateMessageQueryResult = await messageQuery({
-          messageData: message,
-          replyID: replyData.messageID,
-          userID: session.user.id as string,
-          image: image,
-          chatID: chatID,
-        });
-
-        if (!privateMessageQueryResult) {
-          setProps({
-            open: true,
-            callingName: { prop: "sendingMessageError" },
-          });
-          return;
-        }
-
-        socket.emit(`newPrivateMessage`, privateMessageQueryResult);
-        socket.emit("newMessageScroller", session.user?.id);
-        setBtnAIState(false);
-
-        btnAIState &&
-          socket.emit(
-            "newPrivateMessage",
-            await messageQuery({
-              messageData: (await openAIQuery({ message: message })) as string,
-              replyID: privateMessageQueryResult?.id.toString() as string,
-              userID: "1",
-              image: image,
-              chatID: chatID,
-            }),
-          );
-      } else {
-        const messageQueryResult = await messageQuery({
-          messageData: message,
-          replyID: replyData.messageID,
-          userID: session.user.id as string,
-          image: image,
-          chatID: chatID,
-        });
-
-        if (!messageQueryResult) {
-          setProps({
-            open: true,
-            callingName: { prop: "sendingMessageError" },
-          });
-          return;
-        }
-
-        socket.emit("newMessage", messageQueryResult);
-        socket.emit("newMessageScroller", session.user?.id);
-        setBtnAIState(false);
-
-        btnAIState &&
-          socket.emit(
-            "newMessage",
-            await messageQuery({
-              messageData: (await openAIQuery({ message: message })) as string,
-              replyID: messageQueryResult?.id.toString() as string,
-              userID: "1",
-              image: image,
-              chatID: chatID,
-            }),
-          );
-
-        socket.emit("newMessageScroller", session.user?.id);
-      }
-    } else {
-      userDialogLoginHandler({ setOpen: setOpen }).handleOpen();
-    }
-    setMessage("");
-    setOpenImageDialog(false);
-    setImage(null);
-  };
+  const { messageSender } = useSendMessage();
+  const { setOpenLoginDialogProps } = userDialogLoginStore();
 
   return (
-    <div className="relative mb-4 flex h-[20%] w-full justify-center">
-      <div
-        className={`absolute flex w-full justify-center transition-all duration-300`}
-      >
-        <BottomScroller />
-      </div>
+    <div
+      className={`relative mb-4 flex ${imageMessage.view ? "h-14" : "h-[20%]"} w-full justify-center`}
+    >
+      {!imageMessage.view && (
+        <div
+          className={`absolute flex w-full justify-center transition-all duration-300`}
+        >
+          <BottomScroller />
+        </div>
+      )}
       <div className="absolute flex h-full w-full px-2 md:w-11/12 md:px-0">
         {currentUsersTyping.length > 0 && (
           <div className="absolute -top-6 flex w-full justify-between bg-white px-6 outline outline-1 outline-black">
@@ -153,9 +76,25 @@ function ReplyContainer({
             </div>
           )}
 
-          <input
+          <textarea
             value={message}
+            onClick={() => {
+              !session &&
+                setOpenLoginDialogProps({
+                  loginMode: "allOptions",
+                  open: true,
+                });
+            }}
+            onKeyDown={async (event) => {
+              if (event.key == "Enter") {
+                event.preventDefault();
+                await messageSender({ session: session });
+              }
+            }}
             onChange={(event) => {
+              if (!session) {
+                return;
+              }
               setMessage(event.currentTarget.value);
               userTypingHandler({
                 currentUsersTyping: currentUsersTyping,
@@ -163,7 +102,7 @@ function ReplyContainer({
               });
             }}
             placeholder="Write a reply.."
-            className="flex h-full w-full items-start bg-white"
+            className="flex h-full w-full resize-none items-start bg-white"
           />
         </div>
         <div className="flex gap-2">
@@ -172,24 +111,41 @@ function ReplyContainer({
               disabled={!loaded}
               className="h-full"
               onClick={async () => {
-                if (image) {
-                  const imageName = await uploadImageMessage(image);
-                  imageName && (await sendMessageHandler({ image: imageName }));
-                  setReplyData({ replyState: false, messageID: null });
+                if (!session) {
+                  setOpenLoginDialogProps({
+                    loginMode: "allOptions",
+                    open: true,
+                  });
                   return;
                 }
-                sendMessageHandler({ image: null });
-                setReplyData({ replyState: false, messageID: null });
+                await messageSender({ session: session });
               }}
             >
               <Check />
             </Button>
             {!imageMessage.view && (
-              <Button className="relative h-full">
+              <Button
+                onClick={() => {
+                  if (!session) {
+                    setOpenLoginDialogProps({
+                      loginMode: "allOptions",
+                      open: true,
+                    });
+                    return;
+                  }
+                }}
+                className="relative h-full"
+              >
                 <label className="absolute flex h-full w-full items-center justify-center">
                   <FileImage />
                   <input
-                    onClick={(event) => (event.currentTarget.value = "")}
+                    disabled={!session}
+                    onClick={(event) => {
+                      if (!session) {
+                        return;
+                      }
+                      event.currentTarget.value = "";
+                    }}
                     onChange={(event) =>
                       event.target.files &&
                       event.target.files[0].size / mbConversion.mbDivisor <=
@@ -210,8 +166,17 @@ function ReplyContainer({
           </div>
           {!imageMessage.view && (
             <Button
-              onClick={() => setBtnAIState(!btnAIState)}
-              variant={`${btnAIState ? "destructive" : "default"}`}
+              onClick={() => {
+                if (!session) {
+                  setOpenLoginDialogProps({
+                    loginMode: "allOptions",
+                    open: true,
+                  });
+                  return;
+                }
+                setActive(!active);
+              }}
+              variant={`${active ? "destructive" : "default"}`}
               className={`h-full w-full`}
             >
               AI
