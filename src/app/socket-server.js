@@ -33,10 +33,10 @@ app.prepare().then(() => {
       io.emit("addUser");
     });
     socket.on("userTyping", (user_data) => {
-      io.emit("userTyping", user_data);
+      io.to(user_data.chat_id).emit("userTyping", user_data);
     });
-    socket.on("userStopTyping", (user) => {
-      io.emit("userStopTyping", user);
+    socket.on("userStopTyping", (user_data) => {
+      io.to(user_data.chat_id).emit("userStopTyping", user_data);
     });
     socket.on("updateFriendList", () => {
       io.emit("updateFriendList");

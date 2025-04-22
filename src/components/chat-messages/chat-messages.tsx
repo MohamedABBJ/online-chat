@@ -26,7 +26,11 @@ async function Chat({ chat_id }: { chat_id: string }) {
           initialQuantityOfMessages={initialQuantityOfMessages}
         />
       </ErrorBoundary>
-      <ReplyContainer imageMessage={{ view: false }} session={session} />
+      <ReplyContainer
+        chat_id={chat_id}
+        imageMessage={{ view: false }}
+        session={session}
+      />
     </div>
   );
 }

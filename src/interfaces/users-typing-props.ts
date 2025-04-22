@@ -1,8 +1,8 @@
 interface UserTypingProps {
-  id: number;
+  id: string;
   name: string;
 }
 
 interface UsersTypingProps extends Array<UserTypingProps> {}
 
-export type { UserTypingProps, UsersTypingProps };
+export type { UsersTypingProps, UserTypingProps };

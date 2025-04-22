@@ -2,30 +2,18 @@
 
 import { socket } from "@/app/socket";
 import UserSessionProps from "@/interfaces/user-session-props";
-import { UsersTypingProps } from "@/interfaces/users-typing-props";
 
 function userTypingHandler({
-  currentUsersTyping,
   session,
+  chat_id,
 }: {
-  currentUsersTyping: UsersTypingProps;
   session: UserSessionProps;
+  chat_id: string;
 }) {
-  if (currentUsersTyping.length > 0) {
-    const checkIfUserIsTyping = currentUsersTyping.filter(
-      (element) => element.name == session.user.name,
-    );
-    checkIfUserIsTyping.length == 0 &&
-      socket.emit("userTyping", {
-        id: session.user.id,
-        name: session.user.name,
-      });
-
-    return;
-  }
   socket.emit("userTyping", {
     id: session.user.id,
     name: session.user.name,
+    chat_id: chat_id,
   });
 }
 

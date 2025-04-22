@@ -9,31 +9,44 @@ import {
 import replyContainerStore from "@/store/dialog-stores/upload-image-dialog-store";
 import { useEffect, useState } from "react";
 
-function useUsersTyping({ session }: { session: UserSessionProps }) {
+function useUsersTyping({
+  session,
+  chat_id,
+}: {
+  session: UserSessionProps;
+  chat_id: string;
+}) {
   const [currentUsersTyping, setCurrentUsersTyping] =
     useState<UsersTypingProps>([]);
   const { message } = replyContainerStore();
 
   useEffect(() => {
     socket.on("userTyping", (userData: UserTypingProps) => {
-      setCurrentUsersTyping([...currentUsersTyping, userData]);
+      if (userData.id == session.user.id) return;
+      currentUsersTyping.filter((element) => element.id == userData.id)
+        .length == 0 &&
+        setCurrentUsersTyping([...currentUsersTyping, userData]);
     });
 
     socket.on("userStopTyping", (userData) => {
       const currentUsersTypingUpdated = currentUsersTyping.filter(
-        (element) => !element.name.includes(userData),
+        (element) => !element.name.includes(userData.name),
       );
-      setCurrentUsersTyping(currentUsersTypingUpdated);
+      session.user.id != userData.id &&
+        setCurrentUsersTyping(currentUsersTypingUpdated);
     });
 
     const typingTimeout = setTimeout(() => {
-      socket.emit("userStopTyping", session?.user.name);
+      socket.emit("userStopTyping", {
+        name: session?.user.name,
+        chat_id: chat_id,
+      });
     }, 2500);
     return () => {
       clearTimeout(typingTimeout);
       socket.off("userStopTyping");
     };
-  }, [message, session, currentUsersTyping]);
+  }, [message, session, currentUsersTyping, chat_id]);
 
   return currentUsersTyping;
 

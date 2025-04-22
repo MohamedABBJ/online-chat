@@ -17,12 +17,14 @@ import BottomScroller from "./bottom-scroller";
 function ReplyContainer({
   session,
   imageMessage,
+  chat_id,
 }: {
   session: UserSessionProps;
   imageMessage: {
     view: boolean;
     message?: string;
   };
+  chat_id: string;
 }) {
   const { setOpenImageDialog, setMessage, message, setImage } =
     replyContainerStore();
@@ -31,6 +33,7 @@ function ReplyContainer({
   /*This makes a rerender*/
   const currentUsersTyping = useUsersTyping({
     session: session,
+    chat_id: chat_id,
   });
   const mbConversion = {
     maxSize: 5.0,
@@ -40,7 +43,6 @@ function ReplyContainer({
   const { loaded } = chatMessagesLoadingStore();
   const { messageSender } = useSendMessage();
   const { handler } = useLoggedInDialog({ session });
-
   return (
     <div
       className={`relative mb-4 flex ${imageMessage.view ? "h-14" : "h-[20%]"} w-full justify-center`}
@@ -58,7 +60,10 @@ function ReplyContainer({
             {currentUsersTyping.length > 5 ? (
               <p>{`Many users are typing...`}</p>
             ) : (
-              <p>{`${currentUsersTyping.map((element) => `${element.name} ${currentUsersTyping.length == 1 ? "is typing..." : "are typing"}`)} `}</p>
+              <p>
+                {`${currentUsersTyping.map((element) => ` ${element.name}`)} `}
+                {`${currentUsersTyping.length >= 2 ? "are typing" : "is typing"}`}
+              </p>
             )}
           </div>
         )}
@@ -93,8 +98,8 @@ function ReplyContainer({
               }
               setMessage(event.currentTarget.value);
               userTypingHandler({
-                currentUsersTyping: currentUsersTyping,
                 session: session,
+                chat_id: chat_id,
               });
             }}
             placeholder="Write a reply.."
